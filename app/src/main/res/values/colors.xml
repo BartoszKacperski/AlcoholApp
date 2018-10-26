@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="white">#FFFFFF</color>
+    <color name="beer">#FFCC00</color>
+    <color name="black">#000000</color>
+    <color name="perfectGrey">#FF363434</color>
+    <color name="transparentBlack">#90000000</color>
+    <color name="semiTransparentBlack">#D0000000</color>
+    <color name="transparentBeer">#90FFCC00</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#00A000</color>
+    <color name="sapGreen">#507D2A</color>
+    <color name="mediumPurple">#9370DB</color>
+    <color name="royalBlue">#3EA3AF </color>
+    <color name="lightSalomon">	#FFA07A</color>
+    <color name="salomon">#FA8072</color>
+    <color name="lightCoral">#F08080</color>
+    <color name="sienna">#A0522D</color>
+    <color name="brown">#A52A2A</color>
+    <color name="darkSlateBlue">#483D8B</color>
+    <color name="cornFlowerBlue">#6495ED</color>
+    <color name="crimson">#DC143C</color>
+    <color name="strongCobalt">#3e6baf</color>
+    <color name="darkPurple">#7E3EAF</color>
+    <color name="darkKhaki">#BDB76B</color>
+    <color name="lightYellow">#FFFACD</color>
+    <color name="moccasin">#FFE4B5</color>
+    <color name="blueSky">#4CB5F5</color>
+    <color name="granite">#B7B8B6</color>
+    <color name="pine">#34675C</color>
+    <color name="fields">#B3C100</color>
+    <color name="grey">#313335</color>
+    <color name="blueberry">#063852</color>
+    <color name="tangerine">#F0810F</color>
+    <color name="daffodil">#E6DF44</color>
+</resources>

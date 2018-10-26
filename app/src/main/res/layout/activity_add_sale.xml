@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.AddSaleActivity">
+    
+    <data>
+        <import type="com.rolnik.alcoholapp.utils.BindingConverters"/>
+        <variable
+            name="Sale"
+            type="com.rolnik.alcoholapp.model.Sale"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/grey">
+
+        <com.rolnik.alcoholapp.views.CustomProgressBar
+            android:id="@+id/customProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/addSaleRoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/saleImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/add_sale"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/sale" />
+            </android.support.constraint.ConstraintLayout>
+
+            <com.rolnik.alcoholapp.views.CustomAutoCompleteTextView
+                android:id="@+id/shops"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/shop"
+                android:imeOptions="actionNext"
+                android:labelFor="@+id/shops"
+                android:singleLine="true"
+                android:textColor="@color/lightSalomon"
+                android:textColorHint="@color/salomon" />
+
+            <com.rolnik.alcoholapp.views.CustomAutoCompleteTextView
+                android:id="@+id/alcohols"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/alcohol_name"
+                android:imeOptions="actionNext"
+                android:labelFor="@+id/alcohols"
+                android:singleLine="true"
+                android:textColor="@color/lightSalomon"
+                android:textColorHint="@color/salomon" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/salePrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:layout_gravity="center"
+                    android:text="@={BindingConverters.currencyDoubleToString(Sale.price)}"
+                    android:textColor="@color/salomon"
+                    android:textAlignment="center"
+                    android:textSize="20sp"/>
+
+                <Button
+                    android:id="@+id/pricePickerButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:onClick="pickPrice"
+                    android:text="@string/pick_the_price"
+                    android:background="@drawable/border_rectangle_button"
+                    android:backgroundTint="@color/lightSalomon"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/addButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/border_rectangle_button"
+                android:backgroundTint="@color/lightSalomon"
+                android:onClick="addSale"
+                android:text="@string/add" />
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
