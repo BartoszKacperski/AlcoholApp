@@ -8,7 +8,7 @@
     android:background="@color/grey"
     android:orientation="vertical"
     android:visibility="visible"
-    tools:context=".activities.SearchActivity">
+    tools:context=".activities.SearchSalesActivity">
 
 
     <com.rolnik.alcoholapp.views.CustomProgressBar
@@ -37,114 +37,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
-            android:id="@+id/kindRoot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/border_rectangle_button"
-            android:backgroundTint="@color/lightSalomon"
-            android:visibility="visible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/shopRoot">
-
-            <ImageButton
-                android:id="@+id/showKindChoice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_rectangle_button"
-                android:backgroundTint="@color/lightSalomon"
-                android:contentDescription="@string/shop"
-                android:onClick="showKinds"
-                app:srcCompat="@drawable/alcohols" />
-
-            <com.rolnik.alcoholapp.views.CustomAutoCompleteTextView
-                android:id="@+id/kinds"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="7dp"
-                android:layout_marginEnd="5dp"
-                android:layout_toEndOf="@+id/showKindChoice"
-                android:backgroundTint="@color/grey"
-                android:hint="@string/kind"
-                android:inputType="text"
-                android:labelFor="@+id/kinds"
-                android:textColor="@color/grey"
-                android:textColorHint="@color/blueberry"
-                android:visibility="gone" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/shopRoot"
-            android:layout_width="wrap_content"
+        <SearchView
+            android:id="@+id/alcoholName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/border_rectangle_button"
-            android:backgroundTint="@color/lightSalomon"
-            android:visibility="visible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageButton
-                android:id="@+id/showShopChoice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/border_rectangle_button"
-                android:backgroundTint="@color/lightSalomon"
-                android:contentDescription="@string/shop"
-                android:onClick="showShops"
-                android:visibility="visible"
-                app:srcCompat="@drawable/shop" />
-
-            <com.rolnik.alcoholapp.views.CustomAutoCompleteTextView
-                android:id="@+id/shops"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/showShopChoice"
-                android:backgroundTint="@color/grey"
-                android:hint="@string/shop"
-                android:inputType="text"
-                android:labelFor="@+id/shops"
-                android:textColor="@color/grey"
-                android:textColorHint="@color/blueberry"
-                android:visibility="gone"
-                app:layout_constraintStart_toEndOf="@+id/showShopChoice"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relativeLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/border_rectangle_button"
-            android:backgroundTint="@color/lightSalomon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/kindRoot">
-
-            <ImageButton
-                android:id="@+id/searchButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/border_rectangle_button"
-                android:backgroundTint="@color/lightSalomon"
-                android:contentDescription="@string/search"
-                android:onClick="search"
-                android:visibility="visible"
-                app:srcCompat="@drawable/loupe" />
-        </RelativeLayout>
+            app:layout_constraintTop_toBottomOf="@+id/sortRoot"
+            android:queryHint="@string/alcohol_name" />
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/refreshLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:orientation="horizontal"
@@ -152,13 +58,13 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/relativeLayout"
-            app:layout_constraintTop_toBottomOf="@+id/kindRoot">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/alcoholName">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/sales"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <LinearLayout
@@ -166,19 +72,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/border_rectangle_button"
-            android:backgroundTint="@color/salomon"
-            android:orientation="vertical"
+            android:backgroundTint="@color/lightSalomon"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
                 android:id="@+id/sortButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_rectangle_button"
-                android:backgroundTint="@color/salomon"
+                android:backgroundTint="@color/lightSalomon"
                 android:contentDescription="@string/sort"
                 android:onClick="showSorts"
                 app:srcCompat="@drawable/sort" />
@@ -188,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_rectangle_button"
-                android:backgroundTint="@color/salomon"
+                android:backgroundTint="@color/lightSalomon"
                 android:contentDescription="@string/name_sort_asc"
                 android:onClick="sortNameAsc"
                 android:visibility="gone"
@@ -199,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_rectangle_button"
-                android:backgroundTint="@color/salomon"
+                android:backgroundTint="@color/lightSalomon"
                 android:contentDescription="@string/name_sort_desc"
                 android:onClick="sortNameDesc"
                 android:visibility="gone"
@@ -210,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_rectangle_button"
-                android:backgroundTint="@color/salomon"
+                android:backgroundTint="@color/lightSalomon"
                 android:contentDescription="@string/price_sort_asc"
                 android:onClick="priceSortAsc"
                 android:visibility="gone"
@@ -221,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_rectangle_button"
-                android:backgroundTint="@color/transparent"
+                android:backgroundTint="@color/lightSalomon"
                 android:contentDescription="@string/price_sort_desc"
                 android:onClick="priceSortDesc"
                 android:visibility="gone"

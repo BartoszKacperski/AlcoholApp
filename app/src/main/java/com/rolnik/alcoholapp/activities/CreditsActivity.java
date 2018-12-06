@@ -10,17 +10,20 @@ import android.widget.TextView;
 
 import com.rolnik.alcoholapp.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class CreditsActivity extends AppCompatActivity {
 
-    private TextView credits;
+    @BindView(R.id.credits)
+    TextView credits;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credits);
-
-        credits = findViewById(R.id.credits);
+        ButterKnife.bind(this);
 
         credits.setText(parseAuthorsToHtml());
         credits.setClickable(true);

@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.SearchActivity" />
+        <activity android:name=".activities.SearchSalesActivity" />
         <activity android:name=".activities.AddSaleActivity" />
         <activity android:name=".activities.StartActivity">
             <intent-filter>
@@ -27,7 +27,8 @@
         <activity android:name=".activities.SaleDetailsActivity" />
         <activity android:name=".activities.CreditsActivity" />
         <activity android:name=".activities.MySalesActivity" />
-        <activity android:name=".activities.EditSaleActivity"></activity>
+        <activity android:name=".activities.EditSaleActivity" />
+        <activity android:name=".activities.FilterSalesActivity"></activity>
     </application>
 
 </manifest>

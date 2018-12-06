@@ -1,6 +1,5 @@
 package com.rolnik.alcoholapp.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
@@ -17,22 +16,34 @@ import com.rolnik.alcoholapp.databinding.ActivitySaleDetailsBinding;
 import com.rolnik.alcoholapp.model.Sale;
 import com.vstechlab.easyfonts.EasyFonts;
 
-import java.text.NumberFormat;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class SaleDetailsActivity extends AppCompatActivity {
-    private ConstraintLayout root;
-    private LinearLayout descprition;
-    private ImageView images;
-    private TextView alcoholName;
-    private TextView brandName;
-    private TextView kindName;
-    private TextView alcoholicStrength;
-    private TextView volume;
-    private TextView shopName;
-    private TextView price;
-
-    private TextView positiveNumber;
-    private TextView negativeNumber;
+    @BindView(R.id.root)
+    ConstraintLayout root;
+    @BindView(R.id.description)
+    LinearLayout description;
+    @BindView(R.id.images)
+    ImageView images;
+    @BindView(R.id.alcoholName)
+    TextView alcoholName;
+    @BindView(R.id.brandName)
+    TextView brandName;
+    @BindView(R.id.kindName)
+    TextView kindName;
+    @BindView(R.id.alcoholicStrength)
+    TextView alcoholicStrength;
+    @BindView(R.id.volume)
+    TextView volume;
+    @BindView(R.id.shopName)
+    TextView shopName;
+    @BindView(R.id.price)
+    TextView price;
+    @BindView(R.id.positiveNumber)
+    TextView positiveNumber;
+    @BindView(R.id.negativeNumber)
+    TextView negativeNumber;
 
     private  ActivitySaleDetailsBinding activitySaleDetailsBinding;
 
@@ -40,31 +51,17 @@ public class SaleDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activitySaleDetailsBinding = DataBindingUtil.setContentView(this, R.layout.activity_sale_details);
+        ButterKnife.bind(this);
 
         if(!getIntent().hasExtra(getString(R.string.sale))){
             Log.w("Sale description", "Sale is null");
             backToSales();
         }
 
-        initializeViews();
         bindSale();
         changeTypeFace(EasyFonts.walkwayBlack(getApplication()));
     }
 
-    private void initializeViews(){
-        root = findViewById(R.id.root);
-        descprition = findViewById(R.id.description);
-        images = findViewById(R.id.images);
-        alcoholName = findViewById(R.id.alcoholName);
-        brandName = findViewById(R.id.brandName);
-        kindName = findViewById(R.id.kindName);
-        alcoholicStrength = findViewById(R.id.alcoholicStrength);
-        volume = findViewById(R.id.volume);
-        shopName = findViewById(R.id.shopName);
-        price = findViewById(R.id.price);
-        positiveNumber = findViewById(R.id.positiveNumber);
-        negativeNumber = findViewById(R.id.negativeNumber);
-    }
 
     private void bindSale(){
         Sale sale = (Sale) getIntent().getSerializableExtra(getString(R.string.sale));
@@ -85,7 +82,7 @@ public class SaleDetailsActivity extends AppCompatActivity {
     }
 
     private void backToSales(){
-        Intent sales = new Intent(this, SearchActivity.class);
+        Intent sales = new Intent(this, SearchSalesActivity.class);
 
         startActivity(sales);
     }

@@ -1,6 +1,7 @@
 package com.rolnik.alcoholapp.model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -13,16 +14,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Entity(primaryKeys = "id")
-@JsonPropertyOrder({"id", "user", "sale", "opinion"})
+@Entity
+@JsonPropertyOrder({"id", "saleId", "opinion"})
 public class UserOpinion {
     @JsonIgnore
-    private static final int LIKE = 1;
+    public static final int LIKE = 1;
     @JsonIgnore
-    private static final int DISLIKE = -1;
+    public static final int DISLIKE = -1;
 
+    @PrimaryKey(autoGenerate = true)
     private int id;
-    private Sale sale;
+    private int saleId;
     private int opinion;
 
 }

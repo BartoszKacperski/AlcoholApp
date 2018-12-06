@@ -13,16 +13,10 @@ import java.util.List;
 
 @Dao
 public interface UserOpinionDao {
-    @Query("SELECT sale FROM useropinion WHERE opinion = 1")
-    List<Integer> getAllLikedSales();
-
-    @Query("SELECT sale FROM useropinion WHERE opinion = -1")
-    List<Integer> getAllDislikedSales();
-
-    @Query("SELECT COUNT(*) FROM useropinion WHERE opinion= 1 AND Sale = :sale")
+    @Query("SELECT COUNT(*) FROM useropinion WHERE opinion= 1 AND saleId = :sale")
     int wasSaleLiked(Sale sale);
 
-    @Query("SELECT COUNT(*) FROM useropinion WHERE opinion= -1 AND Sale = :sale")
+    @Query("SELECT COUNT(*) FROM useropinion WHERE opinion= -1 AND saleId = :sale")
     int wasSaleDisliked(Sale sale);
 
     @Insert

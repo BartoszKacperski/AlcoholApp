@@ -30,50 +30,51 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.lang.ref.WeakReference;
 import java.nio.charset.StandardCharsets;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.HttpException;
+
 public class RegisterActivity extends AppCompatActivity {
-    private ConstraintLayout root;
+    @BindView(R.id.root)
+    ConstraintLayout root;
 
-    private CustomProgressBar customProgressBar;
+    @BindView(R.id.customProgressBar)
+    CustomProgressBar customProgressBar;
 
-    private LinearLayout registerRoot;
-    private EditText login;
-    private EditText password;
-    private EditText passwordConfirm;
-    private EditText email;
-    private Button registerButton;
+    @BindView(R.id.registerRoot)
+    LinearLayout registerRoot;
+    @BindView(R.id.login)
+    EditText login;
+    @BindView(R.id.password)
+    EditText password;
+    @BindView(R.id.passwordConfirm)
+    EditText passwordConfirm;
+    @BindView(R.id.email)
+    EditText email;
+    @BindView(R.id.registerButton)
+    Button registerButton;
 
     private User userToRegister;
 
     private ActivityRegisterBinding activityRegisterBinding;
 
+    private Disposable disposable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityRegisterBinding = DataBindingUtil.setContentView(this, R.layout.activity_register);
+        ButterKnife.bind(this);
 
-        initializeViews();
         bindUser();
     }
 
-    private void initializeViews(){
-        root = findViewById(R.id.root);
-
-        customProgressBar = findViewById(R.id.customProgressBar);
-
-        registerRoot = findViewById(R.id.registerRoot);
-        login = findViewById(R.id.login);
-        password = findViewById(R.id.password);
-        passwordConfirm = findViewById(R.id.passwordConfirm);
-        registerButton = findViewById(R.id.registerButton);
-        email = findViewById(R.id.email);
-    }
-
-    private void bindUser() {
-        userToRegister = new User();
-        activityRegisterBinding.setUser(userToRegister);
-    }
-
-    public void addAccount(View view) {
+    public void tryToRegister(View view) {
         if(!checkIfEditTextsAreFill()){
             Toast.makeText(this, "Uzupełnij wszystki pola!", Toast.LENGTH_LONG).show();
         } else if(!checkIfPasswordsAreEqual()){
@@ -81,8 +82,14 @@ public class RegisterActivity extends AppCompatActivity {
         } else if(!checkIfEmailIsCorrect()) {
             Toast.makeText(this, "Zły format emailu", Toast.LENGTH_LONG).show();
         } else {
-            new AddAccountAsyncTask(this, userToRegister).execute();
+            register();
         }
+    }
+
+
+    private void bindUser() {
+        userToRegister = new User();
+        activityRegisterBinding.setUser(userToRegister);
     }
 
     private boolean checkIfEditTextsAreFill(){
@@ -107,7 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
         return emailText.matches("^[A-Za-z0-9+_.-]+@(.+)\\.(.+)$");
     }
 
-    public void moveToStartActivity(){
+    private void moveToStartActivity(){
         Intent intent = new Intent(this, StartActivity.class);
 
         startActivity(intent);
@@ -137,99 +144,63 @@ public class RegisterActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
-    private static class AddAccountAsyncTask extends AsyncTask<Void, Void, Integer>{
-        private WeakReference<RegisterActivity> registerActivityWeakReference;
-        private Exception exception = null;
-        private User user;
+    private void register(){
+        UserRestDao userRestDao = UserRestDao.getInstance();
 
-        public AddAccountAsyncTask(RegisterActivity registerActivity, User user){
-            registerActivityWeakReference = new WeakReference<>(registerActivity);
-            this.user = copyUser(user);
-        }
+        userToRegister.setPassword(Hashing.sha256().hashString(userToRegister.getPassword(), StandardCharsets.UTF_16).toString());
 
-        private User copyUser(User userToCopy){
-            User user = new User();
+        Observable<Integer> observable = userRestDao.register(userToRegister);
 
-            user.setLogin(userToCopy.getLogin());
-            user.setPassword(userToCopy.getPassword());
-            user.setEmail(userToCopy.getEmail());
-
-            return user;
-        }
-
-        @Override
-        protected void onPreExecute(){
-            RegisterActivity registerActivity = registerActivityWeakReference.get();
-
-            if(registerActivity == null || registerActivity.isFinishing()){
-                cancel(true);
-                Log.e("Add user", "Activity doesn't exist");
-                return;
+        observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                disposable = d;
+                onRegistering();
+                Log.i("Register", "Subscribed");
             }
 
-            registerActivity.onRegistering();
-        }
-
-        @Override
-        protected Integer doInBackground(Void... voids) {
-            if(!isCancelled()){
-                UserRestDao userDao = UserRestDao.getInstance();
-                String password = user.getPassword();
-                String hashedPassword = Hashing.sha256().hashString(password, StandardCharsets.UTF_16).toString();
-                user.setPassword(hashedPassword);
-
-                try {
-                    return userDao.register(user);
-                } catch (HttpClientErrorException e) {
-                    exception = e;
-                }
+            @Override
+            public void onNext(Integer integer) {
+                Log.i("Register", "Completed");
             }
-            return null;
-        }
 
-        @Override
-        protected void onPostExecute(Integer id){
-            RegisterActivity registerActivity = registerActivityWeakReference.get();
-
-            if(registerActivity == null || registerActivity.isFinishing()){
-                Log.e("Add user", "Activity doesn't exist");
-                return;
-            } else if(exception != null) {
-                Log.e("Add user", "Exception " + exception.getMessage() + " occurs");
-
-                if(exception instanceof HttpClientErrorException){
-                    showErrorDependsOnHttpStatus((HttpClientErrorException)exception, registerActivity);
+            @Override
+            public void onError(Throwable e) {
+                Log.e("Register", "Exception " + e.getCause() + " occurs");
+                if(e instanceof HttpException){
+                    showErrorDependsOnHttpStatus((HttpException) e);
                 } else {
-                    String message = registerActivity.getString(R.string.unknown_exception_message);
-                    registerActivity.onRegisterError(message);
+                    onRegisterError(getString(R.string.unknown_exception_message));
                 }
-
-                return;
             }
 
-            if(id != null){
-                registerActivity.onRegisterSuccess();
+            @Override
+            public void onComplete() {
+                onRegisterSuccess();
             }
-        }
+        });
+    }
 
-        private void showErrorDependsOnHttpStatus(HttpClientErrorException exception, RegisterActivity activity){
-            switch (exception.getStatusCode()){
-                case BAD_REQUEST:a: {
-                    String message = activity.getString(R.string.user_add_already_exist_excpetion);
-                    activity.onRegisterError(message);
-                    break;
-                }
-                default: {
-                    String message = activity.getString(R.string.unknown_exception_message);
-                    activity.onRegisterError(message);
-                    break;
-                }
+    private void showErrorDependsOnHttpStatus(HttpException exception){
+        switch (exception.code()){
+            case 400: {
+                onRegisterError(getString(R.string.user_add_already_exist_excpetion));
+                break;
+            }
+            default: {
+                onRegisterError(getString(R.string.unknown_exception_message));
+                break;
             }
         }
     }
 
+
     @Override
     public void onBackPressed() {
+        if(disposable != null){
+            disposable.dispose();
+        }
+
         Intent start = new Intent(this, StartActivity.class);
 
         startActivity(start);

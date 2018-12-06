@@ -1,24 +1,24 @@
 package com.rolnik.alcoholapp.dao;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.rolnik.alcoholapp.model.Brand;
+import com.rolnik.alcoholapp.rest.BrandRest;
+import com.rolnik.alcoholapp.rest.RetrofitCreator;
 
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 
 import java.util.List;
 
+import io.reactivex.Observable;
+import retrofit2.Response;
+
 public class BrandRestDao implements Dao<Brand> {
     private static BrandRestDao INSTANCE = null;
 
-    private static final String GET_ALL_ADDRESS = RestService.BASE_ADDRESS + "/brands";
-    private static final String POST_ADD_ADDRESS = GET_ALL_ADDRESS;
-
-    private RestService<Brand> restService;
+    private BrandRest client;
 
     private BrandRestDao(){
-        restService = new RestService<>(Brand.class);
+        client = RetrofitCreator.createService(BrandRest.class);
     }
 
     public synchronized static BrandRestDao getInstance(){
@@ -30,30 +30,28 @@ public class BrandRestDao implements Dao<Brand> {
     }
 
     @Override
-    public List<Brand> getAll() throws HttpStatusCodeException {
-        return restService.getForAll(GET_ALL_ADDRESS, new ParameterizedTypeReference<List<Brand>>() {});
+    public Observable<List<Brand>> getAll() throws HttpStatusCodeException {
+        return client.getAll();
     }
 
     @Override
-    public Brand get(int id) throws HttpStatusCodeException {
-        return restService.getForObject(GET_ALL_ADDRESS, id);
+    public Observable<Brand> get(int Id) throws HttpStatusCodeException {
+        return client.get(Id);
     }
 
     @Override
-    public Integer add(Brand object) throws HttpClientErrorException {
-        return restService.postAddObject(POST_ADD_ADDRESS, object);
+    public Observable<Integer> add(Brand brand) throws HttpClientErrorException {
+        return client.add(brand);
     }
 
     @Override
-    public void update(Brand object) throws HttpClientErrorException {
-        String URL = GET_ALL_ADDRESS + "/" + object.getId();
-        restService.putUpdate(URL, object);
+    public Observable<Response<Void>> update(Brand brand) throws HttpClientErrorException {
+        return client.update(brand.getId(), brand);
     }
 
     @Override
-    public void remove(Brand object) throws HttpClientErrorException {
-        String URL = GET_ALL_ADDRESS + "/" + object.getId();
-        restService.deleteRemove(URL, object);
+    public Observable<Response<Void>> remove(Brand brand) throws HttpClientErrorException {
+       return client.delete(brand.getId());
     }
 
 }

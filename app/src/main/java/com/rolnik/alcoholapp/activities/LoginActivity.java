@@ -3,8 +3,8 @@ package com.rolnik.alcoholapp.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Typeface;
-import android.os.AsyncTask;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -19,31 +19,48 @@ import android.widget.Toast;
 
 import com.google.common.hash.Hashing;
 import com.rolnik.alcoholapp.R;
-import com.rolnik.alcoholapp.asynctasks.ResendUserEmail;
-import com.rolnik.alcoholapp.utils.UserService;
 import com.rolnik.alcoholapp.dao.UserRestDao;
 import com.rolnik.alcoholapp.databinding.ActivityLoginBinding;
 import com.rolnik.alcoholapp.model.User;
+import com.rolnik.alcoholapp.utils.TextAndNumberUtils;
+import com.rolnik.alcoholapp.utils.UserService;
 import com.rolnik.alcoholapp.views.CustomProgressBar;
 import com.rolnik.alcoholapp.views.ErrorDialog;
 
-import org.springframework.web.client.HttpClientErrorException;
-
-import java.lang.ref.WeakReference;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.HttpException;
 
 public class LoginActivity extends AppCompatActivity {
-    private ConstraintLayout root;
+    @BindView(R.id.root)
+    ConstraintLayout root;
 
-    private EditText login;
-    private EditText password;
-    private Button loginButton;
-    private ImageView loginImage;
-    private LinearLayout loginRoot;
+    @BindView(R.id.login)
+    EditText login;
+    @BindView(R.id.password)
+    EditText password;
+    @BindView(R.id.loginButton)
+    Button loginButton;
+    @BindView(R.id.loginImage)
+    ImageView loginImage;
+    @BindView(R.id.loginRoot)
+    LinearLayout loginRoot;
 
-    private CustomProgressBar customProgressBar;
+    @BindView(R.id.customProgressBar)
+    CustomProgressBar customProgressBar;
 
     private User userToLogin;
+
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     private ActivityLoginBinding activityLoginBinding;
 
@@ -51,20 +68,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
+        ButterKnife.bind(this);
 
-        initializeViews();
         bindUser();
-    }
-
-    private void initializeViews(){
-        login = findViewById(R.id.login);
-        password = findViewById(R.id.password);
-        loginButton = findViewById(R.id.loginButton);
-        loginImage = findViewById(R.id.loginImage);
-        loginRoot = findViewById(R.id.loginRoot);
-        root = findViewById(R.id.root);
-
-        customProgressBar = findViewById(R.id.customProgressBar);
     }
 
     private void bindUser(){
@@ -77,21 +83,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void tryToLogin(View view) {
-        if(checkIfEditTextsAreFill()){
-            new LoginAsyncTask(this, userToLogin).execute();
+        if(checkIfLoginFormFilled()){
+            login();
         } else {
             Toast.makeText(this, "Uzupełnij dane do logowania", Toast.LENGTH_LONG).show();
         }
     }
 
-    private boolean checkIfEditTextsAreFill(){
-        return checkIfEditTextIsFill(login) && checkIfEditTextIsFill(password);
+    private boolean checkIfLoginFormFilled() {
+        return userToLogin.getLogin().length() > 0 && userToLogin.getPassword().length() > 0;
     }
 
-    private boolean checkIfEditTextIsFill(EditText editText){
-        String text = editText.getText().toString();
-        return text.length() > 0;
-    }
 
     public void logIn(User user){
         Intent menu = new Intent(this, MainActivity.class);
@@ -109,6 +111,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onLoginError(String message){
+        userToLogin.setLogin("");
+        userToLogin.setPassword("");
         showUI();
 
         Toast.makeText(getApplication(), message, Toast.LENGTH_LONG).show();
@@ -134,15 +138,59 @@ public class LoginActivity extends AppCompatActivity {
         errorDialog.setOkButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ResendUserEmail resendUserEmail = new ResendUserEmail(getContext(), user);
-                resendUserEmail.execute();
+                resendRegisterEmail();
                 errorDialog.close();
             }
         });
 
+        Objects.requireNonNull(errorDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         errorDialog.show();
     }
 
+    private void resendRegisterEmail(){
+        UserRestDao userRestDao = UserRestDao.getInstance();
+
+        Observable<Boolean> observable = userRestDao.resendEmail(userToLogin);
+
+        observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Boolean>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                disposables.add(d);
+                Log.i("Resend email", "Subscribed");
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                if(aBoolean){
+                    showSuccessResend();
+                    Log.i("Resend email", "Success");
+                } else {
+                    showFailedResend();
+                    Log.i("Resend email", "Failed");
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.i("Resend email", "Exception " + e.getCause() + " occurs");
+                showFailedResend();
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+
+    private void showSuccessResend(){
+        Toast.makeText(this, getString(R.string.send_mail_success), Toast.LENGTH_LONG).show();
+    }
+
+    private void showFailedResend(){
+        Toast.makeText(this, getString(R.string.send_mail_failed), Toast.LENGTH_LONG).show();
+    }
 
     private void saveUserName(User user){
         UserService userService = new UserService(getApplication());
@@ -150,89 +198,57 @@ public class LoginActivity extends AppCompatActivity {
         userService.logInUser(user) ;
     }
 
-    private static class LoginAsyncTask extends AsyncTask<Void, Void, Integer>{
-        private WeakReference<LoginActivity> loginActivityWeakReference;
-        private Exception exception = null;
-        private User user;
+    private void login(){
+        UserRestDao userRestDao = UserRestDao.getInstance();
 
-        public LoginAsyncTask(LoginActivity loginActivity, User user){
-            loginActivityWeakReference = new WeakReference<>(loginActivity);
-            this.user = copyUser(user);
-        }
+        userToLogin.setPassword(Hashing.sha256().hashString(userToLogin.getPassword(), StandardCharsets.UTF_16).toString());
 
-        private User copyUser(User userToCopy){
-            User user = new User();
-            user.setLogin(userToCopy.getLogin());
-            user.setPassword(userToCopy.getPassword());
+        Observable<Integer> observable = userRestDao.login(userToLogin);
 
-            return user;
-        }
-
-        @Override
-        protected void onPreExecute(){
-            LoginActivity loginActivity = loginActivityWeakReference.get();
-
-            if(loginActivity == null || loginActivity.isFinishing()){
-                Log.e("Logging", "Activity doesn't exist");
-                return;
+        observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                disposables.add(d);
+                Log.i("Logging", "Subscribed");
+                onLogging();
             }
 
-            loginActivity.onLogging();
-        }
-
-        @Override
-        protected Integer doInBackground(Void... voids) {
-            UserRestDao userDao = UserRestDao.getInstance();
-            String password = user.getPassword();
-            String hashedPassword = Hashing.sha256().hashString(password, StandardCharsets.UTF_16).toString();
-            user.setPassword(hashedPassword);
-            try {
-                return userDao.login(user);
-            } catch (Exception e) {
-                exception = e;
-                return null;
+            @Override
+            public void onNext(Integer integer) {
+                Log.i("Logging", "Everything is ok");
+                userToLogin.setId(integer);
+                logIn(userToLogin);
             }
-        }
 
-        @Override
-        protected void onPostExecute(Integer userId){
-            LoginActivity loginActivity = loginActivityWeakReference.get();
+            @Override
+            public void onError(Throwable e) {
+                if(e instanceof HttpException && ((HttpException) e).code() == 401){
+                    String body  = (String) ((HttpException) e).response().body();
 
-            if(loginActivity == null || loginActivity.isFinishing()){
-                Log.e("Logging", "Activity doesn't exist");
-                return;
-            } else if(exception != null) {
-                Log.e("Logging", "Exception " + exception.getMessage() + " occurs");
-
-                if(exception instanceof HttpClientErrorException){
-                    userId = Integer.valueOf(((HttpClientErrorException) exception).getResponseBodyAsString());
+                    if(TextAndNumberUtils.isNumber(body)){
+                        Log.w("Logging", "User not activated");
+                        askForResendingUserEmail(userToLogin);
+                    } else {
+                        Log.e("Logging", "User doesn't exist");
+                        onLoginError(getString(R.string.user_data_not_exists));
+                    }
                 } else {
-                    String message = loginActivity.getString(R.string.unknown_exception_message);
-                    loginActivity.onLoginError(message);
-                    return;
+                    onLoginError(getString(R.string.unknown_exception_message));
                 }
             }
 
-            Log.i("Logging", "User id = " + userId);
-
-            if(userId == null){
-                Log.e("Logging", "User doesn't exist");
-                String message = loginActivity.getString(R.string.user_not_exists);
-                loginActivity.onLoginError(message);
-            } else if(userId >= 0) {
-                Log.i("Logging", "Everything is ok");
-                user.setId(userId);
-                loginActivity.logIn(user);
-            } else {
-                Log.w("Logging", "User not activated");
-                user.setId(-userId);
-                loginActivity.askForResendingUserEmail(user);
+            @Override
+            public void onComplete() {
             }
-        }
+        });
     }
 
     @Override
     public void onBackPressed() {
+        if(disposables != null) {
+             disposables.dispose();
+        }
+
         Intent start = new Intent(this, StartActivity.class);
 
         startActivity(start);

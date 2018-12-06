@@ -17,76 +17,69 @@ import com.rolnik.alcoholapp.dao.UserRestDao;
 import com.rolnik.alcoholapp.views.CustomProgressBar;
 import com.rolnik.alcoholapp.R;
 import com.rolnik.alcoholapp.utils.UserService;
-import com.rolnik.alcoholapp.dao.Dao;
-import com.rolnik.alcoholapp.dao.RestDaoFactory;
 import com.rolnik.alcoholapp.model.User;
 import com.vstechlab.easyfonts.EasyFonts;
 
 import java.lang.ref.WeakReference;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 public class StartActivity extends AppCompatActivity {
 
-    private TextView title;
-    private ConstraintLayout root;
+    @BindView(R.id.title)
+    TextView title;
+    @BindView(R.id.root)
+    ConstraintLayout root;
 
-    private ConstraintLayout menuRoot;
-    private CustomProgressBar customProgressBar;
+    @BindView(R.id.menuRoot)
+    ConstraintLayout menuRoot;
+    @BindView(R.id.customProgressBar)
+    CustomProgressBar customProgressBar;
 
-    private ConstraintLayout loginRoot;
-    private ImageButton loginImage;
-    private TextView loginText;
+    @BindView(R.id.loginRoot)
+    ConstraintLayout loginRoot;
+    @BindView(R.id.loginImage)
+    ImageButton loginImage;
+    @BindView(R.id.loginText)
+    TextView loginText;
+    @BindView(R.id.registerRoot)
+    ConstraintLayout registerRoot;
+    @BindView(R.id.registerImage)
+    ImageButton registerImage;
+    @BindView(R.id.registerText)
+    TextView registerText;
+
     private Handler loginHandler = new Handler();
     private Runnable loginRunnable;
 
-
-    private ConstraintLayout registerRoot;
-    private ImageButton registerImage;
-    private TextView registerText;
     private Handler registerHandler = new Handler();
     private Runnable registerRunnable;
+
+    private Disposable disposable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        ButterKnife.bind(this);
 
-        initializeViews();
         changeTypeface(EasyFonts.captureIt(getApplication()));
 
-        checkIfUserLoggedAndExistInDatabse();
+        tryToAuthenticateUser();
     }
 
-    private void initializeViews(){
-        title = findViewById(R.id.title);
-        root = findViewById(R.id.root);
-        menuRoot = findViewById(R.id.menuRoot);
-        customProgressBar = findViewById(R.id.customProgressBar);
-
-        initializeLoginView();
-        initializeRegisterView();
-    }
-
-    private void initializeLoginView(){
-        loginRoot = findViewById(R.id.loginRoot);
-        loginImage = findViewById(R.id.loginImage);
-        loginText = findViewById(R.id.loginText);
-    }
-
-    private void initializeRegisterView(){
-        registerRoot = findViewById(R.id.registerRoot);
-        registerImage = findViewById(R.id.registerImage);
-        registerText = findViewById(R.id.registerText);
-    }
 
     private void changeTypeface(Typeface typeface){
         title.setTypeface(typeface);
         loginText.setTypeface(typeface);
         registerText.setTypeface(typeface);
     }
-
-    private void checkIfUserLoggedAndExistInDatabse() {
-        new CheckIfUserExistsInDb(this).execute();
-    }
-
 
     private void moveToMenu() {
         Intent main = new Intent(this, MainActivity.class);
@@ -143,13 +136,6 @@ public class StartActivity extends AppCompatActivity {
         }, 2000);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        TransitionManager.beginDelayedTransition(root);
-        loginText.setVisibility(View.GONE);
-        registerText.setVisibility(View.GONE);
-    }
 
     public void showInfo(View view) {
         Intent credits = new Intent(this, CreditsActivity.class);
@@ -169,70 +155,57 @@ public class StartActivity extends AppCompatActivity {
         moveToMenu();
     }
 
-    private static class CheckIfUserExistsInDb extends AsyncTask<Void, Void , Integer>{
-        private WeakReference<StartActivity> startActivityWeakReference;
-        private Exception exception = null;
-        private UserService userService;
+    private void tryToAuthenticateUser(){
+        UserRestDao userRestDao = UserRestDao.getInstance();
+        UserService userService = new UserService(this);
 
-        CheckIfUserExistsInDb(StartActivity startActivity){
-            this.startActivityWeakReference = new WeakReference<>(startActivity);
-            userService = new UserService(startActivity);
-        }
+        Observable<Integer> observable = userRestDao.login(userService.getLoggedUser());
 
-        @Override
-        protected void onPreExecute(){
-            StartActivity startActivity = startActivityWeakReference.get();
-
-            if(startActivity == null || startActivity.isFinishing()){
-                Log.e("Checking user", "Activity doesn't exist");
-                cancel(true);
-                return;
+        observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                disposable = d;
+                customProgressBar.startAnimation();
+                Log.i("Checking user", "Subscribed");
             }
 
-            startActivity.customProgressBar.startAnimation();
-        }
-
-        @Override
-        protected Integer doInBackground(Void... voids) {
-            if(userService.checkIfUserLogged()){
-                UserRestDao userDao = UserRestDao.getInstance();
-
-                User user = userService.getLoggedUser();
-
-                try {
-                    return userDao.login(user);
-                } catch (Exception e) {
-                    exception = e;
-                    userService.logOutUser();
-                    return  null;
+            @Override
+            public void onNext(Integer integer) {
+                if(integer == null){
+                    Log.w("Checking user", "User not valid");
+                    onCheckingFailed();
+                } else {
+                    Log.i("Checking user", "User valid, moving to menu");
+                    onCheckingSuccess();
                 }
-
             }
 
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Integer userId){
-            StartActivity startActivity = startActivityWeakReference.get();
-
-            if(startActivity == null || startActivity.isFinishing()){
-                Log.e("Checking user", "Activity doesn't exist");
-                return;
-            } else if(exception != null){
-                Log.e("Checking user", "Exception " + exception + " occurs");
-                startActivity.onCheckingFailed();
-                return;
+            @Override
+            public void onError(Throwable e) {
+                onCheckingFailed();
             }
 
-            if(userId == null){
-                Log.w("Checking user", "User not valid");
-                startActivity.onCheckingFailed();
-            } else {
-                Log.i("Checking user", "User valid, moving to menu");
-                startActivity.onCheckingSuccess();
-            }
+            @Override
+            public void onComplete() {
 
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TransitionManager.beginDelayedTransition(root);
+        loginText.setVisibility(View.GONE);
+        registerText.setVisibility(View.GONE);
+    }
+
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(disposable != null){
+            disposable.dispose();
         }
     }
 }

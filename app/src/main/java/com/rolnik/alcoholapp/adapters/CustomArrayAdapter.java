@@ -42,7 +42,6 @@ public class CustomArrayAdapter<T extends GetNameProvider> extends ArrayAdapter<
         T currentObject = objects.get(position);
 
         TextView name = listItem.findViewById(R.id.name);
-        name.setTypeface(EasyFonts.captureIt(myContext));
         name.setText(currentObject.getName());
 
         return listItem;
@@ -105,7 +104,7 @@ public class CustomArrayAdapter<T extends GetNameProvider> extends ArrayAdapter<
                 notifyDataSetChanged();
             } else if(constraint == null || constraint.length() == 0){
                 addAll(allObjects);
-                notifyDataSetInvalidated();
+                notifyDataSetChanged();
             }
         }
     };

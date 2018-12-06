@@ -15,8 +15,9 @@
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/grey"
         android:orientation="vertical"
-        android:background="@color/grey">
+        android:visibility="visible">
 
         <com.rolnik.alcoholapp.views.CustomProgressBar
             android:id="@+id/customProgressBar"
@@ -24,9 +25,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:layout_marginBottom="8dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,78 +39,135 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:layout_marginBottom="8dp"
             android:orientation="vertical"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/saleImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/add_sale"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/sale" />
-            </android.support.constraint.ConstraintLayout>
-
-            <com.rolnik.alcoholapp.views.CustomAutoCompleteTextView
-                android:id="@+id/shops"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/shop"
-                android:imeOptions="actionNext"
-                android:labelFor="@+id/shops"
-                android:singleLine="true"
-                android:textColor="@color/lightSalomon"
-                android:textColorHint="@color/salomon" />
-
-            <com.rolnik.alcoholapp.views.CustomAutoCompleteTextView
-                android:id="@+id/alcohols"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/alcohol_name"
-                android:imeOptions="actionNext"
-                android:labelFor="@+id/alcohols"
-                android:singleLine="true"
-                android:textColor="@color/lightSalomon"
-                android:textColorHint="@color/salomon" />
-
             <LinearLayout
+                android:id="@+id/shopsRoot"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/border_rectangle_button"
+                android:backgroundTint="@color/lightSalomon"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/shopText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/shop"
+                    android:textAlignment="center"
+                    android:textColor="@color/grey" />
+
+                <Spinner
+                    android:id="@+id/shops"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_rectangle_button"
+                    android:padding="10dp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/alcoholsRoot"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/kindRoot"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/border_rectangle_button"
+                    android:backgroundTint="@color/lightSalomon">
+
+                    <TextView
+                        android:id="@+id/kindText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/kind"
+                        android:textAlignment="center"
+                        android:textColor="@color/grey"/>
+
+                    <Spinner
+                        android:id="@+id/kinds"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_rectangle_button"
+                        android:padding="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/alcoholRoot"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/border_rectangle_button"
+                    android:backgroundTint="@color/lightSalomon"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/alcoholText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/alcohol"
+                        android:textAlignment="center"
+                        android:textColor="@color/grey" />
+
+                    <Spinner
+                        android:id="@+id/alcohols"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_rectangle_button"
+                        android:padding="10dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/priceRoot"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/border_rectangle_button"
+                android:backgroundTint="@color/lightSalomon"
+                android:onClick="pickPrice"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/priceText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/price"
+                    android:textAlignment="center"
+                    android:textColor="@color/grey" />
 
                 <TextView
                     android:id="@+id/salePrice"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.9"
-                    android:layout_gravity="center"
-                    android:text="@={BindingConverters.currencyDoubleToString(Sale.price)}"
-                    android:textColor="@color/salomon"
-                    android:textAlignment="center"
-                    android:textSize="20sp"/>
-
-                <Button
-                    android:id="@+id/pricePickerButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1"
-                    android:onClick="pickPrice"
-                    android:text="@string/pick_the_price"
+                    android:layout_margin="8dp"
                     android:background="@drawable/border_rectangle_button"
-                    android:backgroundTint="@color/lightSalomon"/>
+                    android:backgroundTint="@color/grey"
+                    android:text="@={BindingConverters.currencyDoubleToString(Sale.price)}"
+                    android:textAlignment="center"
+                    android:textColor="@color/lightSalomon" />
             </LinearLayout>
 
             <Button
@@ -120,7 +178,8 @@
                 android:background="@drawable/border_rectangle_button"
                 android:backgroundTint="@color/lightSalomon"
                 android:onClick="addSale"
-                android:text="@string/add" />
+                android:text="@string/add_sale"
+                android:textColor="@color/grey" />
 
         </LinearLayout>
 

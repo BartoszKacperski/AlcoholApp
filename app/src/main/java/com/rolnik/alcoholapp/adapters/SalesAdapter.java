@@ -2,49 +2,46 @@ package com.rolnik.alcoholapp.adapters;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 
-import com.rolnik.alcoholapp.asynctasks.SendDislike;
-import com.rolnik.alcoholapp.asynctasks.SendLike;
-import com.rolnik.alcoholapp.model.User;
 import com.rolnik.alcoholapp.utils.ItemClickListener;
 import com.rolnik.alcoholapp.R;
-import com.rolnik.alcoholapp.dao.RestService;
 import com.rolnik.alcoholapp.databinding.SearchSalesSaleLayoutBinding;
 import com.rolnik.alcoholapp.model.Sale;
+import com.rolnik.alcoholapp.utils.OpinionsClickListener;
+import com.rolnik.alcoholapp.utils.TextAndNumberUtils;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.web.client.RestTemplate;
+import org.w3c.dom.Text;
 
-import java.lang.ref.WeakReference;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 
-public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.MyViewHolder> {
+public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.MyViewHolder> implements Filterable {
 
     private List<Sale> sales;
+    private List<Sale> filteredSales;
     private Context myContext;
     private LayoutInflater layoutInflater;
     private ItemClickListener itemClickListener;
+    private OpinionsClickListener opinionsClickListener;
 
-    public SalesAdapter(Context context, ItemClickListener itemClickListener) {
-        this.sales = new ArrayList<>();
+    public SalesAdapter(Context context, ItemClickListener itemClickListener, OpinionsClickListener opinionsClickListener, List<Sale> sales) {
+        this.sales = sales;
+        this.filteredSales = sales;
         this.myContext = context;
         this.itemClickListener = itemClickListener;
+        this.opinionsClickListener = opinionsClickListener;
     }
 
     public boolean add(Sale sale) {
@@ -91,7 +88,9 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.MyViewHolder
         private ImageButton likeButton;
         private ImageButton dislikeButton;
 
-        public MyViewHolder(final SearchSalesSaleLayoutBinding searchSalesSaleLayoutBinding , final ItemClickListener itemClickListener) {
+        public MyViewHolder(final SearchSalesSaleLayoutBinding searchSalesSaleLayoutBinding,
+                            final ItemClickListener itemClickListener,
+                            final OpinionsClickListener opinionsClickListener) {
             super(searchSalesSaleLayoutBinding.getRoot());
             this.searchSalesSaleLayoutBinding = searchSalesSaleLayoutBinding;
 
@@ -104,14 +103,26 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.MyViewHolder
                     itemClickListener.onClick(v, getAdapterPosition());
                 }
             });
+
+            likeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    opinionsClickListener.onLike(view, getAdapterPosition());
+                }
+            });
+
+            dislikeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    opinionsClickListener.onDislike(view, getAdapterPosition());
+                }
+            });
         }
 
         public void bind(Sale sale){
             searchSalesSaleLayoutBinding.setSale(sale);
             searchSalesSaleLayoutBinding.executePendingBindings();
         }
-
-
     }
 
 
@@ -123,28 +134,12 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.MyViewHolder
         }
         SearchSalesSaleLayoutBinding searchSalesSaleLayoutBinding = DataBindingUtil.inflate(layoutInflater, R.layout.search_sales_sale_layout, parent, false);
 
-        final MyViewHolder holder = new MyViewHolder(searchSalesSaleLayoutBinding, this.itemClickListener);
-
-        holder.likeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new SendLike(holder, sales.get(holder.getAdapterPosition()), myContext).execute();
-            }
-        });
-
-        holder.dislikeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new SendDislike(holder, sales.get(holder.getAdapterPosition()), myContext).execute();
-            }
-        });
-
-        return holder;
+        return new MyViewHolder(searchSalesSaleLayoutBinding, this.itemClickListener, this.opinionsClickListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Sale sale = sales.get(position);
+        Sale sale = filteredSales.get(position);
         holder.bind(sale);
     }
 
@@ -154,10 +149,44 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.MyViewHolder
 
     @Override
     public int getItemCount() {
-        return sales.size();
+        return filteredSales.size();
+    }
+
+    @Override
+    public Filter getFilter(){
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String filter = charSequence.toString();
+
+                if(filter.isEmpty()){
+                    filteredSales = sales;
+                } else {
+                    List<Sale> filtered = new ArrayList<>();
+                    for(Sale sale : sales){
+                        if(TextAndNumberUtils.NFDcontains(sale.getAlcohol().getName(), filter)){
+                            filtered.add(sale);
+                        }
+                    }
+
+                    filteredSales = filtered;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredSales;
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filteredSales = (ArrayList<Sale>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public Sale getItem(int position){
-        return sales.get(position);
+        return filteredSales.get(position);
     }
 }

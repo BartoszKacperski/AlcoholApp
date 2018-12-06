@@ -68,11 +68,14 @@
     #EXCEPTIONS
     <string name="unknown_exception_message">Wystąpił nieoczekiwany problem</string>
     <string name="user_not_exists">Podany użytkownik nie istnieje</string>
+    <string name="user_data_not_exists">Podane dane są nieprawidłowe</string>
     <string name="user_not_valid">Dane są niepoprawne!</string>
     <string name="user_not_activated">Konto nie zostało potwierdzone</string>
     <string name="add_sale_exception">Nie udało się dodać promocji, wprowadzone dane są nieprawidłowe</string>
     <string name="edit_sale_exception">Zmienione dane są nieprawidłowe</string>
+    <string name="remove_sale_exception">Nie udało się usunąć promocji</string>
     <string name="download_my_sale_exception">Nie udało się pobrać Twoich promocji</string>
     <string name="user_add_already_exist_excpetion">Użytkownik już istnieje</string>
     <string name="download_sale_exception">Nie udało się pobrać promocji</string>
+    <string name="download_alcohol_of_kind">Nie udało się pobrać alkoholu o rodzaju %s</string>
 </resources>

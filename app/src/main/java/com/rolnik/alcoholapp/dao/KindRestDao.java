@@ -1,23 +1,23 @@
 package com.rolnik.alcoholapp.dao;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.rolnik.alcoholapp.model.Kind;
+import com.rolnik.alcoholapp.rest.KindRest;
+import com.rolnik.alcoholapp.rest.RetrofitCreator;
 
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
+import io.reactivex.Observable;
+import retrofit2.Response;
+
 public class KindRestDao implements Dao<Kind> {
     private static KindRestDao INSTANCE = null;
 
-    private static final String GET_ALL_ADDRESS = RestService.BASE_ADDRESS + "/kinds";
-    private static final String POST_ADD_OBJECT = GET_ALL_ADDRESS;
-
-    private RestService<Kind> restService;
+    private KindRest client;
 
     private KindRestDao(){
-        restService = new RestService<>(Kind.class);
+        client = RetrofitCreator.createService(KindRest.class);
     }
 
     public synchronized static KindRestDao getInstance(){
@@ -29,29 +29,27 @@ public class KindRestDao implements Dao<Kind> {
     }
 
     @Override
-    public List<Kind> getAll() throws HttpClientErrorException {
-        return restService.getForAll(GET_ALL_ADDRESS, new ParameterizedTypeReference<List<Kind>>() {});
+    public Observable<List<Kind>> getAll() throws HttpClientErrorException {
+        return client.getAll();
     }
 
     @Override
-    public Kind get(int id) throws HttpClientErrorException {
-        return restService.getForObject(GET_ALL_ADDRESS, id);
+    public Observable<Kind> get(int Id) throws HttpClientErrorException {
+        return client.get(Id);
     }
 
     @Override
-    public Integer add(Kind object) throws HttpClientErrorException {
-        return restService.postAddObject(POST_ADD_OBJECT, object);
+    public Observable<Integer> add(Kind kind) throws HttpClientErrorException {
+        return client.add(kind);
     }
 
     @Override
-    public void update(Kind object) throws HttpClientErrorException {
-        String URL = GET_ALL_ADDRESS + "/" + object.getId();
-        restService.putUpdate(URL, object);
+    public Observable<Response<Void>> update(Kind kind) throws HttpClientErrorException {
+        return client.update(kind.getId(), kind);
     }
 
     @Override
-    public void remove(Kind object) throws HttpClientErrorException {
-        String URL = GET_ALL_ADDRESS + "/" + object.getId();
-        restService.deleteRemove(URL, object);
+    public Observable<Response<Void>> remove(Kind kind) throws HttpClientErrorException {
+        return client.delete(kind.getId());
     }
 }

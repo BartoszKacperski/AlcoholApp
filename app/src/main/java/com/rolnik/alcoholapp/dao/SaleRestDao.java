@@ -1,24 +1,23 @@
 package com.rolnik.alcoholapp.dao;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.rolnik.alcoholapp.model.Sale;
+import com.rolnik.alcoholapp.rest.RetrofitCreator;
+import com.rolnik.alcoholapp.rest.SaleRest;
 
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.text.MessageFormat;
 import java.util.List;
+
+import io.reactivex.Observable;
+import retrofit2.Response;
 
 public class SaleRestDao implements Dao<Sale> {
     private static SaleRestDao INSTANCE = null;
 
-    private static final String GET_ALL_ADDRESS = RestService.BASE_ADDRESS + "/sales";
-    private static final String POST_ADD_OBJECT = GET_ALL_ADDRESS;
-
-    private RestService<Sale> restService;
+    private SaleRest client;
 
     private SaleRestDao() {
-        restService = new RestService<>(Sale.class);
+        client = RetrofitCreator.createService(SaleRest.class);
     }
 
     public synchronized static SaleRestDao getInstance() {
@@ -30,54 +29,43 @@ public class SaleRestDao implements Dao<Sale> {
     }
 
     @Override
-    public List<Sale> getAll() throws HttpClientErrorException {
-        return restService.getForAll(GET_ALL_ADDRESS, new ParameterizedTypeReference<List<Sale>>() {
-        });
+    public Observable<List<Sale>> getAll() throws HttpClientErrorException {
+        return client.getAll();
     }
 
     @Override
-    public Sale get(int id) throws HttpClientErrorException {
-        return restService.getForObject(GET_ALL_ADDRESS, id);
+    public Observable<Sale> get(int Id) throws HttpClientErrorException {
+        return client.get(Id);
     }
 
     @Override
-    public Integer add(Sale object) throws HttpClientErrorException {
-        return restService.postAddObject(POST_ADD_OBJECT, object);
+    public Observable<Integer> add(Sale sale) throws HttpClientErrorException {
+        return client.add(sale);
     }
 
     @Override
-    public void update(Sale object) throws HttpClientErrorException {
-        String URL = GET_ALL_ADDRESS + "/" + object.getId();
-        restService.putUpdate(URL, object);
+    public Observable<Response<Void>> update(Sale sale) throws HttpClientErrorException {
+        return client.update(sale.getId(), sale);
     }
 
     @Override
-    public void remove(Sale object) throws HttpClientErrorException {
-        String URL = GET_ALL_ADDRESS + "/" + object.getId();
-        restService.deleteRemove(URL, object);
+    public Observable<Response<Void>> remove(Sale sale) throws HttpClientErrorException {
+        return client.delete(sale.getId());
     }
 
-    public List<Sale> getAllWhere(int shopId, int kindId) throws HttpClientErrorException {
-        String URL = GET_ALL_ADDRESS + MessageFormat.format("/shop/{0}/kind/{1}", shopId, kindId);
-
-        return restService.getForAll(URL, new ParameterizedTypeReference<List<Sale>>() {});
+    public Observable<List<Sale>> getAllWhere(int shopId, int kindId) throws HttpClientErrorException {
+        return client.getAllWhere(shopId, kindId);
     }
 
-    public List<Sale> getAllWhereShop(int shopId) throws HttpClientErrorException {
-        String URL = GET_ALL_ADDRESS + MessageFormat.format("/shop/{0}", shopId);
-
-        return restService.getForAll(URL, new ParameterizedTypeReference<List<Sale>>() {});
+    public Observable<List<Sale>> getAllWhereShop(int shopId) throws HttpClientErrorException {
+        return client.getAllWhereShop(shopId);
     }
 
-    public List<Sale> getAllWhereKind(int kindId) throws HttpClientErrorException {
-        String URL = GET_ALL_ADDRESS + MessageFormat.format("/kind/{0}", kindId);
-
-        return restService.getForAll(URL, new ParameterizedTypeReference<List<Sale>>() {});
+    public Observable<List<Sale>> getAllWhereKind(int kindId) throws HttpClientErrorException {
+        return client.getAllWhereKind(kindId);
     }
 
-    public List<Sale> getUserSales(int userId) throws HttpClientErrorException {
-        String URL = GET_ALL_ADDRESS + "/user/" + userId;
-
-        return restService.getForAll(URL, new ParameterizedTypeReference<List<Sale>>() {});
+    public Observable<List<Sale>> getUserSales(int userId) throws HttpClientErrorException {
+        return client.getUserSales(userId);
     }
 }

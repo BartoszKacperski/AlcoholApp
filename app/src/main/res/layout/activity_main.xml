@@ -99,7 +99,6 @@
                 android:onClick="addButtonOnClick"
                 android:text="@string/add_sale"
                 android:textColor="@color/grey"
-                android:singleLine="true"
                 app:autoSizeTextType="uniform"
                 app:autoSizeMinTextSize="15sp"
                 app:autoSizeMaxTextSize="25sp"

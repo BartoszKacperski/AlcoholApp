@@ -3,6 +3,7 @@ package com.rolnik.alcoholapp.model;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.annotation.NonNull;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.rolnik.alcoholapp.BR;
@@ -15,8 +16,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -46,4 +46,11 @@ public class Brand extends BaseObservable implements GetNameProvider, Serializab
         this.name = name;
         notifyPropertyChanged(BR.name);
     }
+
+    @NonNull
+    @Override
+    public String toString(){
+        return name;
+    }
+
 }

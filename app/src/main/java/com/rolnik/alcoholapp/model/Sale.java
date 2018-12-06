@@ -106,4 +106,30 @@ public class Sale extends BaseObservable implements Serializable {
         this.wasDisliked = wasDisliked;
         notifyPropertyChanged(BR.wasDisliked);
     }
+
+    public void addLike(){
+        this.wasLiked = true;
+        this.rate.setPositiveRates(this.rate.getPositiveRates() + 1);
+        if(this.wasDisliked) {
+            this.wasDisliked = false;
+            this.rate.setNegativeRates(this.rate.getNegativeRates() - 1);
+        }
+        notifyPropertyChanged(BR.wasLiked);
+        notifyPropertyChanged(BR.wasDisliked);
+        notifyPropertyChanged(BR.positiveRates);
+        notifyPropertyChanged(BR.negativeRates);
+    }
+
+    public void addDislike(){
+        this.wasDisliked = true;
+        this.rate.setNegativeRates(this.rate.getNegativeRates() + 1);
+        if(this.wasLiked) {
+            this.wasLiked = false;
+            this.rate.setPositiveRates(this.rate.getPositiveRates() - 1);
+        }
+        notifyPropertyChanged(BR.wasDisliked);
+        notifyPropertyChanged(BR.wasLiked);
+        notifyPropertyChanged(BR.negativeRates);
+        notifyPropertyChanged(BR.positiveRates);
+    }
 }

@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/image"
-    android:backgroundTint="@color/blueberry">
+    android:backgroundTint="@color/grey">
 
     <ImageView
         android:id="@+id/errorImage"
@@ -27,6 +27,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/error"
+        android:textColor="@color/lightSalomon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/errorImage" />
@@ -53,7 +54,8 @@
             android:layout_marginEnd="8dp"
             android:background="@drawable/border_rectangle_button"
             android:backgroundTint="@color/lightSalomon"
-            android:text="@string/ok" />
+            android:text="@string/ok"
+            android:textColor="@color/grey"/>
 
         <Button
             android:id="@+id/cancelButton"
@@ -64,6 +66,7 @@
             android:layout_marginStart="8dp"
             android:background="@drawable/border_rectangle_button"
             android:backgroundTint="@color/lightSalomon"
-            android:text="@string/cancel" />
+            android:text="@string/cancel"
+            android:textColor="@color/grey"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

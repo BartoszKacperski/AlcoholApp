@@ -28,31 +28,39 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.HttpException;
+
 public class MySalesActivity extends AppCompatActivity {
-    private ConstraintLayout root;
-    private CustomProgressBar customProgressBar;
-    private LinearLayout mySalesRoot;
-    private RecyclerView mySales;
+    @BindView(R.id.root)
+    ConstraintLayout root;
+    @BindView(R.id.customProgressBar)
+    CustomProgressBar customProgressBar;
+    @BindView(R.id.mySalesRoot)
+    LinearLayout mySalesRoot;
+    @BindView(R.id.mySales)
+    RecyclerView mySales;
+
     private SalesEditAdapter adapter;
+    private Disposable disposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_sales);
+        ButterKnife.bind(this);
 
-        initializeViews();
         initializeSalesRecyclerView();
         downloadMySales();
     }
 
-    private void initializeViews(){
-        root = findViewById(R.id.root);
-        mySalesRoot = findViewById(R.id.mySalesRoot);
-        customProgressBar = findViewById(R.id.customProgressBar);
-    }
-
     private void initializeSalesRecyclerView() {
-        mySales = findViewById(R.id.mySales);
         adapter = new SalesEditAdapter(getApplication(), getItemClickListener());
 
         mySales.setAdapter(adapter);
@@ -101,93 +109,61 @@ public class MySalesActivity extends AppCompatActivity {
 
     private void downloadMySales(){
         UserService userService = new UserService(this);
+        SaleRestDao saleRestDao = SaleRestDao.getInstance();
 
-        DownloadMySales downloadMySales = new DownloadMySales(this, userService.getLoggedUser());
+        Observable<List<Sale>> observable = saleRestDao.getUserSales(userService.getLoggedUserId());
 
-        downloadMySales.execute();
+        observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<Sale>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                disposable = d;
+                onDownloading();
+                Log.e("Download my sales", "Subscribed");
+            }
+
+            @Override
+            public void onNext(List<Sale> sales) {
+                Log.i("Download my sales", "Everthing is ok");
+                adapter.addAll(sales);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e("Download my sales", "Exception " + e.getCause() + "occurs");
+                if(e instanceof HttpException){
+                    showErrorDependsOnHttpStatus((HttpException) e);
+                } else {
+                    onDownloadError(getString(R.string.unknown_exception_message));
+                }
+            }
+
+            @Override
+            public void onComplete() {
+                onDownloadSuccess();
+            }
+        });
+
     }
 
-    private static class DownloadMySales extends AsyncTask<Void, Void, List<Sale>> {
-        private WeakReference<MySalesActivity> mySalesActivityWeakReference;
-        private User currentUser;
-        private Exception exception = null;
-
-        public DownloadMySales(MySalesActivity mySalesActivity, User currentUser) {
-            this.mySalesActivityWeakReference = new WeakReference<>(mySalesActivity);
-            this.currentUser = currentUser;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            MySalesActivity mySalesActivity = mySalesActivityWeakReference.get();
-
-            if (mySalesActivity == null || mySalesActivity.isFinishing()) {
-                Log.e("Download my sales", "Acitivity is null");
-                cancel(true);
-                return;
+    private void showErrorDependsOnHttpStatus(HttpException exception){
+        switch (exception.code()){
+            case 404: {
+                onDownloadError(getString(R.string.download_my_sale_exception));
+                break;
             }
-
-            mySalesActivity.onDownloading();
-        }
-
-
-        @Override
-        protected List<Sale> doInBackground(Void... voids) {
-            if (!isCancelled()) {
-                SaleRestDao saleRestDao = SaleRestDao.getInstance();
-
-                try {
-                    return saleRestDao.getUserSales(currentUser.getId());
-                } catch (Exception e) {
-                    exception = e;
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(List<Sale> sales){
-            MySalesActivity mySalesActivity = mySalesActivityWeakReference.get();
-
-            if(mySalesActivity == null || mySalesActivity.isFinishing()){
-                Log.e("Download my sales", "Acitivity is null");
-                return;
-            } else if(exception != null){
-                Log.e("Download my sales", "Exception " + exception + " occurs");
-
-                if(exception instanceof HttpClientErrorException){
-                    showErrorDependsOnHttpStatus((HttpClientErrorException)exception, mySalesActivity);
-                } else {
-                    String message = mySalesActivity.getString(R.string.unknown_exception_message);
-                    mySalesActivity.onDownloadError(message);
-                }
-
-                return;
-            }
-
-            Log.i("Download my sales", "Everthing is ok");
-            mySalesActivity.adapter.addAll(sales);
-            mySalesActivity.onDownloadSuccess();
-        }
-
-        private void showErrorDependsOnHttpStatus(HttpClientErrorException exception, MySalesActivity activity){
-            switch (exception.getStatusCode()){
-                case NOT_FOUND: {
-                    String message = activity.getString(R.string.download_my_sale_exception);
-                    activity.onDownloadError(message);
-                    break;
-                }
-                default: {
-                    String message = activity.getString(R.string.unknown_exception_message);
-                    activity.onDownloadError(message);
-                    break;
-                }
+            default: {
+                onDownloadError(getString(R.string.unknown_exception_message));
+                break;
             }
         }
     }
 
     @Override
     public void onBackPressed() {
+        if(disposable != null){
+            disposable.dispose();
+        }
+
         Intent main = new Intent(this, MainActivity.class);
 
         startActivity(main);

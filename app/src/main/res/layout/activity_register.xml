@@ -113,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_rectangle_button"
                 android:backgroundTint="@color/lightSalomon"
-                android:onClick="addAccount"
+                android:onClick="tryToRegister"
                 android:text="@string/register"
                 android:textColor="@color/grey" />
         </LinearLayout>
