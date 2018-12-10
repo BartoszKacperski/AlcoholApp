@@ -11,7 +11,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/sale_layout_background">
+        android:background="@drawable/sale_layout_background"
+        android:backgroundTint="@color/lightSalomon">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -30,7 +31,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="@={BindingConverters.alcoholicStrengthToString(Sale.alcohol.alcoholicStrength)}"
-                android:textColor="@color/lightSalomon"
+                android:textColor="@color/grey"
                 android:textSize="15sp"/>
 
             <TextView
@@ -41,7 +42,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="@={BindingConverters.volumeToString(Sale.alcohol.volume)}"
-                android:textColor="@color/lightSalomon"
+                android:textColor="@color/grey"
                 android:textSize="15sp"/>
         </LinearLayout>
 
@@ -63,11 +64,21 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="@={Sale.alcohol.name}"
-                android:textColor="@color/lightSalomon"
+                android:textColor="@color/grey"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/shopImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:srcCompat="@drawable/shopping_cart"
+                android:contentDescription="@string/shop" />
 
             <TextView
                 android:id="@+id/Shop"
@@ -77,11 +88,21 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="@={Sale.shop.name}"
-                android:textColor="@color/lightSalomon"
+                android:textColor="@color/grey"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/Name"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/priceImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:srcCompat="@drawable/black_coins"
+                android:contentDescription="@string/price" />
 
             <TextView
                 android:id="@+id/Price"
@@ -91,7 +112,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="@={BindingConverters.currencyDoubleToString(Sale.price)}"
-                android:textColor="@color/lightSalomon"
+                android:textColor="@color/grey"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/Shop"

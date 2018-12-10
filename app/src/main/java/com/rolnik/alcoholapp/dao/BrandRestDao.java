@@ -2,7 +2,7 @@ package com.rolnik.alcoholapp.dao;
 
 import com.rolnik.alcoholapp.model.Brand;
 import com.rolnik.alcoholapp.rest.BrandRest;
-import com.rolnik.alcoholapp.rest.RetrofitCreator;
+import com.rolnik.alcoholapp.restUtils.RetrofitCreator;
 
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
@@ -18,7 +18,7 @@ public class BrandRestDao implements Dao<Brand> {
     private BrandRest client;
 
     private BrandRestDao(){
-        client = RetrofitCreator.createService(BrandRest.class);
+        client = RetrofitCreator.createServiceWithCookieService(BrandRest.class);
     }
 
     public synchronized static BrandRestDao getInstance(){

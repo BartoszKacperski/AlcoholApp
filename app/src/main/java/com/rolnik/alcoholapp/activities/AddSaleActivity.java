@@ -27,6 +27,8 @@ import com.rolnik.alcoholapp.model.Kind;
 import com.rolnik.alcoholapp.model.Rate;
 import com.rolnik.alcoholapp.model.Sale;
 import com.rolnik.alcoholapp.model.Shop;
+import com.rolnik.alcoholapp.restUtils.AsyncResponse;
+import com.rolnik.alcoholapp.restUtils.ResponseHandler;
 import com.rolnik.alcoholapp.utils.UserService;
 import com.rolnik.alcoholapp.views.CustomProgressBar;
 import com.rolnik.alcoholapp.views.PricePickerDialog;
@@ -47,7 +49,7 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.HttpException;
 
-public class AddSaleActivity extends AppCompatActivity {
+public class AddSaleActivity extends AppCompatActivity implements ResponseHandler<Integer> {
     @BindView(R.id.root)
     ConstraintLayout root;
 
@@ -77,7 +79,6 @@ public class AddSaleActivity extends AppCompatActivity {
     @BindView(R.id.addButton)
     Button addButton;
 
-    private Sale saleToAdd;
 
     private ActivityAddSaleBinding activityAddSaleBinding;
 
@@ -87,18 +88,17 @@ public class AddSaleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityAddSaleBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_sale);
+        activityAddSaleBinding.setSale(new Sale());
         ButterKnife.bind(this);
 
-        bindSale();
         initializeSpinners();
     }
 
     public void addSale(View view) {
-        UserService userService = new UserService(this);
+        Sale saleToAdd = activityAddSaleBinding.getSale();
 
         saleToAdd.setShop((Shop) shops.getSelectedItem());
         saleToAdd.setAlcohol((Alcohol) alcohols.getSelectedItem());
-        saleToAdd.setUser(userService.getLoggedUser());
         saleToAdd.setRate(new Rate());
 
         addSale(saleToAdd);
@@ -133,9 +133,9 @@ public class AddSaleActivity extends AppCompatActivity {
         }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Pair<List<Kind>, List<Shop>>>() {
             @Override
             public void onSubscribe(Disposable d) {
-                disposables.add(d);
+                AddSaleActivity.this.onSubscribe(d);
                 Log.i("Initialize autoText", "Subscribed");
-                customProgressBar.startAnimation();
+                hideGUI();
             }
 
             @Override
@@ -146,14 +146,14 @@ public class AddSaleActivity extends AppCompatActivity {
 
             @Override
             public void onError(Throwable e) {
-                hideUIWithBackToMenu(e.getMessage());
+                AddSaleActivity.this.finish();
             }
 
             @Override
             public void onComplete() {
                 Log.i("Initialize autoText", "All autoText filled");
                 initializeKindSpinnerListener();
-                loadUI();
+                AddSaleActivity.this.onComplete();
             }
         });
     }
@@ -185,27 +185,6 @@ public class AddSaleActivity extends AppCompatActivity {
                 setAlcoholsVisibility(View.VISIBLE);
             }
         });
-    }
-
-    private void bindSale() {
-        saleToAdd = new Sale();
-
-        activityAddSaleBinding.setSale(saleToAdd);
-    }
-
-    private void hideUIWithBackToMenu(String message) {
-        TransitionManager.beginDelayedTransition(root);
-        customProgressBar.endAnimation();
-        customProgressBar.setVisibility(View.GONE);
-        Toast.makeText(getApplication(), message, Toast.LENGTH_LONG).show();
-        backToMenu();
-    }
-
-    private void loadUI() {
-        TransitionManager.beginDelayedTransition(root);
-        customProgressBar.endAnimation();
-        customProgressBar.setVisibility(View.GONE);
-        addSaleRoot.setVisibility(View.VISIBLE);
     }
 
     private void initializeKindSpinnerListener(){
@@ -240,89 +219,79 @@ public class AddSaleActivity extends AppCompatActivity {
     }
 
     private void setAlcoholsVisibility(int visibility){
-        TransitionManager.beginDelayedTransition(alcoholsRoot);
+        TransitionManager.beginDelayedTransition(root);
 
         alcoholRoot.setVisibility(visibility);
     }
 
-
-    private void backToMenu() {
-        Intent menu = new Intent(this, MainActivity.class);
-
-        startActivity(menu);
-    }
-
-    private void onAdding() {
+    private void hideGUI(){
         TransitionManager.beginDelayedTransition(root);
         addSaleRoot.setVisibility(View.GONE);
         customProgressBar.setVisibility(View.VISIBLE);
         customProgressBar.startAnimation();
     }
 
-    private void onAddSuccess() {
-        loadUI();
-        Toast.makeText(this, "Pomyślnie dodano promocje", Toast.LENGTH_LONG).show();
+    private void showGUI(){
+        TransitionManager.beginDelayedTransition(root);
+        customProgressBar.endAnimation();
+        customProgressBar.setVisibility(View.GONE);
+        addSaleRoot.setVisibility(View.VISIBLE);
     }
 
-    private void onAddError(String message) {
-        loadUI();
+
+    @Override
+    public void onSubscribe(Disposable d) {
+        disposables.add(d);
+        hideGUI();
+    }
+
+    @Override
+    public void onNext(Integer integer) {
+        Toast.makeText(this, R.string.add_sale_success, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onComplete() {
+       showGUI();
+    }
+
+    @Override
+    public void onSocketTimeout() {
+        showError(getString(R.string.socket_timeout_exception));
+    }
+
+    @Override
+    public void onNotAuthorized() {
+        showError(getString(R.string.authorization_exception));
+    }
+
+    @Override
+    public void onBadRequest() {
+        showError(getString(R.string.add_sale_exception));
+    }
+
+    @Override
+    public void onUnknownError() {
+        showError(getString(R.string.unknown_exception_message));
+    }
+
+    @Override
+    public void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     private void addSale(Sale sale) {
         Dao<Sale> saleRestDao = RestDaoFactory.getSaleDao();
 
-        Observable<Integer> observable = saleRestDao.add(sale);
+        AsyncResponse<Integer> asyncResponse = new AsyncResponse<>(saleRestDao.add(sale), this);
 
-        observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                disposables.add(d);
-                onAdding();
-                Log.e("Before add sale", "Subscribed, UI changed");
-            }
-
-            @Override
-            public void onNext(Integer integer) {
-                Log.i("Adding sale", "SaleId = " + integer);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                if (e instanceof HttpException) {
-                    showErrorDependsOnHttpStatus((HttpException) e);
-                } else {
-                    String message = getString(R.string.unknown_exception_message);
-                    onAddError(message);
-                }
-            }
-
-            @Override
-            public void onComplete() {
-                Log.i("After add sale", "Everything is ok, changing UI");
-                onAddSuccess();
-            }
-        });
+        asyncResponse.execute();
     }
 
-    private void showErrorDependsOnHttpStatus(HttpException exception) {
-        switch (exception.code()) {
-            case 400: {
-                String message = getString(R.string.add_sale_exception);
-                onAddError(message);
-                break;
-            }
-            default: {
-                String message = getString(R.string.unknown_exception_message);
-                onAddError(message);
-                break;
-            }
-        }
-    }
 
     @Override
     public void onBackPressed() {
-        backToMenu();
+        this.finish();
     }
 
     @Override

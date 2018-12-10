@@ -33,6 +33,6 @@ public interface SaleRest {
     Observable<List<Sale>> getAllWhereShop(@Path("shopId") int shopId);
     @GET("sales/kind/{kindId}")
     Observable<List<Sale>> getAllWhereKind(@Path("kindId") int kindId);
-    @GET("sales/user/{userId}")
-    Observable<List<Sale>> getUserSales(@Path("userId") int userId);
+    @GET("sales/user/")
+    Observable<List<Sale>> getUserSales();
 }

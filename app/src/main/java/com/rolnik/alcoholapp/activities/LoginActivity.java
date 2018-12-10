@@ -1,6 +1,5 @@
 package com.rolnik.alcoholapp.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
@@ -17,17 +16,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.common.hash.Hashing;
 import com.rolnik.alcoholapp.R;
 import com.rolnik.alcoholapp.dao.UserRestDao;
 import com.rolnik.alcoholapp.databinding.ActivityLoginBinding;
 import com.rolnik.alcoholapp.model.User;
-import com.rolnik.alcoholapp.utils.TextAndNumberUtils;
+import com.rolnik.alcoholapp.restUtils.AsyncResponse;
+import com.rolnik.alcoholapp.restUtils.ResponseHandler;
+import com.rolnik.alcoholapp.utils.CookieService;
 import com.rolnik.alcoholapp.utils.UserService;
 import com.rolnik.alcoholapp.views.CustomProgressBar;
 import com.rolnik.alcoholapp.views.ErrorDialog;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -38,9 +37,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.HttpException;
+import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements ResponseHandler<Response<Void>> {
     @BindView(R.id.root)
     ConstraintLayout root;
 
@@ -58,8 +57,6 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.customProgressBar)
     CustomProgressBar customProgressBar;
 
-    private User userToLogin;
-
     private CompositeDisposable disposables = new CompositeDisposable();
 
     private ActivityLoginBinding activityLoginBinding;
@@ -68,19 +65,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
+        activityLoginBinding.setUser(new User());
         ButterKnife.bind(this);
 
-        bindUser();
     }
 
-    private void bindUser(){
-        userToLogin = new User();
-        activityLoginBinding.setUser(userToLogin);
-    }
-
-    private Context getContext(){
-        return this;
-    }
 
     public void tryToLogin(View view) {
         if(checkIfLoginFormFilled()){
@@ -91,42 +80,119 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean checkIfLoginFormFilled() {
-        return userToLogin.getLogin().length() > 0 && userToLogin.getPassword().length() > 0;
+        return activityLoginBinding.getUser().getLogin().length() > 0 && activityLoginBinding.getUser().getPassword().length() > 0;
     }
 
 
-    public void logIn(User user){
+    public void logIn(String cookie){
         Intent menu = new Intent(this, MainActivity.class);
 
-        saveUserName(user);
+        saveUserName(activityLoginBinding.getUser());
+        saveCookie(cookie);
 
         startActivity(menu);
     }
 
-    private void showUI(){
+    private void saveCookie(String cookie) {
+        CookieService cookieService = new CookieService(this);
+        Log.i("Saving cookie", "Cookie = " + cookie);
+        cookieService.saveCookie(cookie);
+    }
+
+    private void saveUserName(User user){
+        UserService userService = new UserService(getApplication());
+
+        userService.logInUser(user) ;
+    }
+
+
+    private void showGUI(){
         TransitionManager.beginDelayedTransition(root);
         customProgressBar.endAnimation();
         customProgressBar.setVisibility(View.GONE);
         loginRoot.setVisibility(View.VISIBLE);
     }
 
-    private void onLoginError(String message){
-        userToLogin.setLogin("");
-        userToLogin.setPassword("");
-        showUI();
-
-        Toast.makeText(getApplication(), message, Toast.LENGTH_LONG).show();
-    }
-
-    private void onLogging(){
+    private void hideGUI(){
         TransitionManager.beginDelayedTransition(root);
         loginRoot.setVisibility(View.GONE);
         customProgressBar.setVisibility(View.VISIBLE);
         customProgressBar.startAnimation();
     }
 
+    @Override
+    public void onSubscribe(Disposable d) {
+        disposables.add(d);
+        hideGUI();
+    }
+
+    @Override
+    public void onNext(Response<Void> response) {
+        if(response.isSuccessful()){
+            logIn(response.headers().get("Set-Cookie"));
+        } else {
+            switch (response.code()){
+                case 400: {
+                    onBadRequest();
+                    break;
+                }
+                case 401:{
+                    onNotAuthorized();
+                    break;
+                }
+                default: {
+                    onUnknownError();
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onComplete() {
+        showGUI();
+    }
+
+    @Override
+    public void onSocketTimeout() {
+        showError(getString(R.string.socket_timeout_exception));
+    }
+
+    @Override
+    public void onNotAuthorized() {
+        showError(getString(R.string.user_not_exists));
+    }
+
+    @Override
+    public void onBadRequest() {
+        showError(getString(R.string.user_data_not_exists));
+    }
+
+    @Override
+    public void onUnknownError() {
+        showError(getString(R.string.unknown_exception_message));
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        showGUI();
+    }
+
+    private Observable<Response<Void>> getPaperedObservable(){
+        UserRestDao userRestDao = UserRestDao.getInstance();
+
+        return userRestDao.login(activityLoginBinding.getUser());
+    }
+
+    private void login(){
+        AsyncResponse<Response<Void>> asyncResponse = new AsyncResponse<>(getPaperedObservable(), this);
+
+        asyncResponse.execute();
+    }
+
     private void askForResendingUserEmail(final User user){
-        showUI();
+        showGUI();
         final ErrorDialog errorDialog = new ErrorDialog(this);
 
         String errorMessage = getString(R.string.user_not_activated) + "\n" + getString(R.string.ask_to_send_email_again);
@@ -151,7 +217,7 @@ public class LoginActivity extends AppCompatActivity {
     private void resendRegisterEmail(){
         UserRestDao userRestDao = UserRestDao.getInstance();
 
-        Observable<Boolean> observable = userRestDao.resendEmail(userToLogin);
+        Observable<Boolean> observable = userRestDao.resendEmail(activityLoginBinding.getUser());
 
         observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Boolean>() {
             @Override
@@ -192,65 +258,18 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, getString(R.string.send_mail_failed), Toast.LENGTH_LONG).show();
     }
 
-    private void saveUserName(User user){
-        UserService userService = new UserService(getApplication());
-
-        userService.logInUser(user) ;
-    }
-
-    private void login(){
-        UserRestDao userRestDao = UserRestDao.getInstance();
-
-        userToLogin.setPassword(Hashing.sha256().hashString(userToLogin.getPassword(), StandardCharsets.UTF_16).toString());
-
-        Observable<Integer> observable = userRestDao.login(userToLogin);
-
-        observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                disposables.add(d);
-                Log.i("Logging", "Subscribed");
-                onLogging();
-            }
-
-            @Override
-            public void onNext(Integer integer) {
-                Log.i("Logging", "Everything is ok");
-                userToLogin.setId(integer);
-                logIn(userToLogin);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                if(e instanceof HttpException && ((HttpException) e).code() == 401){
-                    String body  = (String) ((HttpException) e).response().body();
-
-                    if(TextAndNumberUtils.isNumber(body)){
-                        Log.w("Logging", "User not activated");
-                        askForResendingUserEmail(userToLogin);
-                    } else {
-                        Log.e("Logging", "User doesn't exist");
-                        onLoginError(getString(R.string.user_data_not_exists));
-                    }
-                } else {
-                    onLoginError(getString(R.string.unknown_exception_message));
-                }
-            }
-
-            @Override
-            public void onComplete() {
-            }
-        });
-    }
-
     @Override
     public void onBackPressed() {
-        if(disposables != null) {
-             disposables.dispose();
-        }
-
         Intent start = new Intent(this, StartActivity.class);
 
         startActivity(start);
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(disposables != null) {
+            disposables.dispose();
+        }
     }
 }

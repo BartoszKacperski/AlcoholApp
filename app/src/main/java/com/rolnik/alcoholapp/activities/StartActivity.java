@@ -2,35 +2,34 @@ package com.rolnik.alcoholapp.activities;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.rolnik.alcoholapp.dao.UserRestDao;
-import com.rolnik.alcoholapp.views.CustomProgressBar;
 import com.rolnik.alcoholapp.R;
-import com.rolnik.alcoholapp.utils.UserService;
+import com.rolnik.alcoholapp.dao.UserRestDao;
 import com.rolnik.alcoholapp.model.User;
+import com.rolnik.alcoholapp.restUtils.AsyncResponse;
+import com.rolnik.alcoholapp.restUtils.ResponseHandler;
+import com.rolnik.alcoholapp.utils.CookieService;
+import com.rolnik.alcoholapp.utils.UserService;
+import com.rolnik.alcoholapp.views.CustomProgressBar;
 import com.vstechlab.easyfonts.EasyFonts;
-
-import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends AppCompatActivity implements ResponseHandler<Response<Void>> {
 
     @BindView(R.id.title)
     TextView title;
@@ -61,7 +60,7 @@ public class StartActivity extends AppCompatActivity {
     private Handler registerHandler = new Handler();
     private Runnable registerRunnable;
 
-    private Disposable disposable;
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,19 +71,6 @@ public class StartActivity extends AppCompatActivity {
         changeTypeface(EasyFonts.captureIt(getApplication()));
 
         tryToAuthenticateUser();
-    }
-
-
-    private void changeTypeface(Typeface typeface){
-        title.setTypeface(typeface);
-        loginText.setTypeface(typeface);
-        registerText.setTypeface(typeface);
-    }
-
-    private void moveToMenu() {
-        Intent main = new Intent(this, MainActivity.class);
-
-        startActivity(main);
     }
 
 
@@ -143,59 +129,126 @@ public class StartActivity extends AppCompatActivity {
         startActivity(credits);
     }
 
-    private void onCheckingFailed(){
+    private void changeTypeface(Typeface typeface){
+        title.setTypeface(typeface);
+        loginText.setTypeface(typeface);
+        registerText.setTypeface(typeface);
+    }
+
+    private void moveToMenu() {
+        Intent main = new Intent(this, MainActivity.class);
+
+        startActivity(main);
+    }
+
+    private void showGUI(){
         TransitionManager.beginDelayedTransition(root);
+
         customProgressBar.endAnimation();
         customProgressBar.setVisibility(View.GONE);
         menuRoot.setVisibility(View.VISIBLE);
     }
 
-    private void onCheckingSuccess(){
-        customProgressBar.endAnimation();
+    private void hideGUI(){
+        TransitionManager.beginDelayedTransition(root);
+
+        menuRoot.setVisibility(View.GONE);
+        customProgressBar.setVisibility(View.VISIBLE);
+        customProgressBar.startAnimation();
+    }
+
+    private void logIn(String cookie) {
+        CookieService cookieService = new CookieService(this);
+
+        if(cookie != null && !cookie.isEmpty() && !cookieService.getCookie().equals(cookie)){
+           cookieService.saveCookie(cookie);
+        }
+
         moveToMenu();
     }
 
-    private void tryToAuthenticateUser(){
-        UserRestDao userRestDao = UserRestDao.getInstance();
-        UserService userService = new UserService(this);
+    @Override
+    public void onSubscribe(Disposable d) {
+        disposables.add(d);
+        hideGUI();
+    }
 
-        Observable<Integer> observable = userRestDao.login(userService.getLoggedUser());
-
-        observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                disposable = d;
-                customProgressBar.startAnimation();
-                Log.i("Checking user", "Subscribed");
-            }
-
-            @Override
-            public void onNext(Integer integer) {
-                if(integer == null){
-                    Log.w("Checking user", "User not valid");
-                    onCheckingFailed();
-                } else {
-                    Log.i("Checking user", "User valid, moving to menu");
-                    onCheckingSuccess();
+    @Override
+    public void onNext(Response<Void> response) {
+        if(response.isSuccessful()){
+            logIn(response.headers().get("Set-Cookie"));
+        } else {
+            switch (response.code()){
+                case 400: {
+                    onBadRequest();
+                    break;
+                }
+                case 401:{
+                    onNotAuthorized();
+                    break;
+                }
+                default: {
+                    onUnknownError();
+                    break;
                 }
             }
+        }
+    }
 
-            @Override
-            public void onError(Throwable e) {
-                onCheckingFailed();
-            }
+    @Override
+    public void onComplete() {
+        showGUI();
+    }
 
-            @Override
-            public void onComplete() {
+    @Override
+    public void onSocketTimeout() {
+        showError(getString(R.string.socket_timeout_exception));
+    }
 
-            }
-        });
+    @Override
+    public void onNotAuthorized() {
+
+    }
+
+    @Override
+    public void onBadRequest() {
+        showError(getString(R.string.user_data_not_exists));
+    }
+
+    @Override
+    public void onUnknownError() {
+        showError(getString(R.string.unknown_exception_message));
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        showGUI();
+    }
+
+    private Observable<Response<Void>> getPreparedObservable(User user){
+        UserRestDao userRestDao = UserRestDao.getInstance();
+
+        return userRestDao.login(user);
+    }
+
+    private void tryToAuthenticateUser(){
+        UserService userService = new UserService(this);
+
+        if(userService.checkIfUserLogged()){
+            AsyncResponse<Response<Void>> asyncResponse = new AsyncResponse<>(getPreparedObservable(userService.getLoggedUser()), this);
+
+            asyncResponse.execute();
+        } else {
+            showGUI();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         TransitionManager.beginDelayedTransition(root);
+
         loginText.setVisibility(View.GONE);
         registerText.setVisibility(View.GONE);
     }
@@ -204,8 +257,8 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        if(disposable != null){
-            disposable.dispose();
+        if(disposables != null){
+            disposables.dispose();
         }
     }
 }

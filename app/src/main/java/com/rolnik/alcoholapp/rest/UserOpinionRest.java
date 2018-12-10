@@ -15,8 +15,8 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface UserOpinionRest {
-    @GET("opinions/{Id}")
-    Observable<List<UserOpinion>> getUserOpinions(@Path("Id") int Id);
+    @GET("opinions/")
+    Observable<List<UserOpinion>> getUserOpinions();
     @PUT("sales/{Id}/like")
     Observable<Response<Void>> sendLike(@Path("Id") int Id, @Body int userId);
     @PUT("sales/{Id}/dislike")

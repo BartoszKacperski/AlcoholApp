@@ -1,14 +1,16 @@
 package com.rolnik.alcoholapp.dao;
 
 import com.rolnik.alcoholapp.model.User;
-import com.rolnik.alcoholapp.rest.RetrofitCreator;
 import com.rolnik.alcoholapp.rest.UserRest;
+import com.rolnik.alcoholapp.restUtils.RetrofitCreator;
 
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.Credentials;
+import retrofit2.Call;
 import retrofit2.Response;
 
 public class UserRestDao implements Dao<User> {
@@ -17,7 +19,7 @@ public class UserRestDao implements Dao<User> {
     private UserRest client;
 
     private UserRestDao() {
-        client = RetrofitCreator.createService(UserRest.class);
+        client = RetrofitCreator.createServiceWithCookieService(UserRest.class);
     }
 
 
@@ -58,11 +60,23 @@ public class UserRestDao implements Dao<User> {
         return client.register(user);
     }
 
-    public Observable<Integer> login(User user) throws HttpClientErrorException {
-        return client.login(user);
+    public Observable<Response<Void>> login(User user) throws HttpClientErrorException {
+        UserRest clientWithoutCookie = RetrofitCreator.createServiceWithoutCookieService(UserRest.class);
+
+        String credentials = Credentials.basic(user.getLogin(), user.getPassword());
+
+        return clientWithoutCookie.login(credentials);
     }
 
     public Observable<Boolean> resendEmail(User user) throws HttpClientErrorException{
         return client.resendEmail(user.getId());
+    }
+
+    public Call<Response<Void>> renewCookie(User user) throws HttpClientErrorException {
+        UserRest clientWithoutCookie = RetrofitCreator.createServiceWithoutCookieService(UserRest.class);
+
+        String credentials = Credentials.basic(user.getLogin(), user.getPassword());
+
+        return clientWithoutCookie.renewCookie(credentials);
     }
 }

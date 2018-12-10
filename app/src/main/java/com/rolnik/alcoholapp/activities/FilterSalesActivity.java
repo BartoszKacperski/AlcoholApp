@@ -1,27 +1,26 @@
 package com.rolnik.alcoholapp.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rolnik.alcoholapp.R;
-import com.rolnik.alcoholapp.adapters.CustomArrayAdapter;
 import com.rolnik.alcoholapp.dao.Dao;
 import com.rolnik.alcoholapp.dao.RestDaoFactory;
 import com.rolnik.alcoholapp.model.Kind;
 import com.rolnik.alcoholapp.model.Shop;
+import com.rolnik.alcoholapp.restUtils.AsyncResponse;
+import com.rolnik.alcoholapp.restUtils.ResponseHandler;
 import com.rolnik.alcoholapp.views.CustomProgressBar;
 
 import java.util.List;
@@ -29,14 +28,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
-import io.reactivex.schedulers.Schedulers;
 
-public class FilterSalesActivity extends AppCompatActivity {
+public class FilterSalesActivity extends AppCompatActivity implements ResponseHandler<Pair<List<Kind>, List<Shop>>> {
     @BindView(R.id.root)
     ConstraintLayout root;
 
@@ -78,63 +74,91 @@ public class FilterSalesActivity extends AppCompatActivity {
     public void search(View view) {
         Intent search = new Intent(this, SearchSalesActivity.class);
 
-        search.putExtra(getString(R.string.kind), (Kind)kinds.getSelectedItem());
-        search.putExtra(getString(R.string.shop), (Shop)shops.getSelectedItem());
+        search.putExtra(getString(R.string.kind), (Kind) kinds.getSelectedItem());
+        search.putExtra(getString(R.string.shop), (Shop) shops.getSelectedItem());
 
         startActivity(search);
     }
 
-    private void initializeAutoText(){
+    @Override
+    public void onSubscribe(Disposable d) {
+        disposables.add(d);
+        hideGUI();
+    }
+
+    @Override
+    public void onNext(Pair<List<Kind>, List<Shop>> listListPair) {
+        initializeKinds(listListPair.first);
+        initializeShops(listListPair.second);
+    }
+
+    @Override
+    public void onComplete() {
+        showGUI();
+    }
+
+    @Override
+    public void onSocketTimeout() {
+        showError(getString(R.string.socket_timeout_exception));
+    }
+
+    @Override
+    public void onNotAuthorized() {
+        showError(getString(R.string.authorization_exception));
+    }
+
+    @Override
+    public void onBadRequest() {
+        showError(getString(R.string.add_sale_exception));
+    }
+
+    @Override
+    public void onUnknownError() {
+        showError(getString(R.string.unknown_exception_message));
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        showGUI();
+    }
+
+    private Observable<Pair<List<Kind>, List<Shop>>> getPreparedObservable() {
         Dao<Kind> kindDao = RestDaoFactory.getKindDao();
         Dao<Shop> shopDao = RestDaoFactory.getShopDao();
 
         Observable<List<Kind>> kinds = kindDao.getAll();
         Observable<List<Shop>> shops = shopDao.getAll();
 
-        Observable.combineLatest(kinds, shops, new BiFunction<List<Kind>, List<Shop>, Pair<List<Kind>, List<Shop>>>() {
+        return Observable.zip(kinds, shops, new BiFunction<List<Kind>, List<Shop>, Pair<List<Kind>, List<Shop>>>() {
             @Override
             public Pair<List<Kind>, List<Shop>> apply(List<Kind> kinds, List<Shop> shops) {
                 return new Pair<>(kinds, shops);
             }
-        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Pair<List<Kind>, List<Shop>>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                disposables.add(d);
-                Log.i("Initialize autoText", "Subscribed");
-                customProgressBar.startAnimation();
-            }
-
-            @Override
-            public void onNext(Pair<List<Kind>, List<Shop>> result) {
-                initializeKinds(result.first);
-                initializeShops(result.second);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                moveToMain();
-            }
-
-            @Override
-            public void onComplete() {
-                Log.i("Initialize autoText", "All autoText filled");
-                showUI();
-            }
         });
     }
 
-    private void moveToMain() {
-        Intent intent = new Intent(this, MainActivity.class);
+    private void initializeAutoText() {
+        AsyncResponse<Pair<List<Kind>, List<Shop>>> asyncResponse = new AsyncResponse<>(getPreparedObservable(), this);
 
-        startActivity(intent);
+        asyncResponse.execute();
     }
 
-    private void showUI() {
+
+    private void showGUI() {
         TransitionManager.beginDelayedTransition(root);
 
         customProgressBar.endAnimation();
         customProgressBar.setVisibility(View.GONE);
         filterRoot.setVisibility(View.VISIBLE);
+    }
+
+    private void hideGUI() {
+        TransitionManager.beginDelayedTransition(root);
+
+        filterRoot.setVisibility(View.GONE);
+        customProgressBar.setVisibility(View.VISIBLE);
+        customProgressBar.startAnimation();
     }
 
     private void initializeKinds(List<Kind> kindsList) {
@@ -151,10 +175,10 @@ public class FilterSalesActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
 
-        if(disposables != null){
+        if (disposables != null) {
             disposables.dispose();
         }
     }

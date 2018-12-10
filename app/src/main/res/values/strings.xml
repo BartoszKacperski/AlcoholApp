@@ -25,9 +25,6 @@
     <string name="password">Hasło</string>
     <string name="repeat_password">Powtórz hasło</string>
     <string name="email">Email</string>
-    <string name="preference_login">login_pref</string>
-    <string name="user_id">user_id</string>
-    <string name="user_login">user_login</string>
     <string name="welcome">Witaj %1$s !</string>
     <string name="logout">Wyloguj</string>
     <string name="sort">Sortowanie</string>
@@ -64,9 +61,9 @@
 
     <string name="send_mail_failed">Nie udało się wysłać maila</string>
     <string name="send_mail_success">Mail został wysłany, sprawdź folder SPAM</string>
-
+    <string name="add_sale_success">Pomyślnie dodano promocję</string>
     #EXCEPTIONS
-    <string name="unknown_exception_message">Wystąpił nieoczekiwany problem</string>
+    <string name="unknown_exception_message">Wystąpił nieoczekiwany problem, spróbuj ponownie za chwilę</string>
     <string name="user_not_exists">Podany użytkownik nie istnieje</string>
     <string name="user_data_not_exists">Podane dane są nieprawidłowe</string>
     <string name="user_not_valid">Dane są niepoprawne!</string>
@@ -78,4 +75,16 @@
     <string name="user_add_already_exist_excpetion">Użytkownik już istnieje</string>
     <string name="download_sale_exception">Nie udało się pobrać promocji</string>
     <string name="download_alcohol_of_kind">Nie udało się pobrać alkoholu o rodzaju %s</string>
+    <string name="socket_timeout_exception">Wystąpił problem z połączeniem</string>
+    <string name="authorization_exception">Problem z autoryzacją</string>
+    #SHARED_PREFERENCES
+    <string name="preference_login">login_pref</string>
+    <string name="user_id">user_id</string>
+    <string name="user_login">user_login</string>
+    <string name="user_email">user_email</string>
+    <string name="user_password">user_password</string>
+
+    <string name="preference_auth">auth_pref</string>
+    <string name="cookie">cookie</string>
+
 </resources>

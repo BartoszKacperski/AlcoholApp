@@ -2,7 +2,6 @@ package com.rolnik.alcoholapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
@@ -26,6 +24,8 @@ import com.rolnik.alcoholapp.model.Kind;
 import com.rolnik.alcoholapp.model.Sale;
 import com.rolnik.alcoholapp.model.Shop;
 import com.rolnik.alcoholapp.model.UserOpinion;
+import com.rolnik.alcoholapp.restUtils.AsyncResponse;
+import com.rolnik.alcoholapp.restUtils.ResponseHandler;
 import com.rolnik.alcoholapp.utils.CustomItemDecorator;
 import com.rolnik.alcoholapp.utils.ItemClickListener;
 import com.rolnik.alcoholapp.utils.OpinionsClickListener;
@@ -47,7 +47,7 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 
-public class SearchSalesActivity extends AppCompatActivity {
+public class SearchSalesActivity extends AppCompatActivity implements ResponseHandler<List<Sale>> {
     @BindView(R.id.root)
     ConstraintLayout root;
     @BindView(R.id.searchRoot)
@@ -82,6 +82,9 @@ public class SearchSalesActivity extends AppCompatActivity {
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
+    private Shop shop;
+    private Kind kind;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,12 +92,14 @@ public class SearchSalesActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         if(!this.getIntent().hasExtra(getString(R.string.kind)) && !this.getIntent().hasExtra(getString(R.string.shop))){
-            moveToFilter();
+            this.finish();
         } else {
             initializeRefreshLayout();
             initializeAlcoholName();
             initializeSalesRecyclerView(new ArrayList<Sale>());
-            downloadSales((Shop)getIntent().getSerializableExtra(getString(R.string.shop)), (Kind)getIntent().getSerializableExtra(getString(R.string.kind)));
+            kind = (Kind)getIntent().getSerializableExtra(getString(R.string.kind));
+            shop = (Shop)getIntent().getSerializableExtra(getString(R.string.shop));
+            downloadSales();
         }
     }
 
@@ -161,8 +166,6 @@ public class SearchSalesActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     private void initializeSalesRecyclerView(List<Sale> salesList) {
         adapter = new SalesAdapter(getApplication(), getItemClickListener(), getOpinionsClickListener(), salesList);
@@ -281,6 +284,7 @@ public class SearchSalesActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 if (adapter.getItemCount() > 0) {
+                    downloadSales();
                 } else {
                     refreshLayout.setRefreshing(false);
                 }
@@ -290,57 +294,75 @@ public class SearchSalesActivity extends AppCompatActivity {
     }
 
 
-
-
-    private void moveToFilter() {
-        Intent filter = new Intent(this, FilterSalesActivity.class);
-
-        startActivity(filter);
-    }
-
     private void loadUI(){
         TransitionManager.beginDelayedTransition(root);
         refreshLayout.setRefreshing(false);
     }
 
-    private void onDownloading() {
+    @Override
+    public void onSubscribe(Disposable d) {
+        disposables.add(d);
         refreshLayout.setRefreshing(true);
         adapter.clear();
     }
 
-    private void onDownloadSuccess(List<Sale> sales) {
+    @Override
+    public void onNext(List<Sale> sales) {
         loadUI();
         adapter.addAll(sales);
     }
 
-    private void onDownloadError(String message) {
-        loadUI();
+    @Override
+    public void onComplete() {
+        //TODO co tu może być
+    }
+
+    @Override
+    public void onSocketTimeout() {
+        showError(getString(R.string.socket_timeout_exception));
+    }
+
+    @Override
+    public void onNotAuthorized() {
+        showError(getString(R.string.authorization_exception));
+    }
+
+    @Override
+    public void onBadRequest() {
+        this.onUnknownError();
+    }
+
+    @Override
+    public void onUnknownError() {
+        showError(getString(R.string.unknown_exception_message));
+    }
+
+    @Override
+    public void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
-    private void downloadSales(Shop shop, Kind kind){
+    private Observable<List<Sale>> prepareSaleWithOpinions() {
         SaleRestDao saleRestDao = SaleRestDao.getInstance();
         UserOpinionRestDao userOpinionRestDao = UserOpinionRestDao.getInstance();
-        UserService userService = new UserService(this);
 
-        Observable<List<UserOpinion>> userOpinions = userOpinionRestDao.getUserOpinions(userService.getLoggedUser());
+        Observable<List<UserOpinion>> userOpinions = userOpinionRestDao.getUserOpinions();
         Observable<List<Sale>> sales;
 
-        if(shop == null){
+        if (shop == null) {
             sales = saleRestDao.getAllWhereKind(kind.getId());
-        } else if (kind == null){
+        } else if (kind == null) {
             sales = saleRestDao.getAllWhereShop(shop.getId());
         } else {
             sales = saleRestDao.getAllWhere(shop.getId(), kind.getId());
         }
-
-        Observable.zip(sales, userOpinions, new BiFunction<List<Sale>, List<UserOpinion>, List<Sale>>() {
+        return Observable.zip(sales, userOpinions, new BiFunction<List<Sale>, List<UserOpinion>, List<Sale>>() {
             @Override
-            public List<Sale> apply(List<Sale> sales, List<UserOpinion> userOpinions){
-                for(Sale sale : sales) {
-                    for(UserOpinion userOpinion : userOpinions){
-                        if(userOpinion.getSaleId() == sale.getId()){
-                            if(userOpinion.getOpinion() == UserOpinion.LIKE){
+            public List<Sale> apply(List<Sale> sales1, List<UserOpinion> userOpinions1) throws Exception {
+                for (Sale sale : sales1) {
+                    for (UserOpinion userOpinion : userOpinions1) {
+                        if (userOpinion.getSaleId() == sale.getId()) {
+                            if (userOpinion.getOpinion() == UserOpinion.LIKE) {
                                 sale.setWasLiked(true);
                                 sale.setWasDisliked(false);
                             } else {
@@ -350,39 +372,24 @@ public class SearchSalesActivity extends AppCompatActivity {
                         }
                     }
                 }
-                return sales;
-            }
-        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<Sale>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                disposables.add(d);
-                onDownloading();
-                Log.i("Downloading sales", "Subscribed");
-            }
-
-            @Override
-            public void onNext(List<Sale> sales) {
-                onDownloadSuccess(sales);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.e("Download sales", "Exception " + e.getCause() + " " +  e.getMessage() + " occurs");
-                onDownloadError(getString(R.string.unknown_exception_message));
-            }
-
-            @Override
-            public void onComplete() {
-
+                return sales1;
             }
         });
     }
 
 
-    @Override
-    public void onBackPressed() {
-        Intent main = new Intent(this, MainActivity.class);
+    private void downloadSales(){
+        AsyncResponse<List<Sale>> asyncResponse = new AsyncResponse<>(prepareSaleWithOpinions(), this);
 
-        startActivity(main);
+        asyncResponse.execute();
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+
+        if(disposables != null){
+            disposables.dispose();
+        }
     }
 }

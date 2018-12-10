@@ -1,20 +1,13 @@
 package com.rolnik.alcoholapp.dao;
 
-import android.databinding.ObservableList;
-
-import com.rolnik.alcoholapp.model.Rate;
 import com.rolnik.alcoholapp.model.User;
 import com.rolnik.alcoholapp.model.UserOpinion;
-import com.rolnik.alcoholapp.rest.RetrofitCreator;
+import com.rolnik.alcoholapp.restUtils.RetrofitCreator;
 import com.rolnik.alcoholapp.rest.UserOpinionRest;
-
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
 import io.reactivex.Observable;
-import lombok.Getter;
 import retrofit2.Response;
 
 public class UserOpinionRestDao {
@@ -23,7 +16,7 @@ public class UserOpinionRestDao {
     private UserOpinionRest client;
 
     private UserOpinionRestDao() {
-        client = RetrofitCreator.createService(UserOpinionRest.class);
+        client = RetrofitCreator.createServiceWithCookieService(UserOpinionRest.class);
     }
 
     public synchronized static UserOpinionRestDao getInstance() {
@@ -34,8 +27,8 @@ public class UserOpinionRestDao {
         return INSTANCE;
     }
 
-    public Observable<List<UserOpinion>> getUserOpinions(User user){
-        return client.getUserOpinions(user.getId());
+    public Observable<List<UserOpinion>> getUserOpinions(){
+        return client.getUserOpinions();
     }
 
     public Observable<Response<Void>> sendLike(User user){

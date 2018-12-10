@@ -1,7 +1,7 @@
 package com.rolnik.alcoholapp.dao;
 
 import com.rolnik.alcoholapp.model.Shop;
-import com.rolnik.alcoholapp.rest.RetrofitCreator;
+import com.rolnik.alcoholapp.restUtils.RetrofitCreator;
 import com.rolnik.alcoholapp.rest.ShopRest;
 
 import org.springframework.web.client.HttpClientErrorException;
@@ -17,7 +17,7 @@ public class ShopRestDao implements Dao<Shop> {
     private ShopRest client;
 
     private ShopRestDao() {
-        client = RetrofitCreator.createService(ShopRest.class);
+        client = RetrofitCreator.createServiceWithCookieService(ShopRest.class);
     }
 
     public synchronized static ShopRestDao getInstance() {

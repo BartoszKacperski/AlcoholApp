@@ -1,7 +1,7 @@
 package com.rolnik.alcoholapp.dao;
 
 import com.rolnik.alcoholapp.model.Sale;
-import com.rolnik.alcoholapp.rest.RetrofitCreator;
+import com.rolnik.alcoholapp.restUtils.RetrofitCreator;
 import com.rolnik.alcoholapp.rest.SaleRest;
 
 import org.springframework.web.client.HttpClientErrorException;
@@ -17,7 +17,7 @@ public class SaleRestDao implements Dao<Sale> {
     private SaleRest client;
 
     private SaleRestDao() {
-        client = RetrofitCreator.createService(SaleRest.class);
+        client = RetrofitCreator.createServiceWithCookieService(SaleRest.class);
     }
 
     public synchronized static SaleRestDao getInstance() {
@@ -65,7 +65,7 @@ public class SaleRestDao implements Dao<Sale> {
         return client.getAllWhereKind(kindId);
     }
 
-    public Observable<List<Sale>> getUserSales(int userId) throws HttpClientErrorException {
-        return client.getUserSales(userId);
+    public Observable<List<Sale>> getUserSales() throws HttpClientErrorException {
+        return client.getUserSales();
     }
 }

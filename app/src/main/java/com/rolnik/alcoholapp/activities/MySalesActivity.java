@@ -1,43 +1,35 @@
 package com.rolnik.alcoholapp.activities;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.rolnik.alcoholapp.restUtils.AsyncResponse;
+import com.rolnik.alcoholapp.restUtils.ResponseHandler;
 import com.rolnik.alcoholapp.utils.CustomItemDecorator;
 import com.rolnik.alcoholapp.utils.ItemClickListener;
 import com.rolnik.alcoholapp.R;
-import com.rolnik.alcoholapp.utils.UserService;
 import com.rolnik.alcoholapp.adapters.SalesEditAdapter;
 import com.rolnik.alcoholapp.dao.SaleRestDao;
 import com.rolnik.alcoholapp.model.Sale;
-import com.rolnik.alcoholapp.model.User;
 import com.rolnik.alcoholapp.views.CustomProgressBar;
 
-import org.springframework.web.client.HttpClientErrorException;
-
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.HttpException;
 
-public class MySalesActivity extends AppCompatActivity {
+public class MySalesActivity extends AppCompatActivity implements ResponseHandler<List<Sale>> {
     @BindView(R.id.root)
     ConstraintLayout root;
     @BindView(R.id.customProgressBar)
@@ -48,7 +40,7 @@ public class MySalesActivity extends AppCompatActivity {
     RecyclerView mySales;
 
     private SalesEditAdapter adapter;
-    private Disposable disposable;
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,88 +76,90 @@ public class MySalesActivity extends AppCompatActivity {
         };
     }
 
-    private void onDownloading() {
+    private void showGUI(){
         TransitionManager.beginDelayedTransition(root);
-        mySalesRoot.setVisibility(View.GONE);
-        customProgressBar.startAnimation();
-        customProgressBar.setVisibility(View.VISIBLE);
-    }
 
-    private void showUI(){
-        TransitionManager.beginDelayedTransition(root);
         customProgressBar.endAnimation();
         customProgressBar.setVisibility(View.GONE);
         mySalesRoot.setVisibility(View.VISIBLE);
     }
 
-    private void onDownloadSuccess() {
-        showUI();
+    private void hideGUI(){
+        TransitionManager.beginDelayedTransition(root);
+
+        mySalesRoot.setVisibility(View.GONE);
+        customProgressBar.setVisibility(View.VISIBLE);
+        customProgressBar.endAnimation();
     }
 
-    private void onDownloadError(String message){
-        showUI();
+    @Override
+    public void onSubscribe(Disposable d) {
+        disposables.add(d);
+        hideGUI();
+    }
+
+    @Override
+    public void onNext(List<Sale> sales) {
+        adapter.addAll(sales);
+    }
+
+    @Override
+    public void onComplete() {
+        showGUI();
+    }
+
+    @Override
+    public void onSocketTimeout() {
+        showError(getString(R.string.socket_timeout_exception));
+    }
+
+    @Override
+    public void onNotAuthorized() {
+        showError(getString(R.string.authorization_exception));
+    }
+
+    @Override
+    public void onBadRequest() {
+        showError(getString(R.string.download_sale_exception));
+    }
+
+    @Override
+    public void onUnknownError() {
+        showError(getString(R.string.unknown_exception_message));
+    }
+
+    @Override
+    public void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        showGUI();
+    }
+
+    private Observable<List<Sale>> getPreparedObservable(){
+        SaleRestDao saleRestDao = SaleRestDao.getInstance();
+
+        return saleRestDao.getUserSales();
     }
 
     private void downloadMySales(){
-        UserService userService = new UserService(this);
-        SaleRestDao saleRestDao = SaleRestDao.getInstance();
+        AsyncResponse<List<Sale>> asyncResponse = new AsyncResponse<>(getPreparedObservable(), this);
 
-        Observable<List<Sale>> observable = saleRestDao.getUserSales(userService.getLoggedUserId());
-
-        observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<Sale>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                disposable = d;
-                onDownloading();
-                Log.e("Download my sales", "Subscribed");
-            }
-
-            @Override
-            public void onNext(List<Sale> sales) {
-                Log.i("Download my sales", "Everthing is ok");
-                adapter.addAll(sales);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.e("Download my sales", "Exception " + e.getCause() + "occurs");
-                if(e instanceof HttpException){
-                    showErrorDependsOnHttpStatus((HttpException) e);
-                } else {
-                    onDownloadError(getString(R.string.unknown_exception_message));
-                }
-            }
-
-            @Override
-            public void onComplete() {
-                onDownloadSuccess();
-            }
-        });
-
-    }
-
-    private void showErrorDependsOnHttpStatus(HttpException exception){
-        switch (exception.code()){
-            case 404: {
-                onDownloadError(getString(R.string.download_my_sale_exception));
-                break;
-            }
-            default: {
-                onDownloadError(getString(R.string.unknown_exception_message));
-                break;
-            }
-        }
+        asyncResponse.execute();
     }
 
     @Override
     public void onBackPressed() {
-        if(disposable != null){
-            disposable.dispose();
-        }
-
         Intent main = new Intent(this, MainActivity.class);
 
         startActivity(main);
     }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(disposables != null){
+            disposables.dispose();
+        }
+
+    }
+
 }

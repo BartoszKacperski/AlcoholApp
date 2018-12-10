@@ -21,7 +21,6 @@ public class Sale extends BaseObservable implements Serializable {
     private Shop shop;
     private double price;
     private Rate rate;
-    private User user;
     @JsonIgnore
     private boolean wasLiked;
     @JsonIgnore
@@ -75,16 +74,6 @@ public class Sale extends BaseObservable implements Serializable {
     public void setRate(Rate rate) {
         this.rate = rate;
         notifyPropertyChanged(BR.rate);
-    }
-
-    @Bindable
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-        notifyPropertyChanged(BR.user);
     }
 
     @Bindable

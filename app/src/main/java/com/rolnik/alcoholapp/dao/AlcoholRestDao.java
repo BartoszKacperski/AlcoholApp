@@ -3,7 +3,7 @@ package com.rolnik.alcoholapp.dao;
 import com.rolnik.alcoholapp.model.Alcohol;
 import com.rolnik.alcoholapp.model.Kind;
 import com.rolnik.alcoholapp.rest.AlcoholRest;
-import com.rolnik.alcoholapp.rest.RetrofitCreator;
+import com.rolnik.alcoholapp.restUtils.RetrofitCreator;
 
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -19,7 +19,7 @@ public class AlcoholRestDao implements Dao<Alcohol> {
     private AlcoholRest client;
 
     private AlcoholRestDao(){
-        client = RetrofitCreator.createService(AlcoholRest.class);
+        client = RetrofitCreator.createServiceWithCookieService(AlcoholRest.class);
     }
 
     public synchronized static AlcoholRestDao getInstance(){

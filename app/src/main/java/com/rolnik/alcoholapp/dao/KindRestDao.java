@@ -2,7 +2,7 @@ package com.rolnik.alcoholapp.dao;
 
 import com.rolnik.alcoholapp.model.Kind;
 import com.rolnik.alcoholapp.rest.KindRest;
-import com.rolnik.alcoholapp.rest.RetrofitCreator;
+import com.rolnik.alcoholapp.restUtils.RetrofitCreator;
 
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -17,7 +17,7 @@ public class KindRestDao implements Dao<Kind> {
     private KindRest client;
 
     private KindRestDao(){
-        client = RetrofitCreator.createService(KindRest.class);
+        client = RetrofitCreator.createServiceWithCookieService(KindRest.class);
     }
 
     public synchronized static KindRestDao getInstance(){

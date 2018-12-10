@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.rolnik.alcoholapp.R;
+import com.rolnik.alcoholapp.utils.CookieService;
 import com.rolnik.alcoholapp.utils.UserService;
 import com.vstechlab.easyfonts.EasyFonts;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     TextView welcomeText;
 
     private UserService userService;
+    private CookieService cookieService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         userService = new UserService(this);
+        cookieService = new CookieService(this);
 
         if(!userService.checkIfUserLogged()){
             moveToStartActivity();
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void logOut(View view) {
         userService.logOutUser();
+        cookieService.deleteCookie();
         moveToStartActivity();
     }
 

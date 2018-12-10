@@ -19,8 +19,8 @@ public class UserService {
         this.sharedPreferences = context.getSharedPreferences(sharedPreferencesName, Context.MODE_PRIVATE);
         this.userIdKey = context.getString(R.string.user_id);
         this.userLoginKey = context.getString(R.string.user_login);
-        this.userEmailKey = context.getString(R.string.email);
-        this.userPasswordKey = context.getString(R.string.password);
+        this.userEmailKey = context.getString(R.string.user_email);
+        this.userPasswordKey = context.getString(R.string.user_password);
     }
 
     public void logOutUser() {
@@ -60,7 +60,7 @@ public class UserService {
         return sharedPreferences.getInt(userIdKey, -1);
     }
 
-    private String getLoggedUserPassword(){
+    public String getLoggedUserPassword(){
         return sharedPreferences.getString(userPasswordKey, "");
     }
 
@@ -74,4 +74,5 @@ public class UserService {
 
         return user;
     }
+
 }
