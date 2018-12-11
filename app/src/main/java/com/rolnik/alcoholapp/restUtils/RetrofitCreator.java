@@ -59,7 +59,7 @@ public class RetrofitCreator {
         };
     }
 
-    private static OkHttpClient getClient(){
+    private static OkHttpClient getClientWithCookieService(){
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
         builder.addInterceptor(getLoggingInterceptor());
@@ -68,11 +68,19 @@ public class RetrofitCreator {
         return builder.build();
     }
 
+    private static OkHttpClient getClientWithoutCookieService(){
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+        builder.addInterceptor(getLoggingInterceptor());
+
+        return builder.build();
+    }
+
     public static <T> T createServiceWithCookieService(Class<T> classType){
-        return builder.client(getClient()).build().create(classType);
+        return builder.client(getClientWithCookieService()).build().create(classType);
     }
 
     public static <T> T createServiceWithoutCookieService(Class<T> classType){
-        return builder.build().create(classType);
+        return builder.client(getClientWithoutCookieService()).build().create(classType);
     }
 }
