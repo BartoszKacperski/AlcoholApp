@@ -1,5 +1,6 @@
 package com.rolnik.alcoholapp.dao;
 
+import com.rolnik.alcoholapp.model.Sale;
 import com.rolnik.alcoholapp.model.User;
 import com.rolnik.alcoholapp.model.UserOpinion;
 import com.rolnik.alcoholapp.restUtils.RetrofitCreator;
@@ -31,11 +32,11 @@ public class UserOpinionRestDao {
         return client.getUserOpinions();
     }
 
-    public Observable<Response<Void>> sendLike(User user){
-        return client.sendLike(user.getId(), user.getId());
+    public Observable<Response<Void>> sendLike(Sale sale){
+        return client.sendLike(sale.getId());
     }
 
-    public Observable<Response<Void>> sendDislike(User user){
-        return client.sendDislike(user.getId(), user.getId());
+    public Observable<Response<Void>> sendDislike(Sale sale){
+        return client.sendDislike(sale.getId());
     }
 }

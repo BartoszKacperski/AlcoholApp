@@ -207,9 +207,8 @@ public class SearchSalesActivity extends AppCompatActivity implements ResponseHa
 
     private void sendLike(final Sale sale) {
         UserOpinionRestDao userOpinionRestDao = UserOpinionRestDao.getInstance();
-        UserService userService = new UserService(this);
 
-        Observable<Response<Void>> observable = userOpinionRestDao.sendLike(userService.getLoggedUser());
+        Observable<Response<Void>> observable = userOpinionRestDao.sendLike(sale);
 
         observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Response<Void>>() {
             @Override
@@ -241,9 +240,8 @@ public class SearchSalesActivity extends AppCompatActivity implements ResponseHa
 
     private void sendDislike(final Sale sale) {
         UserOpinionRestDao userOpinionRestDao = UserOpinionRestDao.getInstance();
-        UserService userService = new UserService(this);
 
-        Observable<Response<Void>> observable = userOpinionRestDao.sendDislike(userService.getLoggedUser());
+        Observable<Response<Void>> observable = userOpinionRestDao.sendDislike(sale);
 
         observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Response<Void>>() {
             @Override

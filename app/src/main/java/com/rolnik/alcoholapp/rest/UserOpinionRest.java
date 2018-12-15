@@ -18,8 +18,8 @@ public interface UserOpinionRest {
     @GET("opinions/")
     Observable<List<UserOpinion>> getUserOpinions();
     @PUT("sales/{Id}/like")
-    Observable<Response<Void>> sendLike(@Path("Id") int Id, @Body int userId);
+    Observable<Response<Void>> sendLike(@Path("Id") int Id);
     @PUT("sales/{Id}/dislike")
-    Observable<Response<Void>> sendDislike(@Path("Id") int Id, @Body int userId);
+    Observable<Response<Void>> sendDislike(@Path("Id") int Id);
 
 }

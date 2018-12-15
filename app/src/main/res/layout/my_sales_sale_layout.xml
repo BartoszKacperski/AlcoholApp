@@ -11,7 +11,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/sale_layout_background">
+        android:background="@drawable/sale_layout_background"
+        android:backgroundTint="@color/lightSalomon">
 
         <TextView
             android:id="@+id/name"
@@ -19,11 +20,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:text="@{Sale.alcohol.name}"
-            android:textColor="@color/lightSalomon"
+            android:textColor="@color/grey"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,11 +32,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:text="@{Sale.shop.name}"
-            android:textColor="@color/lightSalomon"
+            android:textColor="@color/grey"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/name"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,10 +46,25 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="@{BindingConverters.currencyDoubleToString(Sale.price)}"
-            android:textColor="@color/lightSalomon"
+            android:textColor="@color/grey"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/shop"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name" />
+
+        <ImageButton
+            android:id="@+id/remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/border_rectangle_button"
+            android:backgroundTint="@color/grey"
+            android:contentDescription="@string/remove"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/bin" />
     </android.support.constraint.ConstraintLayout>
 </layout>

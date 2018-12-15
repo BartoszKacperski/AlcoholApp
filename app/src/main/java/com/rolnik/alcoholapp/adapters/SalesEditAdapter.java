@@ -12,6 +12,7 @@ import com.rolnik.alcoholapp.utils.ItemClickListener;
 import com.rolnik.alcoholapp.R;
 import com.rolnik.alcoholapp.databinding.MySalesSaleLayoutBinding;
 import com.rolnik.alcoholapp.model.Sale;
+import com.rolnik.alcoholapp.utils.MySalesClickListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,9 +24,9 @@ public class SalesEditAdapter extends RecyclerView.Adapter<SalesEditAdapter.MyVi
     private List<Sale> sales;
     private Context myContext;
     private LayoutInflater layoutInflater;
-    private ItemClickListener itemClickListener;
+    private MySalesClickListener itemClickListener;
 
-    public SalesEditAdapter(Context context, ItemClickListener itemClickListener) {
+    public SalesEditAdapter(Context context, MySalesClickListener itemClickListener) {
         this.sales = new ArrayList<>();
         this.myContext = context;
         this.itemClickListener = itemClickListener;
@@ -72,7 +73,7 @@ public class SalesEditAdapter extends RecyclerView.Adapter<SalesEditAdapter.MyVi
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private MySalesSaleLayoutBinding mySalesSaleLayoutBinding;
 
-        public MyViewHolder(MySalesSaleLayoutBinding mySalesSaleLayoutBinding, final ItemClickListener itemClickListener) {
+        public MyViewHolder(MySalesSaleLayoutBinding mySalesSaleLayoutBinding, final MySalesClickListener itemClickListener) {
             super(mySalesSaleLayoutBinding.getRoot());
             this.mySalesSaleLayoutBinding = mySalesSaleLayoutBinding;
 
@@ -80,6 +81,13 @@ public class SalesEditAdapter extends RecyclerView.Adapter<SalesEditAdapter.MyVi
                 @Override
                 public void onClick(View v) {
                     itemClickListener.onClick(v, getAdapterPosition());
+                }
+            });
+
+            mySalesSaleLayoutBinding.getRoot().findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    itemClickListener.onDelete(getAdapterPosition());
                 }
             });
         }

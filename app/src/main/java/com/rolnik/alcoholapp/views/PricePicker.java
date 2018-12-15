@@ -47,9 +47,6 @@ public class PricePicker extends LinearLayout {
         digits = findViewById(R.id.digits);
     }
 
-    private void changePikcerColor(View view) {
-
-    }
 
     private void initializeValues() {
         ones.setMinValue(onesMin);
@@ -57,6 +54,11 @@ public class PricePicker extends LinearLayout {
 
         digits.setMinValue(digitsMin);
         digits.setMaxValue(digitsMax);
+    }
+
+    public void setPrice(int onesValue, int digitsValue){
+        ones.setValue(onesValue);
+        digits.setValue(digitsValue);
     }
 
     public double getDoublePrice(){

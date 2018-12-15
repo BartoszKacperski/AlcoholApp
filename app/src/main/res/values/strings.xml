@@ -62,6 +62,7 @@
     <string name="send_mail_failed">Nie udało się wysłać maila</string>
     <string name="send_mail_success">Mail został wysłany, sprawdź folder SPAM</string>
     <string name="add_sale_success">Pomyślnie dodano promocję</string>
+    <string name="edit_sale_succes">Pomyślnie edytowano promocje</string>
     #EXCEPTIONS
     <string name="unknown_exception_message">Wystąpił nieoczekiwany problem, spróbuj ponownie za chwilę</string>
     <string name="user_not_exists">Podany użytkownik nie istnieje</string>

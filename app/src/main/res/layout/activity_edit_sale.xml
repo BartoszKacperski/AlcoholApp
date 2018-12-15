@@ -27,7 +27,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="5dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,45 +52,44 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintStart_toEndOf="@+id/images"
             app:layout_constraintTop_toBottomOf="@+id/images">
 
-            <AutoCompleteTextView
+            <TextView
                 android:id="@+id/shops"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@{Sale.shop.name}"
+                android:text="@{Sale.shop.name}"
+                android:textColor="@color/lightSalomon"
                 android:textColorHint="@color/lightSalomon"
                 android:textSize="25sp"
-                android:textColor="@color/lightSalomon"
                 app:autoSizeMaxTextSize="25sp"
                 app:autoSizeMinTextSize="15sp"
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
 
-            <AutoCompleteTextView
+            <TextView
                 android:id="@+id/alcohols"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@{Sale.alcohol.name}"
+                android:text="@{Sale.alcohol.name}"
+                android:textColor="@color/lightSalomon"
                 android:textColorHint="@color/lightSalomon"
                 android:textSize="25sp"
-                android:textColor="@color/lightSalomon"
                 app:autoSizeMaxTextSize="25sp"
                 app:autoSizeMinTextSize="15sp"
                 app:autoSizeStepGranularity="1sp"
                 app:autoSizeTextType="uniform" />
 
-            <EditText
+            <TextView
                 android:id="@+id/price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:layout_marginBottom="5dp"
                 android:background="@color/grey"
-                android:hint="@string/price"
-                android:inputType="text"
+                android:onClick="pickPrice"
                 android:text="@={BindingConverters.currencyDoubleToString(Sale.price)}"
                 android:textColor="@color/lightSalomon"
                 android:textColorHint="@color/lightSalomon"
@@ -108,7 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/description">
 
@@ -177,26 +176,12 @@
             android:id="@+id/updateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
             android:layout_marginBottom="32dp"
             android:background="@drawable/border_rectangle_button"
             android:backgroundTint="@color/lightSalomon"
             android:onClick="update"
             android:text="@string/update"
-            android:textColor="@color/grey"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="95dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/border_rectangle_button"
-            android:backgroundTint="@color/lightSalomon"
-            android:onClick="remove"
-            android:text="@string/remove"
             android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

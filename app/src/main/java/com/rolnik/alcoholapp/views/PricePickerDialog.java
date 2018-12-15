@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -38,6 +39,19 @@ public class PricePickerDialog extends Dialog {
                 closeDialog();
             }
         });
+    }
+
+    public void setPrice(int ones, int digits){
+        pricePicker.setPrice(ones, digits);
+    }
+
+    public void setPrice(double price){
+        String priceString = Double.toString(price);
+
+        int ones = Integer.valueOf(priceString.substring(0, priceString.indexOf('.')));
+        int digits = Integer.valueOf(priceString.substring(priceString.indexOf('.') + 1, priceString.length()));
+
+        setPrice(ones, digits);
     }
 
     public void setOkButtonActionListener(View.OnClickListener okButtonActionListener){
