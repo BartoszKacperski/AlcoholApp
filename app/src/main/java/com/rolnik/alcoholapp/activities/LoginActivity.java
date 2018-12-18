@@ -67,7 +67,6 @@ public class LoginActivity extends AppCompatActivity implements ResponseHandler<
         activityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         activityLoginBinding.setUser(new User());
         ButterKnife.bind(this);
-
     }
 
 
