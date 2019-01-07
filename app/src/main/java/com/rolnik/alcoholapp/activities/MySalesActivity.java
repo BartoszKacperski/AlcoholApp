@@ -102,7 +102,7 @@ public class MySalesActivity extends AppCompatActivity implements ResponseHandle
 
         mySalesRoot.setVisibility(View.GONE);
         customProgressBar.setVisibility(View.VISIBLE);
-        customProgressBar.endAnimation();
+        customProgressBar.startAnimation();
     }
 
     @Override

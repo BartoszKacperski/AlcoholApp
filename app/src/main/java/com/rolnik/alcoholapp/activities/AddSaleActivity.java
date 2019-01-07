@@ -2,6 +2,8 @@ package com.rolnik.alcoholapp.activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -35,8 +37,10 @@ import com.rolnik.alcoholapp.views.PricePickerDialog;
 
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -115,6 +119,8 @@ public class AddSaleActivity extends AppCompatActivity implements ResponseHandle
             }
         });
 
+        Objects.requireNonNull(pricePickerDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         pricePickerDialog.show();
     }
 
@@ -177,7 +183,8 @@ public class AddSaleActivity extends AppCompatActivity implements ResponseHandle
 
             @Override
             public void onError(Throwable e) {
-                Toast.makeText(getBaseContext(), String.format(getString(R.string.download_alcohol_of_kind), kind.getName()), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), String.format(getString(R.string.download_alcohol_of_kind), kind.getName()), Toast.LENGTH_SHORT).show();
+                initializeAlcohols(Collections.<Alcohol>emptyList());
             }
 
             @Override

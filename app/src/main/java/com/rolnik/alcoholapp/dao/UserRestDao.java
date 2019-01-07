@@ -57,7 +57,9 @@ public class UserRestDao implements Dao<User> {
     }
 
     public Observable<Integer> register(User user){
-        return client.register(user);
+        UserRest clientWithoutCookie = RetrofitCreator.createServiceWithoutCookieService(UserRest.class);
+
+        return clientWithoutCookie.register(user);
     }
 
     public Observable<Response<Void>> login(User user) throws HttpClientErrorException {
@@ -68,8 +70,8 @@ public class UserRestDao implements Dao<User> {
         return clientWithoutCookie.login(credentials);
     }
 
-    public Observable<Boolean> resendEmail(User user) throws HttpClientErrorException{
-        return client.resendEmail(user.getId());
+    public Observable<Response<Void>> resendEmail(String email) throws HttpClientErrorException{
+        return client.resendEmail(email);
     }
 
     public Call<Response<Void>> renewCookie(User user) throws HttpClientErrorException {

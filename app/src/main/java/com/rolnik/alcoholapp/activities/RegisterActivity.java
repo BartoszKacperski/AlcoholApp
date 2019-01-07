@@ -18,6 +18,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.hash.Hashing;
 import com.rolnik.alcoholapp.R;
 import com.rolnik.alcoholapp.dao.UserRestDao;
+import com.rolnik.alcoholapp.restUtils.AsyncResponse;
+import com.rolnik.alcoholapp.restUtils.ResponseHandler;
 import com.rolnik.alcoholapp.utils.UserService;
 import com.rolnik.alcoholapp.dao.Dao;
 import com.rolnik.alcoholapp.dao.RestDaoFactory;
@@ -38,8 +40,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.HttpException;
+import retrofit2.Response;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements ResponseHandler<Integer> {
     @BindView(R.id.root)
     ConstraintLayout root;
 
@@ -58,8 +61,6 @@ public class RegisterActivity extends AppCompatActivity {
     EditText email;
     @BindView(R.id.registerButton)
     Button registerButton;
-
-    private User userToRegister;
 
     private ActivityRegisterBinding activityRegisterBinding;
 
@@ -88,8 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     private void bindUser() {
-        userToRegister = new User();
-        activityRegisterBinding.setUser(userToRegister);
+        activityRegisterBinding.setUser(new User());
     }
 
     private boolean checkIfEditTextsAreFill(){
@@ -120,89 +120,88 @@ public class RegisterActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void showUI(){
+    private void showGUI(){
         TransitionManager.beginDelayedTransition(root);
         customProgressBar.endAnimation();
         customProgressBar.setVisibility(View.GONE);
         registerRoot.setVisibility(View.VISIBLE);
     }
 
-    private void onRegistering(){
+    private void hideGUI(){
         TransitionManager.beginDelayedTransition(root);
         registerRoot.setVisibility(View.GONE);
         customProgressBar.setVisibility(View.VISIBLE);
         customProgressBar.startAnimation();
     }
 
-    private void onRegisterSuccess(){
-        showUI();
+    @Override
+    public void onNext(Integer integerResponse) {
         moveToStartActivity();
+        showGUI();
     }
 
-    private void onRegisterError(String message){
-        showUI();
+    @Override
+    public void onComplete() {
+
+    }
+
+    @Override
+    public void onSocketTimeout() {
+        showError(getString(R.string.socket_timeout_exception));
+    }
+
+    @Override
+    public void onNotAuthorized() {
+        showError(getString(R.string.authorization_exception));
+    }
+
+    @Override
+    public void onBadRequest() {
+        showError(getString(R.string.register_exception));
+    }
+
+    @Override
+    public void onUnknownError() {
+        showError(getString(R.string.unknown_exception_message));
+    }
+
+    @Override
+    public void showError(String message) {
+        showGUI();
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
+
 
     private void register(){
         UserRestDao userRestDao = UserRestDao.getInstance();
 
-        userToRegister.setPassword(Hashing.sha256().hashString(userToRegister.getPassword(), StandardCharsets.UTF_16).toString());
+        AsyncResponse<Integer> asyncResponse = new AsyncResponse<>(userRestDao.register(activityRegisterBinding.getUser()), this, false);
 
-        Observable<Integer> observable = userRestDao.register(userToRegister);
-
-        observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                disposable = d;
-                onRegistering();
-                Log.i("Register", "Subscribed");
-            }
-
-            @Override
-            public void onNext(Integer integer) {
-                Log.i("Register", "Completed");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.e("Register", "Exception " + e.getCause() + " occurs");
-                if(e instanceof HttpException){
-                    showErrorDependsOnHttpStatus((HttpException) e);
-                } else {
-                    onRegisterError(getString(R.string.unknown_exception_message));
-                }
-            }
-
-            @Override
-            public void onComplete() {
-                onRegisterSuccess();
-            }
-        });
+        asyncResponse.execute();
     }
 
-    private void showErrorDependsOnHttpStatus(HttpException exception){
-        switch (exception.code()){
-            case 400: {
-                onRegisterError(getString(R.string.user_add_already_exist_excpetion));
-                break;
-            }
-            default: {
-                onRegisterError(getString(R.string.unknown_exception_message));
-                break;
-            }
-        }
-    }
 
 
     @Override
     public void onBackPressed() {
-        if(disposable != null){
-            disposable.dispose();
-        }
-
         Intent start = new Intent(this, StartActivity.class);
 
         startActivity(start);
     }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        if(disposable != null){
+            disposable.dispose();
+        }
+    }
+
+    @Override
+    public void onSubscribe(Disposable d) {
+        disposable = d;
+        hideGUI();
+    }
+
 }

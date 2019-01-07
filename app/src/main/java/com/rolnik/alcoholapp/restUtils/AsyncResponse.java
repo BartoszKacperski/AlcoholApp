@@ -16,9 +16,17 @@ public class AsyncResponse<T> {
     private AuthorizationService authorizationService;
 
     public AsyncResponse(Observable<T> observable, ResponseHandler<T> responseHandler){
+        this(observable, responseHandler, true);
+
+    }
+
+    public AsyncResponse(Observable<T> observable, ResponseHandler<T> responseHandler, boolean withAuthorizationService){
         this.observable = observable;
         this.responseHandler = responseHandler;
-        this.authorizationService = new AuthorizationService();
+
+        if(withAuthorizationService) {
+            this.authorizationService = new AuthorizationService();
+        }
     }
 
     public void execute(){
@@ -43,7 +51,10 @@ public class AsyncResponse<T> {
                         }
                         case 401: {
                             responseHandler.onNotAuthorized();
-                            authorizationService.renewCookie();
+
+                            if(authorizationService != null){
+                                authorizationService.renewCookie();
+                            }
                             break;
                         }
                         default:{

@@ -12,7 +12,7 @@ import java.io.Serializable;
 import lombok.EqualsAndHashCode;
 
 
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 
 @JsonPropertyOrder({"id", "alcohol", "shop", "price", "rate", "user"})
 public class Sale extends BaseObservable implements Serializable {

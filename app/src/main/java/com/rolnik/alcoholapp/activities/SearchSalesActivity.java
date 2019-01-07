@@ -29,11 +29,11 @@ import com.rolnik.alcoholapp.restUtils.ResponseHandler;
 import com.rolnik.alcoholapp.utils.CustomItemDecorator;
 import com.rolnik.alcoholapp.utils.ItemClickListener;
 import com.rolnik.alcoholapp.utils.OpinionsClickListener;
-import com.rolnik.alcoholapp.utils.UserService;
 import com.rolnik.alcoholapp.views.CustomProgressBar;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -306,13 +306,12 @@ public class SearchSalesActivity extends AppCompatActivity implements ResponseHa
 
     @Override
     public void onNext(List<Sale> sales) {
-        loadUI();
         adapter.addAll(sales);
     }
 
     @Override
     public void onComplete() {
-        //TODO co tu może być
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -344,7 +343,7 @@ public class SearchSalesActivity extends AppCompatActivity implements ResponseHa
         SaleRestDao saleRestDao = SaleRestDao.getInstance();
         UserOpinionRestDao userOpinionRestDao = UserOpinionRestDao.getInstance();
 
-        Observable<List<UserOpinion>> userOpinions = userOpinionRestDao.getUserOpinions();
+        Observable<HashMap<Integer, UserOpinion>> userOpinions = userOpinionRestDao.getUserOpinions();
         Observable<List<Sale>> sales;
 
         if (shop == null) {
@@ -354,25 +353,21 @@ public class SearchSalesActivity extends AppCompatActivity implements ResponseHa
         } else {
             sales = saleRestDao.getAllWhere(shop.getId(), kind.getId());
         }
-        return Observable.zip(sales, userOpinions, new BiFunction<List<Sale>, List<UserOpinion>, List<Sale>>() {
+        return Observable.zip(sales, userOpinions, new BiFunction<List<Sale>, HashMap<Integer, UserOpinion>, List<Sale>>() {
             @Override
-            public List<Sale> apply(List<Sale> sales1, List<UserOpinion> userOpinions1) throws Exception {
-                for (Sale sale : sales1) {
-                    for (UserOpinion userOpinion : userOpinions1) {
-                        if (userOpinion.getSaleId() == sale.getId()) {
-                            if (userOpinion.getOpinion() == UserOpinion.LIKE) {
-                                sale.setWasLiked(true);
-                                sale.setWasDisliked(false);
-                            } else {
-                                sale.setWasDisliked(true);
-                                sale.setWasLiked(false);
-                            }
+            public List<Sale> apply(List<Sale> sales, HashMap<Integer, UserOpinion> integerUserOpinionHashMap) throws Exception {
+                for(Sale sale : sales){
+                    if(integerUserOpinionHashMap.containsKey(sale.getId())){
+                        if(integerUserOpinionHashMap.get(sale.getId()).getOpinion() == 1){
+                            sale.setWasLiked(true);
+                        } else {
+                            sale.setWasDisliked(true);
                         }
                     }
                 }
-                return sales1;
+                return sales;
             }
-        });
+    });
     }
 
 

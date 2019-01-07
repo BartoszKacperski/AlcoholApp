@@ -54,13 +54,14 @@
     <string name="info">Informacje o aplikacji</string>
     <string name="credits">Wyrazy uznania dla</string>
     <string name="pick_the_price">Uzupełnij cenę</string>
+    <string name="resend">Wyślij ponownie</string>
     <string-array name="authors">
         <item><![CDATA[<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank" title="Creative Commons BY 3.0">CC 3.0 BY</a></div>]]></item>
         <item><![CDATA[<div>Icons made by <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>]]></item>
     </string-array>
 
-    <string name="send_mail_failed">Nie udało się wysłać maila</string>
-    <string name="send_mail_success">Mail został wysłany, sprawdź folder SPAM</string>
+    <string name="resend_mail_failed">Nie udało się wysłać maila</string>
+    <string name="resend_mail_success">Mail został wysłany, sprawdź folder SPAM</string>
     <string name="add_sale_success">Pomyślnie dodano promocję</string>
     <string name="edit_sale_succes">Pomyślnie edytowano promocje</string>
     #EXCEPTIONS
@@ -68,7 +69,8 @@
     <string name="user_not_exists">Podany użytkownik nie istnieje</string>
     <string name="user_data_not_exists">Podane dane są nieprawidłowe</string>
     <string name="user_not_valid">Dane są niepoprawne!</string>
-    <string name="user_not_activated">Konto nie zostało potwierdzone</string>
+    <string name="user_not_activated">Konto nie zostało aktywowane</string>
+    <string name="email_not_confirmed">Email nie został potwierdzony</string>
     <string name="add_sale_exception">Nie udało się dodać promocji, wprowadzone dane są nieprawidłowe</string>
     <string name="edit_sale_exception">Zmienione dane są nieprawidłowe</string>
     <string name="remove_sale_exception">Nie udało się usunąć promocji</string>
@@ -87,5 +89,6 @@
 
     <string name="preference_auth">auth_pref</string>
     <string name="cookie">cookie</string>
+    <string name="register_exception">Podane dane są nieprawidłowe</string>
 
 </resources>

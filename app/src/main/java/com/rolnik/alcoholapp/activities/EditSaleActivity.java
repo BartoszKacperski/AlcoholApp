@@ -19,6 +19,7 @@ import com.rolnik.alcoholapp.dao.Dao;
 import com.rolnik.alcoholapp.dao.RestDaoFactory;
 import com.rolnik.alcoholapp.databinding.ActivityEditSaleBinding;
 import com.rolnik.alcoholapp.model.Sale;
+import com.rolnik.alcoholapp.restUtils.AsyncResponse;
 import com.rolnik.alcoholapp.restUtils.ResponseHandler;
 import com.rolnik.alcoholapp.views.CustomProgressBar;
 import com.rolnik.alcoholapp.views.PricePickerDialog;
@@ -198,8 +199,9 @@ public class EditSaleActivity extends AppCompatActivity implements ResponseHandl
     private void update() {
         Dao<Sale> saleDao = RestDaoFactory.getSaleDao();
 
-        Observable<Response<Void>> observable = saleDao.update(saleToUpdate);
+        AsyncResponse<Response<Void>> asyncResponse = new AsyncResponse<>(saleDao.update(saleToUpdate), this);
 
+        asyncResponse.execute();
     }
 
 

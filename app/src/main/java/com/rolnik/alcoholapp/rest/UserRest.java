@@ -14,6 +14,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface UserRest {
     @GET("users")
@@ -30,8 +31,8 @@ public interface UserRest {
     Observable<Integer> register(@Body User user);
     @POST("/login")
     Observable<Response<Void>> login(@Header("Authorization") String credentials);
-    @GET("mail/resend/{Id}")
-    Observable<Boolean> resendEmail(@Path("Id") int Id);
+    @GET("mail/resend")
+    Observable<Response<Void>> resendEmail(@Query("email") String email);
     @POST("/login")
     Call<Response<Void>> renewCookie(@Header("Authorization") String credentials);
 }

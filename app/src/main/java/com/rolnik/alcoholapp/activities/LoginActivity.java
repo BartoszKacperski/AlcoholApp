@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.TransitionManager;
 import android.util.Log;
@@ -14,19 +16,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rolnik.alcoholapp.R;
 import com.rolnik.alcoholapp.dao.UserRestDao;
 import com.rolnik.alcoholapp.databinding.ActivityLoginBinding;
+import com.rolnik.alcoholapp.model.Error;
 import com.rolnik.alcoholapp.model.User;
 import com.rolnik.alcoholapp.restUtils.AsyncResponse;
 import com.rolnik.alcoholapp.restUtils.ResponseHandler;
 import com.rolnik.alcoholapp.utils.CookieService;
 import com.rolnik.alcoholapp.utils.UserService;
 import com.rolnik.alcoholapp.views.CustomProgressBar;
-import com.rolnik.alcoholapp.views.ErrorDialog;
+import com.rolnik.alcoholapp.views.ResendEmailDialog;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -40,6 +46,8 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements ResponseHandler<Response<Void>> {
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
     @BindView(R.id.root)
     ConstraintLayout root;
 
@@ -136,7 +144,7 @@ public class LoginActivity extends AppCompatActivity implements ResponseHandler<
                     break;
                 }
                 case 401:{
-                    onNotAuthorized();
+                    onLoginAuthError(response);
                     break;
                 }
                 default: {
@@ -159,7 +167,7 @@ public class LoginActivity extends AppCompatActivity implements ResponseHandler<
 
     @Override
     public void onNotAuthorized() {
-        showError(getString(R.string.user_not_exists));
+        showError(getString(R.string.authorization_exception));
     }
 
     @Override
@@ -178,6 +186,27 @@ public class LoginActivity extends AppCompatActivity implements ResponseHandler<
         showGUI();
     }
 
+    public void onLoginAuthError(Response<Void> response){
+        try {
+            if (response.errorBody() != null) {
+                String errorJson = response.errorBody().string();
+
+                Error error = new ObjectMapper().readValue(errorJson, Error.class);
+                Log.i("Error", error.getError());
+                if(error.isBadCredentialsError()){
+                    showError(getString(R.string.user_data_not_exists));
+                } else if (error.isUserNotActivatedError()){
+                    askForResendingUserEmail(getString(R.string.email_not_confirmed));
+                } else {
+                    onUnknownError();
+                }
+            }
+        } catch (IOException e) {
+            Log.e("Login auth error", e.getMessage());
+            onUnknownError();
+        }
+    }
+
     private Observable<Response<Void>> getPaperedObservable(){
         UserRestDao userRestDao = UserRestDao.getInstance();
 
@@ -190,35 +219,43 @@ public class LoginActivity extends AppCompatActivity implements ResponseHandler<
         asyncResponse.execute();
     }
 
-    private void askForResendingUserEmail(final User user){
-        showGUI();
-        final ErrorDialog errorDialog = new ErrorDialog(this);
-
-        String errorMessage = getString(R.string.user_not_activated) + "\n" + getString(R.string.ask_to_send_email_again);
-
-        errorDialog.setCancelButtonText(getString(R.string.cancel));
-        errorDialog.setOkButtonText(getString(R.string.send));
-        errorDialog.setErrorMessage(errorMessage, null);
-
-        errorDialog.setOkButtonClickListener(new View.OnClickListener() {
+    private void askForResendingUserEmail(String errorMessage){
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, errorMessage, Snackbar.LENGTH_LONG).setAction(R.string.resend, new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                resendRegisterEmail();
-                errorDialog.close();
+            public void onClick(View view) {
+                showResendEmailDialog();
             }
         });
 
-        Objects.requireNonNull(errorDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        ((TextView)snackbar.getView().findViewById(android.support.design.R.id.snackbar_text)).setTextColor(getColor(R.color.lightSalomon));
+        ((TextView)snackbar.getView().findViewById(android.support.design.R.id.snackbar_action)).setTextColor(getColor(R.color.salomon));
 
-        errorDialog.show();
+        snackbar.show();
     }
 
-    private void resendRegisterEmail(){
+    private void showResendEmailDialog(){
+        showGUI();
+        final ResendEmailDialog resendEmailDialog = new ResendEmailDialog(this);
+
+        resendEmailDialog.setOkButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resendRegisterEmail(resendEmailDialog.getEmail());
+                resendEmailDialog.close();
+            }
+        });
+
+        Objects.requireNonNull(resendEmailDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        resendEmailDialog.show();
+    }
+
+    private void resendRegisterEmail(String email){
         UserRestDao userRestDao = UserRestDao.getInstance();
 
-        Observable<Boolean> observable = userRestDao.resendEmail(activityLoginBinding.getUser());
+        Observable<Response<Void>> observable = userRestDao.resendEmail(email);
 
-        observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Boolean>() {
+        observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Response<Void>>() {
             @Override
             public void onSubscribe(Disposable d) {
                 disposables.add(d);
@@ -226,12 +263,12 @@ public class LoginActivity extends AppCompatActivity implements ResponseHandler<
             }
 
             @Override
-            public void onNext(Boolean aBoolean) {
-                if(aBoolean){
+            public void onNext(Response<Void> response) {
+                if(response.isSuccessful()){
                     showSuccessResend();
                     Log.i("Resend email", "Success");
                 } else {
-                    showFailedResend();
+                    askForResendingUserEmail(getString(R.string.resend_mail_failed));
                     Log.i("Resend email", "Failed");
                 }
             }
@@ -239,7 +276,7 @@ public class LoginActivity extends AppCompatActivity implements ResponseHandler<
             @Override
             public void onError(Throwable e) {
                 Log.i("Resend email", "Exception " + e.getCause() + " occurs");
-                showFailedResend();
+                askForResendingUserEmail(getString(R.string.resend_mail_failed));
             }
 
             @Override
@@ -250,12 +287,9 @@ public class LoginActivity extends AppCompatActivity implements ResponseHandler<
     }
 
     private void showSuccessResend(){
-        Toast.makeText(this, getString(R.string.send_mail_success), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.resend_mail_success), Toast.LENGTH_LONG).show();
     }
 
-    private void showFailedResend(){
-        Toast.makeText(this, getString(R.string.send_mail_failed), Toast.LENGTH_LONG).show();
-    }
 
     @Override
     public void onBackPressed() {

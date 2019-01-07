@@ -1,12 +1,11 @@
 package com.rolnik.alcoholapp.dao;
 
 import com.rolnik.alcoholapp.model.Sale;
-import com.rolnik.alcoholapp.model.User;
 import com.rolnik.alcoholapp.model.UserOpinion;
 import com.rolnik.alcoholapp.restUtils.RetrofitCreator;
 import com.rolnik.alcoholapp.rest.UserOpinionRest;
 
-import java.util.List;
+import java.util.HashMap;
 
 import io.reactivex.Observable;
 import retrofit2.Response;
@@ -28,7 +27,7 @@ public class UserOpinionRestDao {
         return INSTANCE;
     }
 
-    public Observable<List<UserOpinion>> getUserOpinions(){
+    public Observable<HashMap<Integer, UserOpinion>> getUserOpinions(){
         return client.getUserOpinions();
     }
 
