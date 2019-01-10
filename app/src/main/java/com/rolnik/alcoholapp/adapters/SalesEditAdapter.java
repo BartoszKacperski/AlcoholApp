@@ -8,11 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.rolnik.alcoholapp.utils.ItemClickListener;
 import com.rolnik.alcoholapp.R;
 import com.rolnik.alcoholapp.databinding.MySalesSaleLayoutBinding;
-import com.rolnik.alcoholapp.model.Sale;
-import com.rolnik.alcoholapp.utils.MySalesClickListener;
+import com.rolnik.alcoholapp.dto.Sale;
+import com.rolnik.alcoholapp.listeners.MySalesClickListener;
 
 import java.util.ArrayList;
 import java.util.Collections;

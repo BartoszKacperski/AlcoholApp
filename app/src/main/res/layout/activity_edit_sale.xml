@@ -8,7 +8,7 @@
         <import type="com.rolnik.alcoholapp.utils.BindingConverters" />
         <variable
             name="Sale"
-            type="com.rolnik.alcoholapp.model.Sale" />
+            type="com.rolnik.alcoholapp.dto.Sale" />
     </data>
 
 
@@ -43,7 +43,8 @@
             android:backgroundTint="@color/lightSalomon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/alcohols" />
+            app:srcCompat="@drawable/alcohols"
+            android:contentDescription="@string/full_image" />
 
         <LinearLayout
             android:id="@+id/description"
@@ -122,7 +123,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/thump_up" />
+                    app:srcCompat="@drawable/thump_up"
+                    android:contentDescription="@string/like_button" />
 
                 <TextView
                     android:id="@+id/positiveNumber"
@@ -152,7 +154,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/thump_down" />
+                    app:srcCompat="@drawable/thump_down"
+                    android:contentDescription="@string/dislike_button" />
 
                 <TextView
                     android:id="@+id/negativeNumber"

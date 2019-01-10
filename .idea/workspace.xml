@@ -6,7 +6,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -15,28 +15,114 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6536cbc9-cd01-42ef-8cd1-2d3e5d725ee9" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Error.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/resend_email_dialog.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_annotation_annotation_1_0_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_lifecycle_lifecycle_common_2_0_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_core_1_1_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_core_3_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_idling_resource_3_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_espresso_espresso_intents_3_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_ext_junit_1_1_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_rules_1_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_dagger_dagger_2_15_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_okhttp3_mockwebserver_3_12_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__net_bytebuddy_byte_buddy_1_8_5_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__net_bytebuddy_byte_buddy_agent_1_8_5_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_mockito_mockito_core_2_18_3_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_objenesis_objenesis_2_6_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/activities/LoginActivityTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/activities/StartActivityTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/mock/MockApiModule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/mock/MockApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/mock/MockRunner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/AlcoholClientService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/AuthorizationClientService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/BrandClientService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/KindClientService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/SaleClientService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/ShopClientService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/UserClientService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/UserOpinionClientService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/components/ApiComponent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/modules/ApiModule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/modules/AppModule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rests/AuthorizationRest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/test/java/com/rolnik/alcoholapp/rests/AlcoholDaoServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/test/java/com/rolnik/alcoholapp/testutils/ModelCreator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/test/java/com/rolnik/alcoholapp/testutils/PlainModelCreator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/test/java/com/rolnik/alcoholapp/testutils/RetrofitTestCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_test_espresso_espresso_core_3_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_test_espresso_espresso_idling_resource_3_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_test_monitor_1_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_test_runner_1_0_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_runner_1_1_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_race604_waveloading_library_1_1_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_test_monitor_1_1_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__jp_wasabeef_recyclerview_animators_2_3_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_android_spring_android_core_2_0_0_M3_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_android_spring_android_rest_template_2_0_0_M3_jar.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/ExampleInstrumentedTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/ExampleInstrumentedTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/MyApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/MyApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/AddSaleActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/AddSaleActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/EditSaleActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/EditSaleActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/FilterSalesActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/FilterSalesActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/LoginActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/MySalesActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/MySalesActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/RegisterActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/RegisterActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/SaleDetailsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/SaleDetailsActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/SearchSalesActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/SearchSalesActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/UserOpinionRestDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/UserOpinionRestDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/UserRestDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/UserRestDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Rate.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Rate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Sale.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Sale.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rest/UserOpinionRest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rest/UserOpinionRest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rest/UserRest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rest/UserRest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/restUtils/AsyncResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/restUtils/AsyncResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/views/ErrorDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/views/ResendEmailDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/StartActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/StartActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/adapters/CustomArrayAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/adapters/CustomArrayAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/adapters/SalesAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/adapters/SalesAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/adapters/SalesEditAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/adapters/SalesEditAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/AlcoholRestDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/BrandRestDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/Dao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/KindRestDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/RestDaoFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/SaleRestDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/ShopRestDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/UserOpinionRestDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/UserRestDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Alcohol.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dto/Alcohol.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Brand.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dto/Brand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Error.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dto/Error.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/GetNameProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dto/GetNameProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Kind.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dto/Kind.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Rate.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dto/Rate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Sale.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dto/Sale.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Shop.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dto/Shop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dto/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/UserOpinion.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dto/UserOpinion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rest/AlcoholRest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rests/AlcoholRest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rest/BrandRest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rests/BrandRest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rest/KindRest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rests/KindRest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rest/SaleRest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rests/SaleRest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rest/ShopRest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rests/ShopRest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rest/UserOpinionRest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rests/UserOpinionRest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rest/UserRest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rests/UserRest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/restUtils/AsyncResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/restutils/AsyncResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/restUtils/AuthorizationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/restutils/AuthorizationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/restUtils/HTTPCodes.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/restUtils/ResponseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/restutils/ResponseHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/restUtils/RetrofitCreator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/CookieService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/sharedpreferenceservices/CookieSharedPreferencesService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/CustomItemDecorator.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/CustomItemDecorator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/ItemClickListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/listeners/ItemClickListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/MySalesClickListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/listeners/MySalesClickListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/OpinionsClickListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/listeners/OpinionsClickListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/TextValidator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/sharedpreferenceservices/UserSharedPreferencesService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/views/CustomAutoCompleteTextView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/views/CustomAutoCompleteTextView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_add_sale.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_add_sale.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_edit_sale.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_edit_sale.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_sales.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_sales.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/price_picker_dialog.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/price_picker_dialog.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sale_details.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sale_details.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/my_sales_sale_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/my_sales_sale_layout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/search_sales_sale_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/search_sales_sale_layout.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -44,6 +130,9 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/AlcoholApp$java_in_app.ic" NAME="java in app Coverage Results" MODIFIED="1547029948123" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
@@ -59,14 +148,71 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AddSaleActivity.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/AddSaleActivity.java">
+      <file leaf-file-name="StartActivityTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/activities/StartActivityTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="186" column="67" selection-start-line="186" selection-start-column="67" selection-end-line="186" selection-end-column="67" />
+            <state relative-caret-position="486">
+              <caret line="74" column="8" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="139" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoginActivityTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/activities/LoginActivityTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="530">
+              <caret line="99" column="55" lean-forward="true" selection-start-line="99" selection-start-column="55" selection-end-line="99" selection-end-column="55" />
               <folding>
-                <element signature="e#6520#6529#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#2456#2485#0" expanded="true" />
+                <element signature="e#3860#3888#0" expanded="true" />
+                <element signature="e#4024#4039#0" expanded="true" />
+                <element signature="e#4085#4117#0" expanded="true" />
+                <element signature="e#4387#4415#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-711" />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoginActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/LoginActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-364">
+              <caret line="210" column="45" selection-start-line="210" selection-start-column="45" selection-end-line="210" selection-end-column="45" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#5831#5871#0" expanded="true" />
+                <element signature="e#6655#6694#0" expanded="true" />
+                <element signature="e#7529#7544#0" expanded="true" />
+                <element signature="e#7546#7706#0" expanded="true" />
+                <element signature="e#7705#7706#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="resend_email_dialog.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/resend_email_dialog.xml">
+          <provider selected="true" editor-type-id="android-designer2">
+            <state />
+          </provider>
+          <provider editor-type-id="text-editor">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="33" column="38" selection-start-line="33" selection-start-column="38" selection-end-line="33" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -76,11 +222,18 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
-        <option value="Class" />
         <option value="layoutResourceFile" />
+        <option value="Interface" />
+        <option value="JUnit4 Test Class" />
+        <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>throws HttpClientErrorException</find>
+      <find>Error</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -294,6 +447,10 @@
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="transformClassesWithJacocoForDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="processReleaseResources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
@@ -422,6 +579,11 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="assembleDebugAndroidTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Creates test coverage reports for the debug variant." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="createDebugCoverageReport" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -944,6 +1106,11 @@
                 <option name="name" value="transformResourcesWithMergeJavaResForDebug" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="description" value="Creates JaCoCo test coverage report from data gathered on the device." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="createDebugAndroidTestCoverageReport" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Assembles and tests this project and all projects that depend on it." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="buildDependents" />
@@ -1197,6 +1364,10 @@
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
+                <option name="name" value="transformClassesWithJacocoForDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="processReleaseResources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
@@ -1325,6 +1496,11 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="assembleDebugAndroidTest" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Creates test coverage reports for the debug variant." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
+                <option name="name" value="createDebugCoverageReport" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
@@ -1835,6 +2011,11 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
                 <option name="name" value="transformResourcesWithMergeJavaResForDebug" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Creates JaCoCo test coverage report from data gathered on the device." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/app" />
+                <option name="name" value="createDebugAndroidTestCoverageReport" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Assembles and tests this project and all projects that depend on it." />
@@ -2429,40 +2610,63 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/views/PricePicker.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/views/PricePickerDialog.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_edit_sale.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/my_sales_sale_layout.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/MySalesClickListener.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/adapters/SalesEditAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rest/UserOpinionRest.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/UserOpinionRestDao.java" />
+        <option value="$PROJECT_DIR$/app/build/generated/source/apt/debug/com/rolnik/alcoholapp/DaggerApiComponent.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/RegisterActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/ApiComponent.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/StartActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/EditSaleActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/ApiModule.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/AddSaleActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/AlcoholRestDao.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/AlcoholRestService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/UserRestDao.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/UserRestService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/ShopRestDao.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/ShopRestService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/SaleRestDao.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/SaleRestService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/KindRestDao.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/KindRestService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/BrandRestDao.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/BrandRestService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/restservices/BrandRestService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/BrandRestService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/BrandClientService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/UserOpinionClientService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/UserClientService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/CustomItemDecorator.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/UserSharedPreferencesService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/SearchSalesActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/MySalesActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_my_sales.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/restUtils/AsyncResponse.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/RegisterActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Error.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/UserRestDao.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/views/ErrorDialog.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/resend_email_dialog.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/views/ResendEmailDialog.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rest/UserRest.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/LoginActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/User.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Sale.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Rate.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/price_picker_dialog.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/AddSaleActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/modules/AppModule.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/MockApp.java" />
+        <option value="$PROJECT_DIR$/app/src/mock/java/mock/ApiComponent.java" />
+        <option value="$PROJECT_DIR$/app/src/mock/java/mock/TestComponent.java" />
+        <option value="$PROJECT_DIR$/app/src/mock/java/mock/ApiModule.java" />
+        <option value="$PROJECT_DIR$/app/src/mock/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/mock/java/mock/TestApiModule.java" />
+        <option value="$PROJECT_DIR$/app/src/mock/java/mock/MockApp.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mock/MockApp.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/MyApplication.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mock/MockApplication.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mock/MockApiModule.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mock/MockRunner.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/MockApplication.java" />
+        <option value="$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/MockApplication.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/modules/ApiModule.java" />
+        <option value="$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/MockApiModule.java" />
+        <option value="$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/MockRunner.java" />
+        <option value="$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/activities/StartActivityTest.java" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dto/Error.java" />
+        <option value="$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/activities/LoginActivityTest.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-10" />
-    <option name="y" value="-10" />
+    <option name="x" value="16" />
+    <option name="y" value="14" />
     <option name="width" value="1940" />
     <option name="height" value="1050" />
   </component>
@@ -2471,7 +2675,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -2495,6 +2698,30 @@
               <item name="AlcoholApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="androidTest" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AlcoholApp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AlcoholApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="androidTest" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AlcoholApp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AlcoholApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="androidTest" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="alcoholapp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AlcoholApp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AlcoholApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -2513,46 +2740,6 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="alcoholapp" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AlcoholApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AlcoholApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="alcoholapp" type="462c0819:PsiDirectoryNode" />
-              <item name="activities" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AlcoholApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AlcoholApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="alcoholapp" type="462c0819:PsiDirectoryNode" />
-              <item name="dao" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AlcoholApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AlcoholApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="alcoholapp" type="462c0819:PsiDirectoryNode" />
-              <item name="rest" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AlcoholApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AlcoholApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="alcoholapp" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AlcoholApp" type="b2602c69:ProjectViewProjectNode" />
@@ -2569,12 +2756,48 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="res" type="462c0819:PsiDirectoryNode" />
-              <item name="layout" type="462c0819:PsiDirectoryNode" />
+              <item name="values" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AlcoholApp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AlcoholApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AlcoholApp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AlcoholApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AlcoholApp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AlcoholApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="alcoholapp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AlcoholApp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AlcoholApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="alcoholapp" type="462c0819:PsiDirectoryNode" />
+              <item name="rests" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -2603,86 +2826,43 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="alcoholapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="activities" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AlcoholApp" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="alcoholapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="adapters" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AlcoholApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="alcoholapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="dao" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AlcoholApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="alcoholapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AlcoholApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="alcoholapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="rest" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AlcoholApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="alcoholapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="restUtils" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AlcoholApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="alcoholapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AlcoholApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="alcoholapp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AlcoholApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-            </path>
-            <path>
-              <item name="AlcoholApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
-            </path>
-            <path>
-              <item name="AlcoholApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="values" type="ddeffd01:AndroidResFolderTypeNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="D:/Programy/AndroidSKD" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
     <property name="device.picker.selection" value="192.168.134.102:5555" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/activities" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.annotationProcessors" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.rolnik.alcoholapp.activities" />
+      <recent name="com.rolnik.alcoholapp.rest" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.rolnik.alcoholapp" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\AndroidStudio\AlcoholApp\app\src\mock\java\mock" />
+      <recent name="E:\AndroidStudio\AlcoholApp\app\src\mock" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -2696,7 +2876,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Android Instrumented Tests.All Tests">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -2716,6 +2896,24 @@
         <option name="Make" enabled="false" />
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="java in app" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="directory" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="file://$MODULE_DIR$" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <dir value="$PROJECT_DIR$/app/src/test/java" />
+      <patterns />
     </configuration>
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="app" />
@@ -2766,6 +2964,52 @@
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
     </configuration>
+    <configuration name="All Tests" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="EXTRA_OPTIONS" value="" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sampled (Java)" />
+      </Profilers>
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
@@ -2795,6 +3039,17 @@
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
     </configuration>
+    <list>
+      <item itemvalue="Android App.app" />
+      <item itemvalue="Android JUnit.java in app" />
+      <item itemvalue="Android Instrumented Tests.All Tests" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Android Instrumented Tests.All Tests" />
+        <item itemvalue="Android JUnit.java in app" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -2809,521 +3064,453 @@
     </task>
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="All_Tests - 2019.01.10 at 20h 08m 26s.xml">
+      <configuration name="All Tests" configurationId="AndroidTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="All_Tests - 2019.01.10 at 20h 10m 47s.xml">
+      <configuration name="All Tests" configurationId="AndroidTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="All_Tests - 2019.01.10 at 20h 11m 25s.xml">
+      <configuration name="All Tests" configurationId="AndroidTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="All_Tests - 2019.01.10 at 20h 18m 35s.xml">
+      <configuration name="All Tests" configurationId="AndroidTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="All_Tests - 2019.01.10 at 20h 20m 48s.xml">
+      <configuration name="All Tests" configurationId="AndroidTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="All_Tests - 2019.01.10 at 20h 24m 01s.xml">
+      <configuration name="All Tests" configurationId="AndroidTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="All_Tests - 2019.01.10 at 20h 26m 15s.xml">
+      <configuration name="All Tests" configurationId="AndroidTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="All_Tests - 2019.01.10 at 20h 27m 49s.xml">
+      <configuration name="All Tests" configurationId="AndroidTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="All_Tests - 2019.01.10 at 20h 28m 16s.xml">
+      <configuration name="All Tests" configurationId="AndroidTestRunConfigurationType" />
+    </history-entry>
+    <history-entry file="All_Tests - 2019.01.10 at 20h 28m 45s.xml">
+      <configuration name="All Tests" configurationId="AndroidTestRunConfigurationType" />
+    </history-entry>
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info anchor="bottom" id="Android Profiler" order="7" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette&#9;" order="3" />
-      <window_info id="Image Layers" order="2" />
-      <window_info id="Build Variants" order="2" side_tool="true" />
-      <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="right" id="Preview" order="3" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info active="true" anchor="bottom" id="Logcat" order="7" visible="true" weight="0.34749454" />
-      <window_info id="Captures" order="2" weight="0.25" />
-      <window_info id="Capture Tool" order="2" />
-      <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2489339" />
-      <window_info anchor="bottom" id="Build" order="7" weight="0.32897604" />
-      <window_info anchor="right" id="Gradle" order="3" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="right" id="Device File Explorer" order="3" side_tool="true" />
-      <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
-    </layout>
-    <layout-to-restore>
-      <window_info anchor="bottom" id="Build" order="7" visible="true" weight="0.32897604" />
-      <window_info id="Designer" order="2" />
+      <window_info anchor="bottom" id="Android Profiler" order="12" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32897604" />
+      <window_info anchor="right" id="Palette&#9;" order="9" />
+      <window_info id="Image Layers" order="7" />
       <window_info id="Build Variants" order="3" side_tool="true" />
-      <window_info id="Image Layers" order="4" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50053304" side_tool="true" weight="0.34749454" />
+      <window_info anchor="right" id="Preview" order="4" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32570806" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32897604" />
+      <window_info anchor="bottom" id="Terminal" order="11" />
+      <window_info anchor="bottom" id="Logcat" order="10" sideWeight="0.49946696" weight="0.35076252" />
+      <window_info id="Captures" order="4" weight="0.25" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info id="Designer" order="2" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23987207" />
+      <window_info anchor="bottom" id="Build" order="7" weight="0.32897604" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32897604" />
+      <window_info anchor="right" id="Gradle" order="6" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39978212" />
+      <window_info anchor="right" id="Device File Explorer" order="5" side_tool="true" weight="0.32995737" />
+      <window_info anchor="right" id="Theme Preview" order="7" />
+      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Android Profiler" order="8" />
-      <window_info id="Favorites" order="5" side_tool="true" />
-      <window_info id="Captures" order="6" weight="0.25" />
-      <window_info id="Capture Tool" order="7" />
-      <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="right" id="Preview" order="4" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="right" id="Device File Explorer" order="5" side_tool="true" />
-      <window_info anchor="bottom" id="Logcat" order="10" weight="0.34749454" />
-      <window_info anchor="bottom" id="Version Control" order="11" />
-      <window_info anchor="bottom" id="Terminal" order="12" />
-      <window_info anchor="right" id="Gradle" order="6" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2489339" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette&#9;" order="7" />
-      <window_info anchor="right" id="Theme Preview" order="8" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-    </layout-to-restore>
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Coverage" order="8" side_tool="true" weight="0.32995737" />
+    </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="6" />
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/my_sales_sale_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="47" selection-start-line="14" selection-start-column="47" selection-end-line="14" selection-end-column="47" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state />
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/adapters/SalesEditAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1105">
-          <caret line="84" column="15" selection-start-line="84" selection-start-column="15" selection-end-line="84" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/MySalesActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="74" column="53" selection-start-line="74" selection-start-column="53" selection-end-line="74" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3129#3130#0" expanded="true" />
-            <element signature="e#3198#3199#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="68" column="31" selection-start-line="68" selection-start-column="31" selection-end-line="68" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/my_sales_sale_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="47" selection-start-line="14" selection-start-column="47" selection-end-line="14" selection-end-column="47" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/MySalesActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="74" column="53" selection-start-line="74" selection-start-column="53" selection-end-line="74" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3129#3130#0" expanded="true" />
-            <element signature="e#3198#3199#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/adapters/SalesEditAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="89" column="68" selection-start-line="89" selection-start-column="68" selection-end-line="89" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/my_sales_sale_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="47" selection-start-line="14" selection-start-column="47" selection-end-line="14" selection-end-column="47" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/MySalesActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1258">
-          <caret line="74" column="53" selection-start-line="74" selection-start-column="53" selection-end-line="74" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3129#3130#0" expanded="true" />
-            <element signature="e#3198#3199#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/adapters/SalesEditAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1513">
-          <caret line="89" column="68" selection-start-line="89" selection-start-column="68" selection-end-line="89" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/views/PricePicker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="60" column="35" selection-start-line="60" selection-start-column="35" selection-end-line="60" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/views/PricePickerDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/SaleRestDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-104">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/OpinionsClickListener.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/RetrofitRestDaoProvider.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/AuthorizationClientService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
-          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/ItemClickListener.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/AlcoholClientService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="3" lean-forward="true" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/MySalesClickListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="32" selection-start-line="6" selection-start-column="32" selection-end-line="6" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rest/SaleRest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_add_sale.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1632" />
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/adapters/SalesEditAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1105">
-          <caret line="84" column="15" selection-start-line="84" selection-start-column="15" selection-end-line="84" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/UserOpinionRestDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="30" column="18" lean-forward="true" selection-start-line="30" selection-start-column="18" selection-end-line="30" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_edit_sale.xml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="1564">
-          <caret line="92" column="32" selection-start-line="92" selection-start-column="32" selection-end-line="92" selection-end-column="32" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/EditSaleActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1477">
-          <caret line="204" column="5" lean-forward="true" selection-start-line="204" selection-start-column="5" selection-end-line="204" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/my_sales_sale_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="47" selection-start-line="14" selection-start-column="47" selection-end-line="14" selection-end-column="47" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/SaleDetailsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-187">
-          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/SearchSalesActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="307" column="42" selection-start-line="307" selection-start-column="42" selection-end-line="307" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/StartActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/restUtils/AsyncResponse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="56" column="29" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_my_sales.xml">
-      <provider editor-type-id="text-editor">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/RegisterActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="517">
-          <caret line="159" column="49" selection-start-line="159" selection-start-column="49" selection-end-line="159" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rest/UserOpinionRest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Error.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="48" selection-start-line="23" selection-start-column="48" selection-end-line="23" selection-end-column="48" />
+        <state relative-caret-position="187">
+          <caret line="11" column="31" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#488#489#0" expanded="true" />
-            <element signature="e#515#516#0" expanded="true" />
-            <element signature="e#591#592#0" expanded="true" />
-            <element signature="e#627#628#0" expanded="true" />
+            <element signature="e#372#373#0" expanded="true" />
+            <element signature="e#418#419#0" expanded="true" />
+            <element signature="e#720#721#0" expanded="true" />
+            <element signature="e#767#768#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/spinner_layout.xml">
-      <provider editor-type-id="text-editor">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/ShopClientService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/views/CustomProgressBar.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/SaleClientService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/KindClientService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/BrandClientService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dto/GetNameProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/adapters/CustomArrayAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/custom_progress_bar.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state />
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build/generated/source/apt/debug/com/rolnik/alcoholapp/views/ResendEmailDialog_ViewBinding.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="32" selection-start-line="32" selection-end-line="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/resend_email_dialog.xml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="44" column="45" selection-start-line="44" selection-start-column="45" selection-end-line="44" selection-end-column="45" />
-          <folding>
-            <element signature="e#855#870#0" expanded="true" />
-            <element signature="e#1156#1189#0" expanded="true" />
-            <element signature="e#1762#1777#0" expanded="true" />
-            <element signature="e#2335#2347#0" expanded="true" />
-            <element signature="e#2834#2850#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/rest/UserRest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="34" column="50" selection-start-line="34" selection-start-column="50" selection-end-line="34" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Sale.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/price_picker_layout.xml">
-      <provider editor-type-id="text-editor">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="247" column="8" selection-start-line="247" selection-start-column="8" selection-end-line="247" selection-end-column="122" />
-          <folding>
-            <element signature="e#5020#5064#0" expanded="true" />
-            <element signature="e#5142#5185#0" expanded="true" />
-            <element signature="e#5984#6024#0" expanded="true" />
-            <element signature="e#6133#6172#0" expanded="true" />
-            <element signature="e#6946#6961#0" expanded="true" />
-            <element signature="e#6963#7123#0" expanded="true" />
-            <element signature="e#7122#7123#0" expanded="true" />
-            <element signature="e#8839#8875#0" expanded="true" />
-            <element signature="e#9146#9182#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/MySalesActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="772">
-          <caret line="202" column="26" selection-start-line="202" selection-start-column="26" selection-end-line="202" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3129#3130#0" expanded="true" />
-            <element signature="e#3198#3199#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="105" column="54" selection-start-line="105" selection-start-column="54" selection-end-line="105" selection-end-column="54" />
-          <folding>
-            <element signature="e#2760#2775#0" expanded="true" />
-            <element signature="e#3471#3486#0" expanded="true" />
-            <element signature="e#4017#4035#0" expanded="true" />
-            <element signature="e#4674#4690#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="63" column="30" selection-start-line="63" selection-start-column="30" selection-end-line="63" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/User.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/BindingConverters.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/model/Rate.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/CustomItemDecorator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        <state relative-caret-position="238">
+          <caret line="20" column="135" selection-start-line="20" selection-start-column="135" selection-end-line="20" selection-end-column="135" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/price_picker_dialog.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/TextAndNumberUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
-          <caret line="8" column="39" selection-start-line="8" selection-start-column="39" selection-end-line="8" selection-end-column="39" />
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
         </state>
       </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/error_dialog.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/utils/TextValidator.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/sharedpreferenceservices/CookieSharedPreferencesService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        <state relative-caret-position="68">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
         </state>
       </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/sharedpreferenceservices/UserSharedPreferencesService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/views/ResendEmailDialog.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/listeners/OpinionsClickListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="32" column="51" selection-start-line="32" selection-start-column="51" selection-end-line="32" selection-end-column="51" />
+        <state relative-caret-position="68">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/listeners/MySalesClickListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/listeners/ItemClickListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/SearchSalesActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="225" column="13" lean-forward="true" selection-start-line="225" selection-start-column="13" selection-end-line="225" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/restUtils/RetrofitCreator.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/MySalesActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="154" column="5" lean-forward="true" selection-start-line="154" selection-start-column="5" selection-end-line="154" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/UserClientService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/clientservices/UserOpinionClientService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/modules/AppModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
           <folding>
-            <element signature="e#1793#1794#0" expanded="true" />
-            <element signature="e#1842#1843#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#351#352#0" expanded="true" />
+            <element signature="e#379#380#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dao/UserRestDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="748">
-          <caret line="73" selection-start-line="73" selection-end-line="73" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/AddSaleActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="186" column="67" selection-start-line="186" selection-start-column="67" selection-end-line="186" selection-end-column="67" />
+        <state relative-caret-position="272">
+          <caret line="96" column="25" lean-forward="true" selection-start-line="96" selection-start-column="25" selection-end-line="96" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/components/ApiComponent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="20" column="9" selection-start-line="20" selection-start-column="9" selection-end-line="20" selection-end-column="9" />
           <folding>
-            <element signature="e#6520#6529#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/test/java/com/rolnik/alcoholapp/testutils/RetrofitTestCreator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/mock/java/mock/TestComponent.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/mock/AndroidManifest.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/mock/java/mock/TestApiModule.java" />
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/mock/java/mock/MockApp.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/MyApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="534">
+          <caret line="35" column="28" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/views/CustomProgressBar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-321">
+          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.test/runner/1.1.1/e82336ffd82baab0914e82ca0ced012b0da5adeb/runner-1.1.1-sources.jar!/androidx/test/internal/runner/junit4/statement/RunBefores.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="79" selection-start-line="79" selection-end-line="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="79" selection-start-line="6" selection-start-column="79" selection-end-line="6" selection-end-column="79" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.support.test/runner/1.0.2/b2ce2342744a66e935dbc4a298259709a4c1f042/runner-1.0.2-sources.jar!/android/support/test/internal/runner/junit3/NonExecutingTestSuite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="39" column="1" lean-forward="true" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/modules/ApiModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="66" column="4" selection-start-line="66" selection-start-column="4" selection-end-line="111" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/utils/WaitingViewAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/mock/MockRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/mock/MockApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/mock/MockApiModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="33" column="38" selection-start-line="33" selection-start-column="38" selection-end-line="33" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/test/java/com/rolnik/alcoholapp/rests/AlcoholDaoServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="37" column="23" lean-forward="true" selection-start-line="37" selection-start-column="23" selection-end-line="37" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/ExampleInstrumentedTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" selection-start-line="10" selection-end-line="10" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/dto/Error.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="18" column="48" selection-start-line="18" selection-start-column="48" selection-end-line="18" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rolnik/alcoholapp/activities/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-364">
+          <caret line="210" column="45" selection-start-line="210" selection-start-column="45" selection-end-line="210" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5831#5871#0" expanded="true" />
+            <element signature="e#6655#6694#0" expanded="true" />
+            <element signature="e#7529#7544#0" expanded="true" />
+            <element signature="e#7546#7706#0" expanded="true" />
+            <element signature="e#7705#7706#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/resend_email_dialog.xml">
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-711" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/activities/StartActivityTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="74" column="8" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="139" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/rolnik/alcoholapp/activities/LoginActivityTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="530">
+          <caret line="99" column="55" lean-forward="true" selection-start-line="99" selection-start-column="55" selection-end-line="99" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2456#2485#0" expanded="true" />
+            <element signature="e#3860#3888#0" expanded="true" />
+            <element signature="e#4024#4039#0" expanded="true" />
+            <element signature="e#4085#4117#0" expanded="true" />
+            <element signature="e#4387#4415#0" expanded="true" />
           </folding>
         </state>
       </provider>

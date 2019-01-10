@@ -1,7 +1,6 @@
 package com.rolnik.alcoholapp.adapters;
 
 import android.content.Context;
-import android.graphics.Movie;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,12 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rolnik.alcoholapp.R;
-import com.rolnik.alcoholapp.model.GetNameProvider;
-import com.vstechlab.easyfonts.EasyFonts;
+import com.rolnik.alcoholapp.dto.GetNameProvider;
 
 import java.util.ArrayList;
 import java.util.Collections;

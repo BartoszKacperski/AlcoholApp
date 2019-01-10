@@ -12,20 +12,22 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.rolnik.alcoholapp.dao.Dao;
-import com.rolnik.alcoholapp.dao.RestDaoFactory;
-import com.rolnik.alcoholapp.restUtils.AsyncResponse;
-import com.rolnik.alcoholapp.restUtils.ResponseHandler;
+import com.rolnik.alcoholapp.MyApplication;
+import com.rolnik.alcoholapp.rests.SaleRest;
+import com.rolnik.alcoholapp.restutils.AsyncResponse;
+import com.rolnik.alcoholapp.restutils.ResponseHandler;
 import com.rolnik.alcoholapp.utils.CustomItemDecorator;
-import com.rolnik.alcoholapp.utils.ItemClickListener;
 import com.rolnik.alcoholapp.R;
 import com.rolnik.alcoholapp.adapters.SalesEditAdapter;
-import com.rolnik.alcoholapp.dao.SaleRestDao;
-import com.rolnik.alcoholapp.model.Sale;
-import com.rolnik.alcoholapp.utils.MySalesClickListener;
+import com.rolnik.alcoholapp.clientservices.SaleClientService;
+import com.rolnik.alcoholapp.dto.Sale;
+import com.rolnik.alcoholapp.listeners.MySalesClickListener;
 import com.rolnik.alcoholapp.views.CustomProgressBar;
 
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +38,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class MySalesActivity extends AppCompatActivity implements ResponseHandler<List<Sale>> {
     @BindView(R.id.root)
@@ -47,15 +50,19 @@ public class MySalesActivity extends AppCompatActivity implements ResponseHandle
     @BindView(R.id.mySales)
     RecyclerView mySales;
 
+    @Named("with_cookie")
+    @Inject
+    Retrofit retrofit;
     private SalesEditAdapter adapter;
     private CompositeDisposable disposables = new CompositeDisposable();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_sales);
         ButterKnife.bind(this);
-
+        ((MyApplication) getApplication()).getNetComponent().inject(this);
         initializeSalesRecyclerView();
         downloadMySales();
     }
@@ -148,9 +155,9 @@ public class MySalesActivity extends AppCompatActivity implements ResponseHandle
     }
 
     private Observable<List<Sale>> getPreparedObservable(){
-        SaleRestDao saleRestDao = SaleRestDao.getInstance();
+        SaleClientService saleClientService = new SaleClientService(retrofit.create(SaleRest.class));
 
-        return saleRestDao.getUserSales();
+        return saleClientService.getUserSales();
     }
 
     private void downloadMySales(){
@@ -160,8 +167,8 @@ public class MySalesActivity extends AppCompatActivity implements ResponseHandle
     }
 
     private void deleteSale(final Sale sale){
-        Dao<Sale> saleDao = RestDaoFactory.getSaleDao();
-        Observable<Response<Void>> observable = saleDao.remove(sale);
+        SaleClientService saleClientService = new SaleClientService(retrofit.create(SaleRest.class));
+        Observable<Response<Void>> observable = saleClientService.remove(sale);
 
         observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Response<Void>>() {
             @Override

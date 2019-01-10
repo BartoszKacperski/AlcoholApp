@@ -1,6 +1,5 @@
 package com.rolnik.alcoholapp.activities;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -19,28 +18,34 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rolnik.alcoholapp.MyApplication;
 import com.rolnik.alcoholapp.R;
-import com.rolnik.alcoholapp.dao.AlcoholRestDao;
-import com.rolnik.alcoholapp.dao.Dao;
-import com.rolnik.alcoholapp.dao.RestDaoFactory;
+import com.rolnik.alcoholapp.clientservices.AlcoholClientService;
+import com.rolnik.alcoholapp.clientservices.KindClientService;
+import com.rolnik.alcoholapp.clientservices.SaleClientService;
+import com.rolnik.alcoholapp.clientservices.ShopClientService;
 import com.rolnik.alcoholapp.databinding.ActivityAddSaleBinding;
-import com.rolnik.alcoholapp.model.Alcohol;
-import com.rolnik.alcoholapp.model.Kind;
-import com.rolnik.alcoholapp.model.Rate;
-import com.rolnik.alcoholapp.model.Sale;
-import com.rolnik.alcoholapp.model.Shop;
-import com.rolnik.alcoholapp.restUtils.AsyncResponse;
-import com.rolnik.alcoholapp.restUtils.ResponseHandler;
-import com.rolnik.alcoholapp.utils.UserService;
+import com.rolnik.alcoholapp.dto.Alcohol;
+import com.rolnik.alcoholapp.dto.Kind;
+import com.rolnik.alcoholapp.dto.Rate;
+import com.rolnik.alcoholapp.dto.Sale;
+import com.rolnik.alcoholapp.dto.Shop;
+import com.rolnik.alcoholapp.rests.AlcoholRest;
+import com.rolnik.alcoholapp.rests.KindRest;
+import com.rolnik.alcoholapp.rests.SaleRest;
+import com.rolnik.alcoholapp.rests.ShopRest;
+import com.rolnik.alcoholapp.restutils.AsyncResponse;
+import com.rolnik.alcoholapp.restutils.ResponseHandler;
 import com.rolnik.alcoholapp.views.CustomProgressBar;
 import com.rolnik.alcoholapp.views.PricePickerDialog;
-
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,7 +56,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.HttpException;
+import retrofit2.Retrofit;
 
 public class AddSaleActivity extends AppCompatActivity implements ResponseHandler<Integer> {
     @BindView(R.id.root)
@@ -88,13 +93,18 @@ public class AddSaleActivity extends AppCompatActivity implements ResponseHandle
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
+
+    @Named("with_cookie")
+    @Inject
+    Retrofit retrofit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityAddSaleBinding = DataBindingUtil.setContentView(this, R.layout.activity_add_sale);
         activityAddSaleBinding.setSale(new Sale());
         ButterKnife.bind(this);
-
+        ((MyApplication) getApplication()).getNetComponent().inject(this);
         initializeSpinners();
     }
 
@@ -125,8 +135,8 @@ public class AddSaleActivity extends AppCompatActivity implements ResponseHandle
     }
 
     private void initializeSpinners() {
-        Dao<Kind> kindDao = RestDaoFactory.getKindDao();
-        Dao<Shop> shopDao = RestDaoFactory.getShopDao();
+        KindClientService kindDao = new KindClientService(retrofit.create(KindRest.class));
+        ShopClientService shopDao = new ShopClientService(retrofit.create(ShopRest.class));
 
         Observable<List<Kind>> kinds = kindDao.getAll();
         Observable<List<Shop>> shops = shopDao.getAll();
@@ -165,9 +175,9 @@ public class AddSaleActivity extends AppCompatActivity implements ResponseHandle
     }
 
     private void downloadAlcoholsOf(final Kind kind){
-        AlcoholRestDao alcoholRestDao = AlcoholRestDao.getInstance();
+        AlcoholClientService alcoholClientService = new AlcoholClientService(retrofit.create(AlcoholRest.class));
 
-        Observable<List<Alcohol>> observable = alcoholRestDao.getAllOfKind(kind);
+        Observable<List<Alcohol>> observable = alcoholClientService.getAllOfKind(kind);
 
         observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<Alcohol>>() {
             @Override
@@ -288,9 +298,9 @@ public class AddSaleActivity extends AppCompatActivity implements ResponseHandle
     }
 
     private void addSale(Sale sale) {
-        Dao<Sale> saleRestDao = RestDaoFactory.getSaleDao();
+        SaleClientService saleClientService = new SaleClientService(retrofit.create(SaleRest.class));
 
-        AsyncResponse<Integer> asyncResponse = new AsyncResponse<>(saleRestDao.add(sale), this);
+        AsyncResponse<Integer> asyncResponse = new AsyncResponse<>(saleClientService.add(sale), this);
 
         asyncResponse.execute();
     }

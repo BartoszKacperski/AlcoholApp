@@ -9,8 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.rolnik.alcoholapp.R;
-import com.rolnik.alcoholapp.utils.CookieService;
-import com.rolnik.alcoholapp.utils.UserService;
+import com.rolnik.alcoholapp.sharedpreferenceservices.CookieSharedPreferencesService;
+import com.rolnik.alcoholapp.sharedpreferenceservices.UserSharedPreferencesService;
 import com.vstechlab.easyfonts.EasyFonts;
 
 import butterknife.BindView;
@@ -26,16 +26,16 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.welcomeText)
     TextView welcomeText;
 
-    private UserService userService;
-    private CookieService cookieService;
+    private UserSharedPreferencesService userService;
+    private CookieSharedPreferencesService cookieSharedPreferencesService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        userService = new UserService(this);
-        cookieService = new CookieService(this);
+        userService = new UserSharedPreferencesService(this);
+        cookieSharedPreferencesService = new CookieSharedPreferencesService(this);
 
         if(!userService.checkIfUserLogged()){
             moveToStartActivity();
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void logOut(View view) {
         userService.logOutUser();
-        cookieService.deleteCookie();
+        cookieSharedPreferencesService.deleteCookie();
         moveToStartActivity();
     }
 

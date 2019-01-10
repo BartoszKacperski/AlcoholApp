@@ -20,20 +20,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rolnik.alcoholapp.MyApplication;
 import com.rolnik.alcoholapp.R;
-import com.rolnik.alcoholapp.dao.UserRestDao;
+import com.rolnik.alcoholapp.clientservices.UserClientService;
 import com.rolnik.alcoholapp.databinding.ActivityLoginBinding;
-import com.rolnik.alcoholapp.model.Error;
-import com.rolnik.alcoholapp.model.User;
-import com.rolnik.alcoholapp.restUtils.AsyncResponse;
-import com.rolnik.alcoholapp.restUtils.ResponseHandler;
-import com.rolnik.alcoholapp.utils.CookieService;
-import com.rolnik.alcoholapp.utils.UserService;
+import com.rolnik.alcoholapp.dto.Error;
+import com.rolnik.alcoholapp.dto.User;
+import com.rolnik.alcoholapp.rests.UserRest;
+import com.rolnik.alcoholapp.restutils.AsyncResponse;
+import com.rolnik.alcoholapp.restutils.ResponseHandler;
+import com.rolnik.alcoholapp.clientservices.AuthorizationClientService;
+import com.rolnik.alcoholapp.sharedpreferenceservices.CookieSharedPreferencesService;
+import com.rolnik.alcoholapp.sharedpreferenceservices.UserSharedPreferencesService;
 import com.rolnik.alcoholapp.views.CustomProgressBar;
 import com.rolnik.alcoholapp.views.ResendEmailDialog;
 
 import java.io.IOException;
 import java.util.Objects;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +50,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity implements ResponseHandler<Response<Void>> {
     @BindView(R.id.coordinatorLayout)
@@ -69,12 +76,17 @@ public class LoginActivity extends AppCompatActivity implements ResponseHandler<
 
     private ActivityLoginBinding activityLoginBinding;
 
+    @Named("without_cookie")
+    @Inject
+    Retrofit retrofit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         activityLoginBinding.setUser(new User());
         ButterKnife.bind(this);
+        ((MyApplication) getApplication()).getNetComponent().inject(this);
     }
 
 
@@ -101,13 +113,13 @@ public class LoginActivity extends AppCompatActivity implements ResponseHandler<
     }
 
     private void saveCookie(String cookie) {
-        CookieService cookieService = new CookieService(this);
+        CookieSharedPreferencesService cookieSharedPreferencesService = new CookieSharedPreferencesService(this);
         Log.i("Saving cookie", "Cookie = " + cookie);
-        cookieService.saveCookie(cookie);
+        cookieSharedPreferencesService.saveCookie(cookie);
     }
 
     private void saveUserName(User user){
-        UserService userService = new UserService(getApplication());
+        UserSharedPreferencesService userService = new UserSharedPreferencesService(getApplication());
 
         userService.logInUser(user) ;
     }
@@ -192,7 +204,7 @@ public class LoginActivity extends AppCompatActivity implements ResponseHandler<
                 String errorJson = response.errorBody().string();
 
                 Error error = new ObjectMapper().readValue(errorJson, Error.class);
-                Log.i("Error", error.getError());
+
                 if(error.isBadCredentialsError()){
                     showError(getString(R.string.user_data_not_exists));
                 } else if (error.isUserNotActivatedError()){
@@ -208,9 +220,9 @@ public class LoginActivity extends AppCompatActivity implements ResponseHandler<
     }
 
     private Observable<Response<Void>> getPaperedObservable(){
-        UserRestDao userRestDao = UserRestDao.getInstance();
+        AuthorizationClientService authorizationClientService = new AuthorizationClientService(retrofit);
 
-        return userRestDao.login(activityLoginBinding.getUser());
+        return authorizationClientService.login(activityLoginBinding.getUser());
     }
 
     private void login(){
@@ -251,9 +263,9 @@ public class LoginActivity extends AppCompatActivity implements ResponseHandler<
     }
 
     private void resendRegisterEmail(String email){
-        UserRestDao userRestDao = UserRestDao.getInstance();
+        UserClientService userClientService = new UserClientService(retrofit.create(UserRest.class));
 
-        Observable<Response<Void>> observable = userRestDao.resendEmail(email);
+        Observable<Response<Void>> observable = userClientService.resendEmail(email);
 
         observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Response<Void>>() {
             @Override

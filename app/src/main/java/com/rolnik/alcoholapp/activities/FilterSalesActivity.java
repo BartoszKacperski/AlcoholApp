@@ -14,16 +14,22 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rolnik.alcoholapp.MyApplication;
 import com.rolnik.alcoholapp.R;
-import com.rolnik.alcoholapp.dao.Dao;
-import com.rolnik.alcoholapp.dao.RestDaoFactory;
-import com.rolnik.alcoholapp.model.Kind;
-import com.rolnik.alcoholapp.model.Shop;
-import com.rolnik.alcoholapp.restUtils.AsyncResponse;
-import com.rolnik.alcoholapp.restUtils.ResponseHandler;
+import com.rolnik.alcoholapp.clientservices.KindClientService;
+import com.rolnik.alcoholapp.clientservices.ShopClientService;
+import com.rolnik.alcoholapp.dto.Kind;
+import com.rolnik.alcoholapp.dto.Shop;
+import com.rolnik.alcoholapp.rests.KindRest;
+import com.rolnik.alcoholapp.rests.ShopRest;
+import com.rolnik.alcoholapp.restutils.AsyncResponse;
+import com.rolnik.alcoholapp.restutils.ResponseHandler;
 import com.rolnik.alcoholapp.views.CustomProgressBar;
 
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +37,7 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
+import retrofit2.Retrofit;
 
 public class FilterSalesActivity extends AppCompatActivity implements ResponseHandler<Pair<List<Kind>, List<Shop>>> {
     @BindView(R.id.root)
@@ -59,6 +66,9 @@ public class FilterSalesActivity extends AppCompatActivity implements ResponseHa
     @BindView(R.id.filterButton)
     ImageButton filterButton;
 
+    @Named("with_cookie")
+    @Inject
+    Retrofit retrofit;
     private CompositeDisposable disposables = new CompositeDisposable();
 
     @Override
@@ -66,8 +76,7 @@ public class FilterSalesActivity extends AppCompatActivity implements ResponseHa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter_sales);
         ButterKnife.bind(this);
-
-
+        ((MyApplication) getApplication()).getNetComponent().inject(this);
         initializeAutoText();
     }
 
@@ -124,11 +133,11 @@ public class FilterSalesActivity extends AppCompatActivity implements ResponseHa
     }
 
     private Observable<Pair<List<Kind>, List<Shop>>> getPreparedObservable() {
-        Dao<Kind> kindDao = RestDaoFactory.getKindDao();
-        Dao<Shop> shopDao = RestDaoFactory.getShopDao();
+        KindClientService kindClientService = new KindClientService(retrofit.create(KindRest.class));
+        ShopClientService shopClientService = new ShopClientService(retrofit.create(ShopRest.class));
 
-        Observable<List<Kind>> kinds = kindDao.getAll();
-        Observable<List<Shop>> shops = shopDao.getAll();
+        Observable<List<Kind>> kinds = kindClientService.getAll();
+        Observable<List<Shop>> shops = shopClientService.getAll();
 
         return Observable.zip(kinds, shops, new BiFunction<List<Kind>, List<Shop>, Pair<List<Kind>, List<Shop>>>() {
             @Override

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.rolnik.alcoholapp.R;
 import com.rolnik.alcoholapp.databinding.ActivitySaleDetailsBinding;
-import com.rolnik.alcoholapp.model.Sale;
+import com.rolnik.alcoholapp.dto.Sale;
 import com.vstechlab.easyfonts.EasyFonts;
 
 import butterknife.BindView;

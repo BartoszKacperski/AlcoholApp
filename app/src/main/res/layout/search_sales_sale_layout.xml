@@ -6,7 +6,7 @@
         <import type="com.rolnik.alcoholapp.utils.BindingConverters"/>
         <variable
             name="Sale"
-            type="com.rolnik.alcoholapp.model.Sale"/>
+            type="com.rolnik.alcoholapp.dto.Sale"/>
     </data>
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

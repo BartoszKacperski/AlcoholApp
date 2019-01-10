@@ -9,33 +9,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rolnik.alcoholapp.MyApplication;
 import com.rolnik.alcoholapp.R;
-import com.rolnik.alcoholapp.dao.Dao;
-import com.rolnik.alcoholapp.dao.RestDaoFactory;
+import com.rolnik.alcoholapp.clientservices.SaleClientService;
 import com.rolnik.alcoholapp.databinding.ActivityEditSaleBinding;
-import com.rolnik.alcoholapp.model.Sale;
-import com.rolnik.alcoholapp.restUtils.AsyncResponse;
-import com.rolnik.alcoholapp.restUtils.ResponseHandler;
+import com.rolnik.alcoholapp.dto.Sale;
+import com.rolnik.alcoholapp.rests.SaleRest;
+import com.rolnik.alcoholapp.restutils.AsyncResponse;
+import com.rolnik.alcoholapp.restutils.ResponseHandler;
 import com.rolnik.alcoholapp.views.CustomProgressBar;
 import com.rolnik.alcoholapp.views.PricePickerDialog;
 import com.vstechlab.easyfonts.EasyFonts;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class EditSaleActivity extends AppCompatActivity implements ResponseHandler<Response<Void>> {
     @BindView(R.id.root)
@@ -44,15 +44,12 @@ public class EditSaleActivity extends AppCompatActivity implements ResponseHandl
     LinearLayout description;
     @BindView(R.id.rates)
     LinearLayout rates;
-
     @BindView(R.id.customProgressBar)
     CustomProgressBar customProgressBar;
-
     @BindView(R.id.shops)
     TextView shops;
     @BindView(R.id.alcohols)
     TextView alcohols;
-
     @BindView(R.id.price)
     TextView price;
     @BindView(R.id.positiveNumber)
@@ -60,35 +57,35 @@ public class EditSaleActivity extends AppCompatActivity implements ResponseHandl
     @BindView(R.id.negativeNumber)
     TextView negativeNumber;
 
-
+    @Inject
+    @Named("with_cookie")
+    Retrofit retrofit;
+    private ActivityEditSaleBinding activityEditSaleBinding;
     private CompositeDisposable disposables = new CompositeDisposable();
-
-    private Sale saleToUpdate;
     private double oldPrice;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityEditSaleBinding activityEditSaleBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_sale);
+        activityEditSaleBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_sale);
         ButterKnife.bind(this);
 
         if (!getIntent().hasExtra(getString(R.string.sale))) {
             Log.w("Sale description", "Sale is null");
             backToMySales();
+        } else {
+            ((MyApplication) getApplication()).getNetComponent().inject(this);
+            Sale saleToUpdate = (Sale) getIntent().getSerializableExtra(getString(R.string.sale));
+            oldPrice = saleToUpdate.getPrice();
+            activityEditSaleBinding.setSale(saleToUpdate);
+            changeTypeFace(EasyFonts.walkwayBlack(getApplication()));
         }
-
-
-        saleToUpdate = (Sale) getIntent().getSerializableExtra(getString(R.string.sale));
-        oldPrice = saleToUpdate.getPrice();
-
-        activityEditSaleBinding.setSale(saleToUpdate);
-
-        changeTypeFace(EasyFonts.walkwayBlack(getApplication()));
     }
 
 
     public void update(View view) {
-        if (oldPrice == saleToUpdate.getPrice()) {
+        if (oldPrice == activityEditSaleBinding.getSale().getPrice()) {
             Toast.makeText(this, "Ta sama cena", Toast.LENGTH_LONG).show();
         } else {
             update();
@@ -97,7 +94,7 @@ public class EditSaleActivity extends AppCompatActivity implements ResponseHandl
 
     public void pickPrice(View view) {
         final PricePickerDialog pricePickerDialog = new PricePickerDialog(this);
-        pricePickerDialog.setPrice(saleToUpdate.getPrice());
+        pricePickerDialog.setPrice(activityEditSaleBinding.getSale().getPrice());
 
         pricePickerDialog.setOkButtonActionListener(new View.OnClickListener() {
             @Override
@@ -197,9 +194,9 @@ public class EditSaleActivity extends AppCompatActivity implements ResponseHandl
     }
 
     private void update() {
-        Dao<Sale> saleDao = RestDaoFactory.getSaleDao();
+        SaleClientService saleClientService = new SaleClientService(retrofit.create(SaleRest.class));
 
-        AsyncResponse<Response<Void>> asyncResponse = new AsyncResponse<>(saleDao.update(saleToUpdate), this);
+        AsyncResponse<Response<Void>> asyncResponse = new AsyncResponse<>(saleClientService.update(activityEditSaleBinding.getSale()), this);
 
         asyncResponse.execute();
     }

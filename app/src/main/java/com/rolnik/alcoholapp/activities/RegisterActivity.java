@@ -2,45 +2,33 @@ package com.rolnik.alcoholapp.activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.common.hash.Hashing;
+import com.rolnik.alcoholapp.MyApplication;
 import com.rolnik.alcoholapp.R;
-import com.rolnik.alcoholapp.dao.UserRestDao;
-import com.rolnik.alcoholapp.restUtils.AsyncResponse;
-import com.rolnik.alcoholapp.restUtils.ResponseHandler;
-import com.rolnik.alcoholapp.utils.UserService;
-import com.rolnik.alcoholapp.dao.Dao;
-import com.rolnik.alcoholapp.dao.RestDaoFactory;
+import com.rolnik.alcoholapp.clientservices.UserClientService;
 import com.rolnik.alcoholapp.databinding.ActivityRegisterBinding;
-import com.rolnik.alcoholapp.model.User;
+import com.rolnik.alcoholapp.dto.User;
+import com.rolnik.alcoholapp.rests.UserRest;
+import com.rolnik.alcoholapp.restutils.AsyncResponse;
+import com.rolnik.alcoholapp.restutils.ResponseHandler;
 import com.rolnik.alcoholapp.views.CustomProgressBar;
 
-import org.springframework.web.client.HttpClientErrorException;
-
-import java.lang.ref.WeakReference;
-import java.nio.charset.StandardCharsets;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.HttpException;
-import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class RegisterActivity extends AppCompatActivity implements ResponseHandler<Integer> {
     @BindView(R.id.root)
@@ -62,8 +50,11 @@ public class RegisterActivity extends AppCompatActivity implements ResponseHandl
     @BindView(R.id.registerButton)
     Button registerButton;
 
-    private ActivityRegisterBinding activityRegisterBinding;
 
+    @Named("without_cookie")
+    @Inject
+    Retrofit retrofit;
+    private ActivityRegisterBinding activityRegisterBinding;
     private Disposable disposable;
 
     @Override
@@ -71,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity implements ResponseHandl
         super.onCreate(savedInstanceState);
         activityRegisterBinding = DataBindingUtil.setContentView(this, R.layout.activity_register);
         ButterKnife.bind(this);
-
+        ((MyApplication) getApplication()).getNetComponent().inject(this);
         bindUser();
     }
 
@@ -173,9 +164,9 @@ public class RegisterActivity extends AppCompatActivity implements ResponseHandl
 
 
     private void register(){
-        UserRestDao userRestDao = UserRestDao.getInstance();
+        UserClientService userClientService = new UserClientService(retrofit.create(UserRest.class));
 
-        AsyncResponse<Integer> asyncResponse = new AsyncResponse<>(userRestDao.register(activityRegisterBinding.getUser()), this, false);
+        AsyncResponse<Integer> asyncResponse = new AsyncResponse<>(userClientService.register(activityRegisterBinding.getUser()), this);
 
         asyncResponse.execute();
     }

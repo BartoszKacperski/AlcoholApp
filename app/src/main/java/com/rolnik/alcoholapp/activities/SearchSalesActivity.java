@@ -16,25 +16,31 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.rolnik.alcoholapp.MyApplication;
 import com.rolnik.alcoholapp.R;
 import com.rolnik.alcoholapp.adapters.SalesAdapter;
-import com.rolnik.alcoholapp.dao.SaleRestDao;
-import com.rolnik.alcoholapp.dao.UserOpinionRestDao;
-import com.rolnik.alcoholapp.model.Kind;
-import com.rolnik.alcoholapp.model.Sale;
-import com.rolnik.alcoholapp.model.Shop;
-import com.rolnik.alcoholapp.model.UserOpinion;
-import com.rolnik.alcoholapp.restUtils.AsyncResponse;
-import com.rolnik.alcoholapp.restUtils.ResponseHandler;
+import com.rolnik.alcoholapp.clientservices.SaleClientService;
+import com.rolnik.alcoholapp.rests.SaleRest;
+import com.rolnik.alcoholapp.rests.UserOpinionRest;
+import com.rolnik.alcoholapp.clientservices.UserOpinionClientService;
+import com.rolnik.alcoholapp.dto.Kind;
+import com.rolnik.alcoholapp.dto.Sale;
+import com.rolnik.alcoholapp.dto.Shop;
+import com.rolnik.alcoholapp.dto.UserOpinion;
+import com.rolnik.alcoholapp.restutils.AsyncResponse;
+import com.rolnik.alcoholapp.restutils.ResponseHandler;
 import com.rolnik.alcoholapp.utils.CustomItemDecorator;
-import com.rolnik.alcoholapp.utils.ItemClickListener;
-import com.rolnik.alcoholapp.utils.OpinionsClickListener;
+import com.rolnik.alcoholapp.listeners.ItemClickListener;
+import com.rolnik.alcoholapp.listeners.OpinionsClickListener;
 import com.rolnik.alcoholapp.views.CustomProgressBar;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,24 +52,22 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class SearchSalesActivity extends AppCompatActivity implements ResponseHandler<List<Sale>> {
+
     @BindView(R.id.root)
     ConstraintLayout root;
     @BindView(R.id.searchRoot)
     ConstraintLayout searchRoot;
     @BindView(R.id.customProgressBar)
     CustomProgressBar customProgressBar;
-
     @BindView(R.id.alcoholName)
     SearchView alcoholName;
-
     @BindView(R.id.sales)
     RecyclerView sales;
-
     @BindView(R.id.refreshLayout)
     SwipeRefreshLayout refreshLayout;
-
     @BindView(R.id.sortRoot)
     LinearLayout sortRoot;
     @BindView(R.id.sortButton)
@@ -77,11 +81,13 @@ public class SearchSalesActivity extends AppCompatActivity implements ResponseHa
     @BindView(R.id.sort91)
     ImageButton sort91;
 
+
+    @Named("with_cookie")
+    @Inject
+    Retrofit retrofit;
     private SalesAdapter adapter;
     private boolean areSortsShowed = false;
-
     private CompositeDisposable disposables = new CompositeDisposable();
-
     private Shop shop;
     private Kind kind;
 
@@ -94,6 +100,7 @@ public class SearchSalesActivity extends AppCompatActivity implements ResponseHa
         if(!this.getIntent().hasExtra(getString(R.string.kind)) && !this.getIntent().hasExtra(getString(R.string.shop))){
             this.finish();
         } else {
+            ((MyApplication) getApplication()).getNetComponent().inject(this);
             initializeRefreshLayout();
             initializeAlcoholName();
             initializeSalesRecyclerView(new ArrayList<Sale>());
@@ -206,9 +213,9 @@ public class SearchSalesActivity extends AppCompatActivity implements ResponseHa
     }
 
     private void sendLike(final Sale sale) {
-        UserOpinionRestDao userOpinionRestDao = UserOpinionRestDao.getInstance();
+        UserOpinionClientService userOpinionClientService = new UserOpinionClientService(retrofit.create(UserOpinionRest.class));
 
-        Observable<Response<Void>> observable = userOpinionRestDao.sendLike(sale);
+        Observable<Response<Void>> observable = userOpinionClientService.sendLike(sale);
 
         observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Response<Void>>() {
             @Override
@@ -239,9 +246,9 @@ public class SearchSalesActivity extends AppCompatActivity implements ResponseHa
     }
 
     private void sendDislike(final Sale sale) {
-        UserOpinionRestDao userOpinionRestDao = UserOpinionRestDao.getInstance();
+        UserOpinionClientService userOpinionClientService = new UserOpinionClientService(retrofit.create(UserOpinionRest.class));
 
-        Observable<Response<Void>> observable = userOpinionRestDao.sendDislike(sale);
+        Observable<Response<Void>> observable = userOpinionClientService.sendDislike(sale);
 
         observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Response<Void>>() {
             @Override
@@ -292,11 +299,6 @@ public class SearchSalesActivity extends AppCompatActivity implements ResponseHa
     }
 
 
-    private void loadUI(){
-        TransitionManager.beginDelayedTransition(root);
-        refreshLayout.setRefreshing(false);
-    }
-
     @Override
     public void onSubscribe(Disposable d) {
         disposables.add(d);
@@ -340,18 +342,18 @@ public class SearchSalesActivity extends AppCompatActivity implements ResponseHa
     }
 
     private Observable<List<Sale>> prepareSaleWithOpinions() {
-        SaleRestDao saleRestDao = SaleRestDao.getInstance();
-        UserOpinionRestDao userOpinionRestDao = UserOpinionRestDao.getInstance();
+        SaleClientService saleClientService = new SaleClientService(retrofit.create(SaleRest.class));
+        UserOpinionClientService userOpinionClientService = new UserOpinionClientService(retrofit.create(UserOpinionRest.class));
 
-        Observable<HashMap<Integer, UserOpinion>> userOpinions = userOpinionRestDao.getUserOpinions();
+        Observable<HashMap<Integer, UserOpinion>> userOpinions = userOpinionClientService.getUserOpinions();
         Observable<List<Sale>> sales;
 
         if (shop == null) {
-            sales = saleRestDao.getAllWhereKind(kind.getId());
+            sales = saleClientService.getAllWhereKind(kind.getId());
         } else if (kind == null) {
-            sales = saleRestDao.getAllWhereShop(shop.getId());
+            sales = saleClientService.getAllWhereShop(shop.getId());
         } else {
-            sales = saleRestDao.getAllWhere(shop.getId(), kind.getId());
+            sales = saleClientService.getAllWhere(shop.getId(), kind.getId());
         }
         return Observable.zip(sales, userOpinions, new BiFunction<List<Sale>, HashMap<Integer, UserOpinion>, List<Sale>>() {
             @Override

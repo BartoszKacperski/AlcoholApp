@@ -6,7 +6,7 @@
     <data>
         <variable
             name="User"
-            type="com.rolnik.alcoholapp.model.User"/>
+            type="com.rolnik.alcoholapp.dto.User"/>
     </data>
     <android.support.constraint.ConstraintLayout
         android:id="@+id/root"

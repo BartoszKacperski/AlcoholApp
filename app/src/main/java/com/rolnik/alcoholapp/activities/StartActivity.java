@@ -12,15 +12,19 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rolnik.alcoholapp.MyApplication;
 import com.rolnik.alcoholapp.R;
-import com.rolnik.alcoholapp.dao.UserRestDao;
-import com.rolnik.alcoholapp.model.User;
-import com.rolnik.alcoholapp.restUtils.AsyncResponse;
-import com.rolnik.alcoholapp.restUtils.ResponseHandler;
-import com.rolnik.alcoholapp.utils.CookieService;
-import com.rolnik.alcoholapp.utils.UserService;
+import com.rolnik.alcoholapp.dto.User;
+import com.rolnik.alcoholapp.restutils.AsyncResponse;
+import com.rolnik.alcoholapp.clientservices.AuthorizationClientService;
+import com.rolnik.alcoholapp.restutils.ResponseHandler;
+import com.rolnik.alcoholapp.sharedpreferenceservices.CookieSharedPreferencesService;
+import com.rolnik.alcoholapp.sharedpreferenceservices.UserSharedPreferencesService;
 import com.rolnik.alcoholapp.views.CustomProgressBar;
 import com.vstechlab.easyfonts.EasyFonts;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,9 +32,9 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class StartActivity extends AppCompatActivity implements ResponseHandler<Response<Void>> {
-
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.root)
@@ -55,12 +59,14 @@ public class StartActivity extends AppCompatActivity implements ResponseHandler<
     TextView registerText;
 
     private Handler loginHandler = new Handler();
-    private Runnable loginRunnable;
 
     private Handler registerHandler = new Handler();
-    private Runnable registerRunnable;
 
     private CompositeDisposable disposables = new CompositeDisposable();
+
+    @Inject
+    @Named("with_cookie")
+    Retrofit retrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +75,7 @@ public class StartActivity extends AppCompatActivity implements ResponseHandler<
         ButterKnife.bind(this);
 
         changeTypeface(EasyFonts.captureIt(getApplication()));
+        ((MyApplication) getApplication()).getNetComponent().inject(this);
 
         tryToAuthenticateUser();
     }
@@ -90,7 +97,7 @@ public class StartActivity extends AppCompatActivity implements ResponseHandler<
         TransitionManager.beginDelayedTransition(menuRoot);
         loginText.setVisibility(View.VISIBLE);
 
-        loginHandler.postDelayed( loginRunnable = new Runnable() {
+        loginHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
@@ -108,7 +115,7 @@ public class StartActivity extends AppCompatActivity implements ResponseHandler<
         TransitionManager.beginDelayedTransition(menuRoot);
         registerText.setVisibility(View.VISIBLE);
 
-        registerHandler.postDelayed( registerRunnable = new Runnable() {
+        registerHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
@@ -129,7 +136,7 @@ public class StartActivity extends AppCompatActivity implements ResponseHandler<
         startActivity(credits);
     }
 
-    private void changeTypeface(Typeface typeface){
+    private void changeTypeface(Typeface typeface) {
         title.setTypeface(typeface);
         loginText.setTypeface(typeface);
         registerText.setTypeface(typeface);
@@ -141,7 +148,7 @@ public class StartActivity extends AppCompatActivity implements ResponseHandler<
         startActivity(main);
     }
 
-    private void showGUI(){
+    private void showGUI() {
         TransitionManager.beginDelayedTransition(root);
 
         customProgressBar.endAnimation();
@@ -149,7 +156,7 @@ public class StartActivity extends AppCompatActivity implements ResponseHandler<
         menuRoot.setVisibility(View.VISIBLE);
     }
 
-    private void hideGUI(){
+    private void hideGUI() {
         TransitionManager.beginDelayedTransition(root);
 
         menuRoot.setVisibility(View.GONE);
@@ -158,10 +165,10 @@ public class StartActivity extends AppCompatActivity implements ResponseHandler<
     }
 
     private void logIn(String cookie) {
-        CookieService cookieService = new CookieService(this);
+        CookieSharedPreferencesService cookieSharedPreferencesService = new CookieSharedPreferencesService(this);
 
-        if(cookie != null && !cookie.isEmpty() && !cookieService.getCookie().equals(cookie)){
-           cookieService.saveCookie(cookie);
+        if (cookie != null && !cookie.isEmpty() && !cookieSharedPreferencesService.getCookie().equals(cookie)) {
+            cookieSharedPreferencesService.saveCookie(cookie);
         }
 
         moveToMenu();
@@ -175,15 +182,15 @@ public class StartActivity extends AppCompatActivity implements ResponseHandler<
 
     @Override
     public void onNext(Response<Void> response) {
-        if(response.isSuccessful()){
+        if (response.isSuccessful()) {
             logIn(response.headers().get("Set-Cookie"));
         } else {
-            switch (response.code()){
+            switch (response.code()) {
                 case 400: {
                     onBadRequest();
                     break;
                 }
-                case 401:{
+                case 401: {
                     onNotAuthorized();
                     break;
                 }
@@ -226,16 +233,16 @@ public class StartActivity extends AppCompatActivity implements ResponseHandler<
         showGUI();
     }
 
-    private Observable<Response<Void>> getPreparedObservable(User user){
-        UserRestDao userRestDao = UserRestDao.getInstance();
+    private Observable<Response<Void>> getPreparedObservable(User user) {
+        AuthorizationClientService authorizationClientService = new AuthorizationClientService(retrofit);
 
-        return userRestDao.login(user);
+        return authorizationClientService.login(user);
     }
 
-    private void tryToAuthenticateUser(){
-        UserService userService = new UserService(this);
+    private void tryToAuthenticateUser() {
+        UserSharedPreferencesService userService = new UserSharedPreferencesService(this);
 
-        if(userService.checkIfUserLogged()){
+        if (userService.checkIfUserLogged()) {
             AsyncResponse<Response<Void>> asyncResponse = new AsyncResponse<>(getPreparedObservable(userService.getLoggedUser()), this);
 
             asyncResponse.execute();
@@ -255,9 +262,9 @@ public class StartActivity extends AppCompatActivity implements ResponseHandler<
 
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
-        if(disposables != null){
+        if (disposables != null) {
             disposables.dispose();
         }
     }
