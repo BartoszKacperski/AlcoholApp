@@ -1,8 +1,8 @@
-package com.rolnik.alcoholapp.serviceapi;
+package com.rolnik.alcoholapp.rests;
 
 
 
-import com.rolnik.alcoholapp.model.UserOpinion;
+import com.rolnik.alcoholapp.dto.UserOpinion;
 
 import java.util.HashMap;
 

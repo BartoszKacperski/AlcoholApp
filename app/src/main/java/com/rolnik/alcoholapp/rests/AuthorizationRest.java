@@ -1,4 +1,4 @@
-package com.rolnik.alcoholapp.serviceapi;
+package com.rolnik.alcoholapp.rests;
 
 import io.reactivex.Observable;
 import retrofit2.Call;

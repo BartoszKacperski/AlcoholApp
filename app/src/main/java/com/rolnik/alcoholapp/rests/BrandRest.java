@@ -1,6 +1,6 @@
-package com.rolnik.alcoholapp.serviceapi;
+package com.rolnik.alcoholapp.rests;
 
-import com.rolnik.alcoholapp.model.Brand;
+import com.rolnik.alcoholapp.dto.Brand;
 
 import java.util.List;
 

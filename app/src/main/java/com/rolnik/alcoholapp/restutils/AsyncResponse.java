@@ -1,5 +1,7 @@
-package com.rolnik.alcoholapp.restUtils;
+package com.rolnik.alcoholapp.restutils;
 
+
+import android.support.annotation.Nullable;
 
 import java.net.SocketTimeoutException;
 
@@ -16,17 +18,14 @@ public class AsyncResponse<T> {
     private AuthorizationService authorizationService;
 
     public AsyncResponse(Observable<T> observable, ResponseHandler<T> responseHandler){
-        this(observable, responseHandler, true);
+        this(observable, responseHandler, null);
 
     }
 
-    public AsyncResponse(Observable<T> observable, ResponseHandler<T> responseHandler, boolean withAuthorizationService){
+    public AsyncResponse(Observable<T> observable, ResponseHandler<T> responseHandler, @Nullable AuthorizationService authorizationService){
         this.observable = observable;
         this.responseHandler = responseHandler;
-
-        if(withAuthorizationService) {
-            this.authorizationService = new AuthorizationService();
-        }
+        this.authorizationService = authorizationService;
     }
 
     public void execute(){
