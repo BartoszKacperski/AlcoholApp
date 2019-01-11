@@ -24,7 +24,7 @@ public class UserSharedPreferencesService {
     }
 
     public void logOutUser() {
-        if (checkIfUserLogged()) {
+        if (checkIfUserSaved()) {
             SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
             sharedPreferencesEditor.remove(userIdKey);
             sharedPreferencesEditor.remove(userLoginKey);
@@ -34,7 +34,7 @@ public class UserSharedPreferencesService {
         }
     }
 
-    public void logInUser(User user) {
+    public void save(User user) {
         SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
 
         sharedPreferencesEditor.putString(userLoginKey, user.getLogin());
@@ -45,7 +45,7 @@ public class UserSharedPreferencesService {
         sharedPreferencesEditor.apply();
     }
 
-    public boolean checkIfUserLogged() {
+    public boolean checkIfUserSaved() {
         return sharedPreferences.contains(userIdKey) && sharedPreferences.contains(userLoginKey);
     }
 

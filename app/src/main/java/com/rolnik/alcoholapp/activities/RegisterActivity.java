@@ -28,9 +28,10 @@ import javax.inject.Named;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class RegisterActivity extends AppCompatActivity implements ResponseHandler<Integer> {
+public class RegisterActivity extends AppCompatActivity implements ResponseHandler<Response<Void>> {
     @BindView(R.id.root)
     ConstraintLayout root;
 
@@ -67,12 +68,12 @@ public class RegisterActivity extends AppCompatActivity implements ResponseHandl
     }
 
     public void tryToRegister(View view) {
-        if(!checkIfEditTextsAreFill()){
-            Toast.makeText(this, "Uzupełnij wszystki pola!", Toast.LENGTH_LONG).show();
-        } else if(!checkIfPasswordsAreEqual()){
-            Toast.makeText(this, "Hasła są różne", Toast.LENGTH_LONG).show();
-        } else if(!checkIfEmailIsCorrect()) {
-            Toast.makeText(this, "Zły format emailu", Toast.LENGTH_LONG).show();
+        if (!checkIfEditTextsAreFill()) {
+            Toast.makeText(this, getString(R.string.register_empty_input), Toast.LENGTH_LONG).show();
+        } else if (!checkIfPasswordsAreEqual()) {
+            Toast.makeText(this, getString(R.string.diffrent_passwords), Toast.LENGTH_LONG).show();
+        } else if (!checkIfEmailIsCorrect()) {
+            Toast.makeText(this, getString(R.string.bad_email), Toast.LENGTH_LONG).show();
         } else {
             register();
         }
@@ -83,42 +84,42 @@ public class RegisterActivity extends AppCompatActivity implements ResponseHandl
         activityRegisterBinding.setUser(new User());
     }
 
-    private boolean checkIfEditTextsAreFill(){
+    private boolean checkIfEditTextsAreFill() {
         return checkIfEditTextIsFill(login) && checkIfEditTextIsFill(password) && checkIfEditTextIsFill(passwordConfirm) && checkIfEditTextIsFill(email);
     }
 
-    private boolean checkIfEditTextIsFill(EditText editText){
+    private boolean checkIfEditTextIsFill(EditText editText) {
         String text = editText.getText().toString();
         return text.length() > 0;
     }
 
-    private boolean checkIfPasswordsAreEqual(){
+    private boolean checkIfPasswordsAreEqual() {
         String firstPassword = password.getText().toString();
         String secondPassword = password.getText().toString();
 
         return firstPassword.equals(secondPassword);
     }
 
-    private boolean checkIfEmailIsCorrect(){
+    private boolean checkIfEmailIsCorrect() {
         String emailText = email.getText().toString();
 
         return emailText.matches("^[A-Za-z0-9+_.-]+@(.+)\\.(.+)$");
     }
 
-    private void moveToStartActivity(){
+    private void moveToStartActivity() {
         Intent intent = new Intent(this, StartActivity.class);
 
         startActivity(intent);
     }
 
-    private void showGUI(){
+    private void showGUI() {
         TransitionManager.beginDelayedTransition(root);
         customProgressBar.endAnimation();
         customProgressBar.setVisibility(View.GONE);
         registerRoot.setVisibility(View.VISIBLE);
     }
 
-    private void hideGUI(){
+    private void hideGUI() {
         TransitionManager.beginDelayedTransition(root);
         registerRoot.setVisibility(View.GONE);
         customProgressBar.setVisibility(View.VISIBLE);
@@ -126,9 +127,30 @@ public class RegisterActivity extends AppCompatActivity implements ResponseHandl
     }
 
     @Override
-    public void onNext(Integer integerResponse) {
-        moveToStartActivity();
-        showGUI();
+    public void onSubscribe(Disposable d) {
+        disposable = d;
+        hideGUI();
+    }
+
+    @Override
+    public void onNext(Response<Void> response) {
+        if (response.isSuccessful()) {
+            showGUI();
+            moveToStartActivity();
+        } else {
+            switch (response.code()) {
+                case 400:
+                    onBadRequest();
+                    break;
+                case 401:
+                    onNotAuthorized();
+                    break;
+                default:
+                    onUnknownError();
+                    break;
+            }
+        }
+
     }
 
     @Override
@@ -163,14 +185,13 @@ public class RegisterActivity extends AppCompatActivity implements ResponseHandl
     }
 
 
-    private void register(){
+    private void register() {
         UserClientService userClientService = new UserClientService(retrofit.create(UserRest.class));
 
-        AsyncResponse<Integer> asyncResponse = new AsyncResponse<>(userClientService.register(activityRegisterBinding.getUser()), this);
+        AsyncResponse<Response<Void>> asyncResponse = new AsyncResponse<>(userClientService.register(activityRegisterBinding.getUser()), this);
 
         asyncResponse.execute();
     }
-
 
 
     @Override
@@ -181,18 +202,13 @@ public class RegisterActivity extends AppCompatActivity implements ResponseHandl
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
 
-        if(disposable != null){
+        if (disposable != null) {
             disposable.dispose();
         }
     }
 
-    @Override
-    public void onSubscribe(Disposable d) {
-        disposable = d;
-        hideGUI();
-    }
 
 }

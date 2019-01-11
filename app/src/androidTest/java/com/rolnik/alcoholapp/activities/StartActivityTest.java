@@ -74,4 +74,5 @@ public class StartActivityTest {
         onView(withId(R.id.registerText)).perform(click());
         intended(hasComponent(new ComponentName(InstrumentationRegistry.getInstrumentation().getTargetContext(), RegisterActivity.class)));
     }
+
 }

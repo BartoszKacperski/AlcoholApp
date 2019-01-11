@@ -26,7 +26,7 @@ public interface UserRest {
     @DELETE("users/{Id}")
     Observable<Response<Void>> delete(@Path("Id") int Id);
     @POST("/register")
-    Observable<Integer> register(@Body User user);
+    Observable<Response<Void>> register(@Body User user);
     @GET("mail/resend")
     Observable<Response<Void>> resendEmail(@Query("email") String email);
 }

@@ -242,7 +242,7 @@ public class StartActivity extends AppCompatActivity implements ResponseHandler<
     private void tryToAuthenticateUser() {
         UserSharedPreferencesService userService = new UserSharedPreferencesService(this);
 
-        if (userService.checkIfUserLogged()) {
+        if (userService.checkIfUserSaved()) {
             AsyncResponse<Response<Void>> asyncResponse = new AsyncResponse<>(getPreparedObservable(userService.getLoggedUser()), this);
 
             asyncResponse.execute();

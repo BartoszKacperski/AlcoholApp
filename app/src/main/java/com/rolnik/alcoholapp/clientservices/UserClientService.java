@@ -35,7 +35,7 @@ public class UserClientService {
         return userRest.delete(user.getId());
     }
 
-    public Observable<Integer> register(User user) {
+    public Observable<Response<Void>> register(User user) {
         return userRest.register(user);
     }
 

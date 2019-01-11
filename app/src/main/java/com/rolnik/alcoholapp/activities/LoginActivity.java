@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity implements ResponseHandler<
     private void saveUserName(User user){
         UserSharedPreferencesService userService = new UserSharedPreferencesService(getApplication());
 
-        userService.logInUser(user) ;
+        userService.save(user) ;
     }
 
 

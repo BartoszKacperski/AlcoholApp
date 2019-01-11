@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         userService = new UserSharedPreferencesService(this);
         cookieSharedPreferencesService = new CookieSharedPreferencesService(this);
 
-        if(!userService.checkIfUserLogged()){
+        if(!userService.checkIfUserSaved()){
             moveToStartActivity();
         }
 
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if(!userService.checkIfUserLogged()){
+        if(!userService.checkIfUserSaved()){
             moveToStartActivity();
         }
     }
