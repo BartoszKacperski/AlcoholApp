@@ -95,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity implements ResponseHandl
 
     private boolean checkIfPasswordsAreEqual() {
         String firstPassword = password.getText().toString();
-        String secondPassword = password.getText().toString();
+        String secondPassword = passwordConfirm.getText().toString();
 
         return firstPassword.equals(secondPassword);
     }
