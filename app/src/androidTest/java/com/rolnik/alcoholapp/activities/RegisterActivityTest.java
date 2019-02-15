@@ -7,13 +7,11 @@ import com.rolnik.alcoholapp.R;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
 
-import androidx.test.espresso.Espresso;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.platform.app.InstrumentationRegistry;
 import okhttp3.mockwebserver.MockResponse;
@@ -82,7 +80,7 @@ public class RegisterActivityTest {
         onView(withId(R.id.passwordConfirm)).perform(typeText("password1"), closeSoftKeyboard());
         onView(withId(R.id.registerButton)).perform(click());
 
-        onView(withText(R.string.diffrent_passwords)).inRoot(withDecorView(not(intentsTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
+        onView(withText(R.string.different_passwords)).inRoot(withDecorView(not(intentsTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
 
         onView(withId(R.id.passwordConfirm)).perform(clearText(), typeText("password"), closeSoftKeyboard());
         onView(withId(R.id.email)).perform(clearText(), typeText("emailemail.com"), closeSoftKeyboard());

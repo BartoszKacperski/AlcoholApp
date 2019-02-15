@@ -71,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity implements ResponseHandl
         if (!checkIfEditTextsAreFill()) {
             Toast.makeText(this, getString(R.string.register_empty_input), Toast.LENGTH_LONG).show();
         } else if (!checkIfPasswordsAreEqual()) {
-            Toast.makeText(this, getString(R.string.diffrent_passwords), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.different_passwords), Toast.LENGTH_LONG).show();
         } else if (!checkIfEmailIsCorrect()) {
             Toast.makeText(this, getString(R.string.bad_email), Toast.LENGTH_LONG).show();
         } else {

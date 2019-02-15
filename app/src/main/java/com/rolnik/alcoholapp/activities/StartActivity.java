@@ -14,9 +14,9 @@ import android.widget.Toast;
 
 import com.rolnik.alcoholapp.MyApplication;
 import com.rolnik.alcoholapp.R;
+import com.rolnik.alcoholapp.clientservices.AuthorizationClientService;
 import com.rolnik.alcoholapp.dto.User;
 import com.rolnik.alcoholapp.restutils.AsyncResponse;
-import com.rolnik.alcoholapp.clientservices.AuthorizationClientService;
 import com.rolnik.alcoholapp.restutils.ResponseHandler;
 import com.rolnik.alcoholapp.sharedpreferenceservices.CookieSharedPreferencesService;
 import com.rolnik.alcoholapp.sharedpreferenceservices.UserSharedPreferencesService;
@@ -33,6 +33,8 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+
+
 
 public class StartActivity extends AppCompatActivity implements ResponseHandler<Response<Void>> {
     @BindView(R.id.title)
@@ -77,8 +79,10 @@ public class StartActivity extends AppCompatActivity implements ResponseHandler<
         changeTypeface(EasyFonts.captureIt(getApplication()));
         ((MyApplication) getApplication()).getNetComponent().inject(this);
 
+
         tryToAuthenticateUser();
     }
+
 
 
     public void register(View view) {
@@ -214,7 +218,7 @@ public class StartActivity extends AppCompatActivity implements ResponseHandler<
 
     @Override
     public void onNotAuthorized() {
-
+        showError(getString(R.string.authorization_exception));
     }
 
     @Override

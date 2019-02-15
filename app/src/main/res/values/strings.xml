@@ -1,39 +1,34 @@
 <resources>
     <string name="app_name">AlcoholApp</string>
-    <string name="search_sales">Wyszukaj promocje</string>
-    <string name="add_sale">Dodaj promocje</string>
-    <string name="my_sales">Moje promocje</string>
-    <string name="city">Miasto</string>
+    #MODEL
     <string name="shop">Sklep</string>
     <string name="kind">Rodzaj</string>
-    <string name="alcohol_photo">Zdjęcie alkoholu</string>
     <string name="alcohol_name">Nazwa alkoholu</string>
     <string name="price">Cena</string>
     <string name="like_button">Polub</string>
     <string name="dislike_button">Nielub</string>
-    <string name="number_of_likes">(0)</string>
-    <string name="number_of_dislikes">(0)</string>
     <string name="alcohol">Alkohol</string>
-    <string name="add">Dodaj</string>
+    <string name="password">Hasło</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
+    <string name="sale">Promocja</string>
+    #END_MODEL
+    #GUI
+    <string name="search_sales">Wyszukaj promocje</string>
+    <string name="add_sale">Dodaj promocje</string>
+    <string name="my_sales">Moje promocje</string>
     <string name="search">Szukaj</string>
     <string name="error">Błąd</string>
-    <string name="success">Udało się!</string>
-    <string name="loading">Ładuje…</string>
     <string name="log_in">Zaloguj</string>
     <string name="register">Zarejestruj</string>
-    <string name="login">Login</string>
-    <string name="password">Hasło</string>
     <string name="repeat_password">Powtórz hasło</string>
-    <string name="email">Email</string>
     <string name="welcome">Witaj %1$s !</string>
-    <string name="logout">Wyloguj</string>
     <string name="sort">Sortowanie</string>
     <string name="name_sort_asc">Sortowanie nazw rosnąco</string>
     <string name="name_sort_desc">Sortowanie nazw malejąco</string>
     <string name="price_sort_asc">Sortowanie nazw rosnąco</string>
     <string name="price_sort_desc">Sortowanie nazw malejąco</string>
     <string name="ask_to_send_email_again">Czy wysłać maila aktywacyjnego ponownie?</string>
-    <string name="send">Wyślij</string>
     <string name="full_image">Wypełnienie</string>
     <string name="empty_image">Kontur</string>
     <string name="alcohol_name_detail">Nazwa: %s</string>
@@ -45,7 +40,6 @@
     <string name="price_detail">Cena: %s</string>
     <string name="positive_rates_detail">(%s)</string>
     <string name="negative_rates_detail">(%s)</string>
-    <string name="sale">Promocja</string>
     <string name="edit_sale_info">Aby edytować naciśnij na promocje</string>
     <string name="update">Zaktualizuj</string>
     <string name="remove">Usuń</string>
@@ -53,45 +47,40 @@
     <string name="cancel">Anuluj</string>
     <string name="info">Informacje o aplikacji</string>
     <string name="credits">Wyrazy uznania dla</string>
-    <string name="pick_the_price">Uzupełnij cenę</string>
     <string name="resend">Wyślij ponownie</string>
     <string name="register_empty_input">Uzupełnij wszystkie pola</string>
-    <string name="diffrent_passwords">Hasła są różne</string>
+    <string name="different_passwords">Hasła są różne</string>
     <string name="bad_email">Zły format emailu</string>
-    <string-array name="authors">
-        <item><![CDATA[<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank" title="Creative Commons BY 3.0">CC 3.0 BY</a></div>]]></item>
-        <item><![CDATA[<div>Icons made by <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>]]></item>
-    </string-array>
-
     <string name="resend_mail_failed">Nie udało się wysłać maila</string>
     <string name="resend_mail_success">Mail został wysłany, sprawdź folder SPAM</string>
     <string name="add_sale_success">Pomyślnie dodano promocję</string>
     <string name="edit_sale_succes">Pomyślnie edytowano promocje</string>
+    #END_GUI
+    #CREDENTIALS
+    <string-array name="authors">
+        <item><![CDATA[<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank" title="Creative Commons BY 3.0">CC 3.0 BY</a></div>]]></item>
+        <item><![CDATA[<div>Icons made by <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>]]></item>
+    </string-array>
+    #END_CREDENTIALS
     #EXCEPTIONS
     <string name="unknown_exception_message">Wystąpił nieoczekiwany problem, spróbuj ponownie za chwilę</string>
-    <string name="user_not_exists">Podany użytkownik nie istnieje</string>
     <string name="user_data_not_exists">Podane dane są nieprawidłowe</string>
-    <string name="user_not_valid">Dane są niepoprawne!</string>
-    <string name="user_not_activated">Konto nie zostało aktywowane</string>
     <string name="email_not_confirmed">Email nie został potwierdzony</string>
     <string name="add_sale_exception">Nie udało się dodać promocji, wprowadzone dane są nieprawidłowe</string>
-    <string name="edit_sale_exception">Zmienione dane są nieprawidłowe</string>
     <string name="remove_sale_exception">Nie udało się usunąć promocji</string>
-    <string name="download_my_sale_exception">Nie udało się pobrać Twoich promocji</string>
-    <string name="user_add_already_exist_excpetion">Użytkownik już istnieje</string>
     <string name="download_sale_exception">Nie udało się pobrać promocji</string>
     <string name="download_alcohol_of_kind">Nie udało się pobrać alkoholu o rodzaju %s</string>
     <string name="socket_timeout_exception">Wystąpił problem z połączeniem</string>
     <string name="authorization_exception">Problem z autoryzacją</string>
+    <string name="register_exception">Podane dane są nieprawidłowe</string>
+    #END_EXCEPTIONS
     #SHARED_PREFERENCES
     <string name="preference_login">login_pref</string>
     <string name="user_id">user_id</string>
     <string name="user_login">user_login</string>
     <string name="user_email">user_email</string>
     <string name="user_password">user_password</string>
-
     <string name="preference_auth">auth_pref</string>
     <string name="cookie">cookie</string>
-    <string name="register_exception">Podane dane są nieprawidłowe</string>
-
+    #END_SHARED_PREFERENCES
 </resources>

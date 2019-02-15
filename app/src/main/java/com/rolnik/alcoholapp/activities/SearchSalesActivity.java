@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -338,6 +339,7 @@ public class SearchSalesActivity extends AppCompatActivity implements ResponseHa
 
     @Override
     public void showError(String message) {
+        refreshLayout.setRefreshing(false);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
@@ -348,19 +350,15 @@ public class SearchSalesActivity extends AppCompatActivity implements ResponseHa
         Observable<HashMap<Integer, UserOpinion>> userOpinions = userOpinionClientService.getUserOpinions();
         Observable<List<Sale>> sales;
 
-        if (shop == null) {
-            sales = saleClientService.getAllWhereKind(kind.getId());
-        } else if (kind == null) {
-            sales = saleClientService.getAllWhereShop(shop.getId());
-        } else {
-            sales = saleClientService.getAllWhere(shop.getId(), kind.getId());
-        }
+
+        sales = saleClientService.getAllWhere(shop.getId(), kind.getId());
+
         return Observable.zip(sales, userOpinions, new BiFunction<List<Sale>, HashMap<Integer, UserOpinion>, List<Sale>>() {
             @Override
             public List<Sale> apply(List<Sale> sales, HashMap<Integer, UserOpinion> integerUserOpinionHashMap) throws Exception {
                 for(Sale sale : sales){
                     if(integerUserOpinionHashMap.containsKey(sale.getId())){
-                        if(integerUserOpinionHashMap.get(sale.getId()).getOpinion() == 1){
+                        if(Objects.requireNonNull(integerUserOpinionHashMap.get(sale.getId())).getOpinion() == 1){
                             sale.setWasLiked(true);
                         } else {
                             sale.setWasDisliked(true);
