@@ -4,9 +4,6 @@ AlcoholApp is application where users can share sales for alcohol in local store
 
 ### Android application
 
-
-This will display the three images side by side if the images are not to wide.
-
 <p align="middle">
   <img src="https://i.imgur.com/tVbKDnN.gif" width="240" height="426" title="Github Logo">
   <img src="https://i.imgur.com/1hxia1M.png" width="240" height="426" title="Github Logo">
