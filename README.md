@@ -7,7 +7,7 @@ AlcoholApp is application where users can share sales for alcohol in local store
 <p align="middle">
   <img src="https://i.imgur.com/tVbKDnN.gif" width="240" height="426" title="Main">
   <img src="https://i.imgur.com/1hxia1M.png" width="240" height="426" title="Login">
-  <img src="https://imgur.com/e3e7abee-0aeb-4e48-b502-5b5cf879018a" height="426" title="Sales">
+  <img src="https://i.imgur.com/d5bCyWv.png" height="426" title="Sales">
   <img src="https://i.imgur.com/p1DeV6Q.png" width="240" height="426" title="Menu">
   
 </p>
