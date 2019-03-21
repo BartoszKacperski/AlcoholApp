@@ -72,7 +72,7 @@
     <string name="download_alcohol_of_kind">Nie udało się pobrać alkoholu o rodzaju %s</string>
     <string name="socket_timeout_exception">Wystąpił problem z połączeniem</string>
     <string name="authorization_exception">Problem z autoryzacją</string>
-    <string name="register_exception">Podane dane są nieprawidłowe</string>
+    <string name="register_exception">Podany użytkownik już istnieje</string>
     #END_EXCEPTIONS
     #SHARED_PREFERENCES
     <string name="preference_login">login_pref</string>
